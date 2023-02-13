@@ -1,8 +1,11 @@
 import MainLayout from '@/Layout/Main.layout';
-import { Button, Heading, Text, Icon, Link } from '@chakra-ui/react';
+import { Button, Heading, Text, Icon } from '@chakra-ui/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { FiGithub } from 'react-icons/fi';
 
 const Home = () => {
+  const { data: session } = useSession();
+
   return (
     <MainLayout>
       <Heading size="4xl">
@@ -15,28 +18,19 @@ const Home = () => {
         Prettier, and more.
       </Text>
 
-      <Link
-        _hover={{ textDecor: 'none' }}
-        href="https://github.com/avneesh0612/next-solana-starter"
-        isExternal
+      <Button
+        colorScheme="blue"
+        mt={4}
+        onClick={() => {
+          session ? signOut() : signIn();
+        }}
+        rounded="full"
+        shadow="lg"
+        size="lg"
       >
-        <Button
-          _active={{
-            bg: 'blackAlpha.800',
-            transform: 'scale(0.95)',
-          }}
-          _hover={{ bg: 'blackAlpha.600' }}
-          bg="blackAlpha.700"
-          color="white"
-          mt={4}
-          rounded="full"
-          shadow="lg"
-          size="lg"
-        >
-          <Icon as={FiGithub} mr={2} />
-          Star on GitHub
-        </Button>
-      </Link>
+        <Icon as={FiGithub} mr={2} />
+        {session ? 'Sign out' : 'Sign In'}
+      </Button>
     </MainLayout>
   );
 };

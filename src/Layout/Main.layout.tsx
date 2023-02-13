@@ -10,8 +10,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
   return (
     <Flex
       alignItems="center"
-      bgColor="gray.900"
-      bgImage="url(/assets/bg.svg)"
+      bgColor="black"
       bgSize="cover"
       color="white"
       display="flex"

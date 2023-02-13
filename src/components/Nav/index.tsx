@@ -1,19 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { useWallet } from '@solana/wallet-adapter-react';
-import dynamic from 'next/dynamic';
 import type { FC } from 'react';
-import WalletMenu from './WalletMenu';
-const WalletMultiButton = dynamic(
-  () =>
-    import('@solana/wallet-adapter-react-ui').then(
-      mod => mod.WalletMultiButton,
-    ),
-  { ssr: false },
-);
 
 const Nav: FC = () => {
-  const { connected } = useWallet();
-
   return (
     <Flex
       align="center"
@@ -25,8 +13,7 @@ const Nav: FC = () => {
       top={0}
       w="100%"
     >
-      <Text>Next solana Template</Text>
-      {connected ? <WalletMenu /> : <WalletMultiButton />}
+      <Text>RayAuth</Text>
     </Flex>
   );
 };

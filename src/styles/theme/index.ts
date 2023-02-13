@@ -5,6 +5,9 @@ const theme = extendTheme({
     body: 'Inter, sans-serif',
     primary: 'Satoshi, sans-serif',
   },
+  colors: {
+    black: '#010511',
+  },
 });
 
 export { theme };

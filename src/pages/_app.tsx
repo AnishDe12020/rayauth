@@ -1,10 +1,9 @@
-import { WalletWrapper } from '@/Wrappers/WalletWrapper';
 import { ChakraProvider } from '@chakra-ui/react';
-import '@solana/wallet-adapter-react-ui/styles.css';
 import type { AppProps } from 'next/app';
 import '@fontsource/inter/variable.css';
 import { theme } from '@/styles/theme';
 import { NextSeo } from 'next-seo';
+import { SessionProvider } from 'next-auth/react';
 
 const metadata = {
   title: 'Next Solana Starter',
@@ -13,7 +12,7 @@ const metadata = {
   url: 'https://next-solana-starter.vercel.app/',
 };
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   return (
     <ChakraProvider theme={theme}>
       <NextSeo
@@ -38,9 +37,9 @@ const App = ({ Component, pageProps }: AppProps) => {
         title={metadata.title}
       />
 
-      <WalletWrapper>
+      <SessionProvider session={session}>
         <Component {...pageProps} />
-      </WalletWrapper>
+      </SessionProvider>
     </ChakraProvider>
   );
 };
