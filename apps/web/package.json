@@ -1,0 +1,39 @@
+{
+  "name": "rayauth-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.4.9",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@fontsource/inter": "^4.5.15",
+    "@solana/web3.js": "^1.73.0",
+    "framer-motion": "^8.5.4",
+    "next": "^13.1",
+    "next-auth": "^4.19.2",
+    "next-seo": "^5.15.0",
+    "react": "^18.2",
+    "react-dom": "^18.2",
+    "react-icons": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.18",
+    "@types/react": "18.0.27",
+    "@types/react-dom": "18.0.10",
+    "eslint": "8.32.0",
+    "eslint-config-next": "^13",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^2.8.3",
+    "typescript": "4.9.4"
+  }
+}
