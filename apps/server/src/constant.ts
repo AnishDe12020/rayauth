@@ -9,3 +9,6 @@ export const GITSECRET: string = process.env.GITHUB_SECRET || "NOTFOUND";
 
 export const DSID: string = process.env.DISCORD_ID || "NOTFOUND";
 export const DSSECRET: string = process.env.DISCORD_SECRET || "NOTFOUND";
+
+export const GID: string = process.env.GOOGLE_ID || "NOTFOUND";
+export const GSECRET: string = process.env.GOOGLE_SECRET || "NOTFOUND";

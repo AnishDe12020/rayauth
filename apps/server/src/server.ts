@@ -10,10 +10,14 @@ import login from "./controllers/github/login";
 import { initdiscord } from "./auth/discord";
 import dlogin from "./controllers/discord/login";
 import dcallback from "./controllers/discord/callback";
+import { initgoogle } from "./auth/google";
+import glogin from "./controllers/google/login";
+import gcallback from "./controllers/google/callback";
 const app: Express = express();
 
 initGithub();
 initdiscord();
+initgoogle();
 app.use(cors());
 app.use(
   session({
@@ -29,6 +33,9 @@ app.use(callback);
 
 app.use(dlogin);
 app.use(dcallback);
+
+app.use(glogin);
+app.use(gcallback);
 app.get("/", (req: Request, res: Response) => {
   console.log(req.body);
   res.send("Hello");
