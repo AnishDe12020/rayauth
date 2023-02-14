@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum ProjectMemberRole {
+  MEMBER
+  VIEWER
+}
+
+model User {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  email         String          @unique
+  pubkey        String          @unique
+  name          String?
+  avatar        String?
+  bio           String?
+  twitter       String?
+  metadata      Json?
+  Project       Project[]
+  ProjectMember ProjectMember[]
+}
+
+model Project {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  name          String
+  slug          String          @unique
+  logo          String?
+  owner         User            @relation(fields: [ownerId], references: [id])
+  ownerId       String          @db.ObjectId
+  ProjectMember ProjectMember[]
+}
+
+model ProjectMember {
+  id        String            @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  project   Project           @relation(fields: [projectId], references: [id])
+  projectId String            @db.ObjectId
+  user      User              @relation(fields: [userId], references: [id])
+  userId    String            @db.ObjectId
+  role      ProjectMemberRole
+}
