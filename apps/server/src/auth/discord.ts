@@ -9,13 +9,13 @@ export function initdiscord() {
   passport.deserializeUser(function (user, done) {
     return done(null, user as any);
   });
-  console.log(DSID, DSSECRET);
+  console.log("discord", DSID, DSSECRET);
   passport.use(
     new discord.Strategy(
       {
         clientID: DSID,
         clientSecret: DSSECRET,
-        callbackURL: "ASA",
+        // callbackURL: "ASA",
         scope: ["email", "identify"],
       },
       (accessToken: any, refreshToken: any, profile: any, done: any) => {
