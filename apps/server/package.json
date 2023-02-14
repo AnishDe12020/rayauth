@@ -3,6 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "pretty": "prettier --write \"./**/*.{ts,tsx,json,md}\"",
+    "axios": "nodemon --exec ts-node src/check.ts",
+    "build": "tsup src/index.ts",
+    "start": "node dist/index.js"
+  },
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/node": "^18.13.0",
@@ -18,6 +25,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "passport": "^0.6.0",
-    "passport-github2": "^0.1.12"
+    "passport-github2": "^0.1.12",
+    "tsup": "^6.6.3"
   }
 }
