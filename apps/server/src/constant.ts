@@ -6,3 +6,6 @@ export const TOKEN: string = process.env.TOKEN || 'NOT-FOUND';
 
 export const GITID: string = process.env.GITHUB_ID || "NOTFOUND"
 export const GITSECRET: string = process.env.GITHUB_SECRET || "NOTFOUND"
+
+export const DSID: string = process.env.DISCORD_ID || "NOTFOUND"
+export const DSSECRET: string = process.env.DISCORD_SECRET || "NOTFOUND"
