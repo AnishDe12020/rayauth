@@ -9,7 +9,6 @@ export function initdiscord() {
   passport.deserializeUser(function (user, done) {
     return done(null, user as any);
   });
-  console.log("discord", DSID, DSSECRET);
   passport.use(
     new discord.Strategy(
       {

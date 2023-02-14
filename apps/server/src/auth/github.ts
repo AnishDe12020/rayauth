@@ -9,7 +9,6 @@ export function initGithub() {
   passport.deserializeUser(function (user, done) {
     return done(null, user as any);
   });
-  console.log(GITID, GITSECRET);
   passport.use(
     new Github.Strategy(
       {
