@@ -48,18 +48,19 @@ const login: FC = () => {
 
       <Flex align="center" justify="center" w="100vw">
         <VStack
-          backdropFilter="blur(100px)"
+          backdropFilter="blur(50px)"
           bg="whiteAlpha.50"
+          shadow="lg"
           borderRight="1px solid whiteAlpha.200"
-          gap={6}
+          gap={8}
           h="100vh"
           justify="center"
           p={8}
           w="40vw"
         >
-          <Logo h="120px" />
+          <Logo h="100px" />
 
-          <Heading>
+          <Heading fontSize="4xl">
             <Text as="span" color="whiteAlpha.900">
               Welcome to
             </Text>{' '}
@@ -68,7 +69,7 @@ const login: FC = () => {
             </Text>
           </Heading>
 
-          <VStack gap={2}>
+          <VStack gap={4}>
             {providers.map(({ label, icon, color }) => (
               <Button
                 _active={{ bg: 'whiteAlpha.400' }}
