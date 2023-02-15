@@ -1,6 +1,7 @@
 import Nav from '@/components/Nav';
 import Logo from '@/components/Nav/Logo';
 import { Button, Flex, Heading, Icon, Text, VStack } from '@chakra-ui/react';
+import { NextSeo } from 'next-seo';
 import type { FC } from 'react';
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -42,15 +43,14 @@ const login: FC = () => {
       textAlign="center"
       w="100vw"
     >
+      <NextSeo title="Login" />
       <Nav />
 
       <Flex align="center" justify="center" w="100vw">
-        <Flex
-          align="center"
+        <VStack
           backdropFilter="blur(100px)"
           bg="whiteAlpha.50"
           borderRight="1px solid whiteAlpha.200"
-          flexDir="column"
           gap={6}
           h="100vh"
           justify="center"
@@ -78,6 +78,7 @@ const login: FC = () => {
                 color="white"
                 key={label}
                 mt={4}
+                rounded="lg"
                 shadow="lg"
                 size="lg"
                 w={80}
@@ -87,7 +88,7 @@ const login: FC = () => {
               </Button>
             ))}
           </VStack>
-        </Flex>
+        </VStack>
         <Flex align="center" justify="center" w="70vw" />
       </Flex>
     </Flex>
