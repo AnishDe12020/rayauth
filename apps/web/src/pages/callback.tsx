@@ -11,7 +11,9 @@ const CallbackPage: NextPage = () => {
 
   useEffect(() => {
     async function setUpKey() {
-      if (await getByID(1)) return;
+      if (await getByID(1)) {
+        return;
+      }
       setupIndexedDB(idbConfig)
         .then(() => console.log('success'))
         .catch(e => console.error('error / unsupported', e));
