@@ -8,8 +8,7 @@
     "pretty": "prettier --write \"./**/*.{ts,tsx,json,md}\"",
     "axios": "nodemon --exec ts-node src/check.ts",
     "build": "tsup src/index.ts",
-    "start": "node dist/index.js",
-    "prepare": "prisma generate"
+    "start": "node dist/index.js"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
