@@ -12,3 +12,7 @@ export const DSSECRET: string = process.env.DISCORD_SECRET || "NOTFOUND";
 
 export const GID: string = process.env.GOOGLE_ID || "NOTFOUND";
 export const GSECRET: string = process.env.GOOGLE_SECRET || "NOTFOUND";
+
+
+export const PASS: string = process.env.PASS || "NOTFOUND"
+export const EMAIL: string = process.env.EMAIL || "NOTFOUND"
