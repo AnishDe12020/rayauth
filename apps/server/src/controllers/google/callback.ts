@@ -5,7 +5,7 @@ import { Keypair } from "@solana/web3.js";
 import { sliceKey } from "../../helpers";
 import { prisma } from "../../../../../packages/shared/db";
 import { sendMail } from "../../helpers/email";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import { SECERET } from "../../constant";
 const gcallback: Router = Router();
 
@@ -22,12 +22,27 @@ gcallback.get(
     });
 
     if (user) {
+      res.clearCookie("jwt-rayauth");
+      const token = jwt.sign(
+        {
+          email: rawUser.emails[0].value,
+          id: user.id,
+          time: Date(),
+        },
+        SECERET
+      );
+      res.cookie("jwt-rayauth", token, {
+        maxAge: 60000, // Lifetime
+        httpOnly: true,
+        secure: false,
+      });
+      console.log("cookie updated");
       console.log("exists");
       res.redirect(`http://localhost:3000/callback`);
 
       return;
     }
-    
+
     const { secretKey, publicKey } = Keypair.generate();
     const key = base58.encode(secretKey);
 
@@ -36,7 +51,6 @@ gcallback.get(
     sliceKey(authShare);
     sendMail(rawUser.emails[0].value, emailShare);
 
-  
     const newUser = await prisma.user.create({
       data: {
         email: rawUser.emails[0].value,
@@ -45,14 +59,23 @@ gcallback.get(
         avatar: rawUser.photos[0].value,
       },
     });
-    const token = jwt.sign({
-      email: rawUser.emails[0].value,
-      id: newUser.id,
-      time: Date()
-    }, SECERET);
-
+    const token = jwt.sign(
+      {
+        email: rawUser.emails[0].value,
+        id: newUser.id,
+        time: Date(),
+      },
+      SECERET
+    );
+    res.cookie("jwt-rayauth", token, {
+      maxAge: 60000, // Lifetime
+      httpOnly: true,
+      secure: false,
+    });
     console.log(newUser);
-    res.redirect(`http://localhost:3000/callback?share=${deviceShare}&jwt=${token}`);
+    res.redirect(
+      `http://localhost:3000/callback?share=${deviceShare}&jwt=${token}`
+    );
   }
 );
 

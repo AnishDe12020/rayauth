@@ -16,5 +16,3 @@ export const GSECRET: string = process.env.GOOGLE_SECRET || "NOTFOUND";
 
 export const PASS: string = process.env.PASS || "NOTFOUND";
 export const EMAIL: string = process.env.EMAIL || "NOTFOUND";
-
-

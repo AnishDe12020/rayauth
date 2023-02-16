@@ -11,6 +11,7 @@
     "start": "node dist/index.js"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.13.0",
@@ -31,6 +32,7 @@
     "@types/express-session": "^1.17.6",
     "@types/passport-github2": "^1.2.5",
     "bs58": "^5.0.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "emailjs": "^4.0.1",

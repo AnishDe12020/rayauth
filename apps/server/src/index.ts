@@ -14,6 +14,7 @@ import { initgoogle } from "./auth/google";
 import glogin from "./controllers/google/login";
 import gcallback from "./controllers/google/callback";
 import proejcts from "./controllers/projects";
+import cookieParser from "cookie-parser";
 
 const app: Express = express();
 
@@ -26,9 +27,11 @@ app.use(
     secret: "xyz",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
+    cookie: { secure: true, maxAge: 600000 },
   })
 );
+app.use(cookieParser());
+
 app.use(express.json());
 app.use(login);
 app.use(callback);

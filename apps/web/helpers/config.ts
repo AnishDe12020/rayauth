@@ -9,5 +9,6 @@ export const idbConfig = {
           { name: "key", keyPath: "key", options: { unique: false } },
         ],
       },
+      
     ],
   };
