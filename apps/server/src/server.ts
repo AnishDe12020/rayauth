@@ -13,6 +13,8 @@ import dcallback from "./controllers/discord/callback";
 import { initgoogle } from "./auth/google";
 import glogin from "./controllers/google/login";
 import gcallback from "./controllers/google/callback";
+import proejcts from "./controllers/projects";
+
 const app: Express = express();
 
 initGithub();
@@ -36,6 +38,9 @@ app.use(dcallback);
 
 app.use(glogin);
 app.use(gcallback);
+
+app.use("/projects", proejcts);
+
 app.get("/", (req: Request, res: Response) => {
   console.log(req.body);
   res.send("Hello");

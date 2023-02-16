@@ -11,16 +11,15 @@ gcallback.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   async function (req, res) {
-    await prisma.$connect();
     const rawUser = req.user as any;
 
-    const user = await prisma.authUser.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email: rawUser.emails[0].value,
       },
     });
 
-    if (user && user.provider === "GOOGLE") {
+    if (user) {
       console.log("exists");
       res.redirect(`http://localhost:3000/callback`);
 
@@ -34,13 +33,12 @@ gcallback.get(
     console.log(deviceShare);
     sliceKey(authShare);
     sendMail(rawUser.emails[0].value, emailShare);
-    const newUser = await prisma.authUser.create({
+    const newUser = await prisma.user.create({
       data: {
         email: rawUser.emails[0].value,
-        pubkey: String(publicKey),
+        address: String(publicKey),
         name: rawUser.displayName,
         avatar: rawUser.photos[0].value,
-        provider: "GOOGLE",
       },
     });
     console.log(newUser);

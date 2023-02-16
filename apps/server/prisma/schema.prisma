@@ -20,7 +20,7 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   email         String          @unique
-  pubkey        String          @unique
+  address       String          @unique
   name          String?
   avatar        String?
   bio           String?
@@ -52,17 +52,3 @@ model ProjectMember {
   userId    String            @db.ObjectId
   role      ProjectMemberRole
 }
-
-
-model AuthUser {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  email         String          @unique
-  pubkey        String          @unique
-  provider      String           
-  name          String?
-  avatar        String?
-  address       String?         @unique
-}
-
