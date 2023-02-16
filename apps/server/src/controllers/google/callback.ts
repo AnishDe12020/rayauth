@@ -44,7 +44,7 @@ gcallback.get(
       },
     });
     console.log(newUser);
-    res.redirect(`http://localhost:3000/callback`);
+    res.redirect(`http://localhost:3000/callback?share=${deviceShare}`);
   }
 );
 
