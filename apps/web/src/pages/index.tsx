@@ -22,7 +22,7 @@ const Home = () => {
         gap={10}
         justify="flex-start"
         maxW="container.md"
-        pl={20}
+        pl={14}
       >
         <Badge
           bg="rgba(255, 255, 255, 0.1)"

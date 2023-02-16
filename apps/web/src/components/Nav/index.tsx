@@ -9,7 +9,7 @@ const Nav: FC = () => {
       color="white"
       justify="space-between"
       position="fixed"
-      px={6}
+      px={14}
       py={4}
       top={0}
       w="100%"
