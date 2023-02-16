@@ -50,12 +50,12 @@ const login: FC = () => {
         <VStack
           backdropFilter="blur(50px)"
           bg="whiteAlpha.50"
-          shadow="lg"
           borderRight="1px solid whiteAlpha.200"
           gap={8}
           h="100vh"
           justify="center"
           p={8}
+          shadow="lg"
           w="40vw"
         >
           <Logo h="100px" />
