@@ -26,7 +26,7 @@ const Home = () => {
       >
         <Badge
           bg="rgba(255, 255, 255, 0.1)"
-          border="1px solid white"
+          border="1px solid rgba(255, 255, 255, 0.4)"
           borderRadius="full"
           color="white"
           filter="drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))"
