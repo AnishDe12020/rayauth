@@ -1,5 +1,6 @@
+import { randomUUID } from "crypto";
 import { Router } from "express";
-import { prisma } from "../../../../../packages/shared/db";
+import { prisma, Project } from "../../../../../packages/shared/db";
 
 const router = Router();
 
@@ -30,19 +31,40 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ message: "Invalid data" });
   }
 
-  const project = await prisma.project.create({
-    data: {
-      name,
-      slug,
-      owner: {
-        connect: {
-          id: ownerId,
+  try {
+    const project = (await prisma.project.create({
+      data: {
+        name,
+        slug,
+        owner: {
+          connect: {
+            id: ownerId,
+          },
         },
       },
-    },
-  });
+    })) as Project;
 
-  return res.json({ project: project });
+    await prisma.clientSecret.create({
+      data: {
+        key: randomUUID(),
+        project: {
+          connect: {
+            id: project.id,
+          },
+        },
+        CreatedBy: {
+          connect: {
+            id: ownerId,
+          },
+        },
+      },
+    });
+
+    return res.json({ project: project });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 router.patch("/:id", async (req, res) => {
@@ -81,6 +103,37 @@ router.delete("/:id", async (req, res) => {
   });
 
   return res.json({ project: project });
+});
+
+router.get("/:id/client-secret", async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) return res.status(400).json({ message: "Invalid id" });
+
+  const clientSecret = await prisma.clientSecret.findUnique({
+    where: {
+      projectId: id,
+    },
+  });
+
+  return res.json({ clientSecret: clientSecret });
+});
+
+router.post("/:id/rotate-client-secret", async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) return res.status(400).json({ message: "Invalid id" });
+
+  await prisma.clientSecret.update({
+    where: {
+      projectId: id,
+    },
+    data: {
+      key: randomUUID(),
+    },
+  });
+
+  return res.json({ success: true });
 });
 
 export default router;

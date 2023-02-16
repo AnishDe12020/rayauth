@@ -1,4 +1,20 @@
-import { PrismaClient } from "@prisma/client";
+import {
+  PrismaClient,
+  Project,
+  ProjectMember,
+  User,
+  ProjectMemberRole,
+  ClientSecret,
+} from "@prisma/client";
+
+export {
+  PrismaClient,
+  Project,
+  ProjectMember,
+  User,
+  ProjectMemberRole,
+  ClientSecret,
+};
 
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
