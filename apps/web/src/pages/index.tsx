@@ -1,5 +1,13 @@
 import Nav from '@/components/Nav';
-import { Badge, Button, Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import {
+  Badge,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Image,
+  Text,
+} from '@chakra-ui/react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
 
 const Home = () => {
@@ -9,9 +17,8 @@ const Home = () => {
       bgImage="url('/assets/bg.svg')"
       bgSize="cover"
       color="white"
-      flexDir="column"
       h="100vh"
-      justify="center"
+      justify="space-between"
       overflow="hidden"
       w="100vw"
     >
@@ -22,6 +29,7 @@ const Home = () => {
         gap={10}
         justify="flex-start"
         maxW="container.md"
+        mt={20}
         pl={14}
       >
         <Badge
@@ -59,6 +67,13 @@ const Home = () => {
           comprehensive banking services around the world.
         </Text>
       </Flex>
+      <Image
+        alt=""
+        mr={40}
+        objectFit="contain"
+        src="/assets/home-illu.png"
+        w="600px"
+      />
     </Flex>
   );
 };
