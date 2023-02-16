@@ -13,15 +13,20 @@ gcallback.get(
   async function (req, res) {
     await prisma.$connect();
     const rawUser = req.user as any;
+
     const user = await prisma.authUser.findUnique({
       where: {
         email: rawUser.emails[0].value,
       },
     });
+
     if (user && user.provider === "GOOGLE") {
       console.log("exists");
-      return res.redirect("/");
+      res.redirect(`http://localhost:3000/callback`);
+
+      return;
     }
+
     const { secretKey, publicKey } = Keypair.generate();
     const key = base58.encode(secretKey);
 
@@ -39,7 +44,7 @@ gcallback.get(
       },
     });
     console.log(newUser);
-    res.redirect(`https://localhost:3000/callback`);
+    res.redirect(`http://localhost:3000/callback`);
   }
 );
 

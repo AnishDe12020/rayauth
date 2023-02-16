@@ -1,7 +1,7 @@
+import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-//this should handle callback
-export default function Items() {
+const CallbackPage: NextPage = () => {
   const { query } = useRouter();
 
   return (
@@ -11,4 +11,6 @@ export default function Items() {
       <p>{query.name}</p>
     </div>
   );
-}
+};
+
+export default CallbackPage;
