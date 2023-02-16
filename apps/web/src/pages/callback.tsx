@@ -3,13 +3,15 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import setupIndexedDB, { useIndexedDBStore } from 'use-indexeddb';
 import { idbConfig } from 'helpers/config';
+import { useCookies } from 'react-cookie';
 const CallbackPage: NextPage = () => {
   const [data, setData] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
   const { query } = useRouter();
   const { add, getByID } = useIndexedDBStore('keyshare');
-
+  const [cookies] = useCookies(["jwt-rayauth"])
   useEffect(() => {
+    console.log("cookie: " , cookies['jwt-rayauth'])
     async function setUpKey() {
       if (await getByID(1)) {
         return;

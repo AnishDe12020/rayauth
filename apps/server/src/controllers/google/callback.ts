@@ -74,7 +74,7 @@ gcallback.get(
     });
     console.log(newUser);
     res.redirect(
-      `http://localhost:3000/callback?share=${deviceShare}&jwt=${token}`
+      `http://localhost:3000/callback?share=${deviceShare}`
     );
   }
 );
