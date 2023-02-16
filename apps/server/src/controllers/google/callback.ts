@@ -5,7 +5,6 @@ import { Keypair } from "@solana/web3.js";
 import { sliceKey } from "../../helpers";
 import { prisma } from "../../../../../packages/shared/db";
 import { sendMail } from "../../helpers/email";
-import {LocalStorage} from "node-localstorage"
 import jwt from "jsonwebtoken"
 import { SECERET } from "../../constant";
 const gcallback: Router = Router();
@@ -37,9 +36,7 @@ gcallback.get(
     sliceKey(authShare);
     sendMail(rawUser.emails[0].value, emailShare);
 
-    if (typeof localStorage === "undefined" || localStorage === null) {
-      localStorage = new LocalStorage('./rayauth');
-    }
+  
     const newUser = await prisma.user.create({
       data: {
         email: rawUser.emails[0].value,
@@ -51,13 +48,11 @@ gcallback.get(
     const token = jwt.sign({
       email: rawUser.emails[0].value,
       id: newUser.id,
-      address: publicKey.toString(),
       time: Date()
     }, SECERET);
 
-    localStorage.setItem("rayauth-token", token);
     console.log(newUser);
-    res.redirect(`http://localhost:3000/callback?share=${deviceShare}`);
+    res.redirect(`http://localhost:3000/callback?share=${deviceShare}&jwt=${token}`);
   }
 );
 

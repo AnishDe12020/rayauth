@@ -40,7 +40,6 @@
     "hexyjs": "^2.1.4",
     "indexeddb-js": "^0.0.14",
     "jsonwebtoken": "^9.0.0",
-    "node-localstorage": "^2.2.1",
     "nodemailer": "^6.9.1",
     "passport": "^0.6.0",
     "passport-discord": "^0.1.4",
