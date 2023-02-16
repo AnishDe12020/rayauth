@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon --exec ts-node src/server.ts",
+    "dev": "nodemon --exec ts-node src/index.ts",
     "pretty": "prettier --write \"./**/*.{ts,tsx,json,md}\"",
     "axios": "nodemon --exec ts-node src/check.ts",
     "build": "tsup src/index.ts",

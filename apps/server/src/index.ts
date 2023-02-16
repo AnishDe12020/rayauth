@@ -50,3 +50,5 @@ app.listen(Number(PORT), HOST, () => {
   console.log("Server up and running;");
   console.log(process.env.PORT);
 });
+
+export default app;
