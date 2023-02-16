@@ -11,7 +11,6 @@ gcallback.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   async function (req, res) {
-    
     await prisma.$connect();
     const rawUser = req.user as any;
     const user = await prisma.authUser.findUnique({
@@ -27,7 +26,7 @@ gcallback.get(
     const key = base58.encode(secretKey);
 
     const [deviceShare, emailShare, authShare] = sliceKey(key);
-    console.log(deviceShare)
+    console.log(deviceShare);
     sliceKey(authShare);
     sendMail(rawUser.emails[0].value, emailShare);
     const newUser = await prisma.authUser.create({

@@ -1,7 +1,6 @@
-import {useRouter} from "next/router";
+import { useRouter } from 'next/router';
 
-
-//this should handle callback 
+//this should handle callback
 export default function Items() {
   const { query } = useRouter();
 
