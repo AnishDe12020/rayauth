@@ -1,8 +1,8 @@
 <a href="https://next-solana-starter.vercel.app">
-  <img alt="Next Solana Starter" src="https://user-images.githubusercontent.com/76690419/215271811-8f916458-5a14-4a89-883a-64080e890c2d.svg">
+  <img alt="RayAuth" src="https://user-images.githubusercontent.com/76690419/215271811-8f916458-5a14-4a89-883a-64080e890c2d.svg">
 </a>
 
-# Next Solana Starter
+# RayAuth
 
 An opinionated Next.js template for building Solana applications pre configured with Chakra UI, Next.js, Solana wallet adapter, ESlint, Prettier, and more.
 

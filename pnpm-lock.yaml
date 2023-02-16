@@ -62,7 +62,10 @@ importers:
     specifiers:
       '@prisma/client': ^4.10.1
       '@solana/web3.js': ^1.73.0
+<<<<<<< HEAD
       '@typegoose/typegoose': ^10.1.1
+=======
+>>>>>>> b3f0314 (feat: build landing page)
       '@types/cookie-parser': ^1.4.3
       '@types/cors': ^2.8.13
       '@types/express': ^4.17.17
@@ -86,7 +89,10 @@ importers:
       hexyjs: ^2.1.4
       indexeddb-js: ^0.0.14
       jsonwebtoken: ^9.0.0
+<<<<<<< HEAD
       mongoose: ^6.9.2
+=======
+>>>>>>> b3f0314 (feat: build landing page)
       nodemailer: ^6.9.1
       nodemon: ^2.0.20
       passport: ^0.6.0
@@ -120,7 +126,10 @@ importers:
       hexyjs: 2.1.4
       indexeddb-js: 0.0.14
       jsonwebtoken: 9.0.0
+<<<<<<< HEAD
       mongoose: 6.9.2
+=======
+>>>>>>> b3f0314 (feat: build landing page)
       nodemailer: 6.9.1
       passport: 0.6.0
       passport-discord: 0.1.4

@@ -6,7 +6,7 @@ import { NextSeo } from 'next-seo';
 import { SessionProvider } from 'next-auth/react';
 
 const metadata = {
-  title: 'Next Solana Starter',
+  title: 'RayAuth',
   description:
     'An opinionated Next.js template for building Solana applications pre configured with Chakra UI, Next.js, Solana wallet adapter, ESlint, Prettier, and more.',
   url: 'https://next-solana-starter.vercel.app/',
