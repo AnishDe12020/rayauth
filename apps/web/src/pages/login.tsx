@@ -1,6 +1,13 @@
-import Nav from '@/components/Nav';
 import Logo from '@/components/Nav/Logo';
-import { Button, Flex, Heading, Icon, Text, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Image,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { signIn } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
 import type { FC } from 'react';
@@ -49,7 +56,6 @@ const login: FC = () => {
       w="100vw"
     >
       <NextSeo title="Login" />
-      <Nav />
 
       <Flex align="center" justify="center" w="100vw">
         <VStack
@@ -98,7 +104,14 @@ const login: FC = () => {
             ))}
           </VStack>
         </VStack>
-        <Flex align="center" justify="center" w="70vw" />
+        <Flex align="center" justify="center" w="70vw">
+          <Image
+            alt="Illustration"
+            h="100vh"
+            objectFit="cover"
+            src="/assets/illustration.jpeg"
+          />
+        </Flex>
       </Flex>
     </Flex>
   );
