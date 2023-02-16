@@ -60,6 +60,7 @@ model AuthUser {
   updatedAt     DateTime        @updatedAt
   email         String          @unique
   pubkey        String          @unique
+  provider      String           
   name          String?
   avatar        String?
   address       String?         @unique

@@ -1,2 +1,2 @@
-export * from "./combine"
-export * from "./slice"
+export * from "./combine";
+export * from "./slice";

@@ -20,17 +20,9 @@ export function initgoogle() {
           "https://www.googleapis.com/auth/userinfo.email",
         ],
       },
-      async ( _: any, __: any, profile: any, done: any) => {
-       
-
-        done(null, profile)
-        
+      async (_: any, __: any, profile: any, done: any) => {
+        done(null, profile);
       }
-    ),
-    
+    )
   );
 }
-  
-
-
-
