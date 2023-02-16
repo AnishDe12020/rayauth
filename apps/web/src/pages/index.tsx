@@ -5,8 +5,8 @@ import { AiOutlineArrowRight } from 'react-icons/ai';
 const Home = () => {
   return (
     <Flex
-      bgColor="#0D0A12"
-      bgImage="url('/assets/login.svg')"
+      bgColor="#020222"
+      bgImage="url('/assets/bg.svg')"
       bgSize="cover"
       color="white"
       flexDir="column"
