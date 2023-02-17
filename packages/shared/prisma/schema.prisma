@@ -71,13 +71,14 @@ model ClientSecret {
 }
 
 model GasTank {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  project   Project  @relation(fields: [projectId], references: [id])
-  projectId String   @db.ObjectId
-  amount    Int
-  address   String
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  project    Project  @relation(fields: [projectId], references: [id])
+  projectId  String   @db.ObjectId
+  amount     Int
+  address    String
+  privateKey String
 }
 
 model Session {
