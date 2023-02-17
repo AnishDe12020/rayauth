@@ -1,6 +1,14 @@
-import Nav from '@/components/Nav';
 import Logo from '@/components/Nav/Logo';
-import { Button, Flex, Heading, Icon, Text, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Image,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
+import { signIn } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
 import type { FC } from 'react';
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
@@ -12,20 +20,24 @@ const login: FC = () => {
     {
       label: 'Google',
       icon: FcGoogle,
+      provider: 'google',
     },
     {
       label: 'Discord',
       icon: FaDiscord,
       color: '#636EF6',
+      provider: 'discord',
     },
     {
       label: 'GitHub',
       icon: FiGithub,
+      provider: 'github',
     },
     {
       label: 'Twitter',
       icon: FaTwitter,
       color: '#1F9CEA',
+      provider: 'twitter',
     },
   ];
 
@@ -33,7 +45,7 @@ const login: FC = () => {
     <Flex
       alignItems="center"
       bgColor="#0D0A12"
-      bgImage="url('/assets/login.svg')"
+      bgImage="url('/assets/bg.svg')"
       bgSize="cover"
       color="white"
       display="flex"
@@ -44,7 +56,6 @@ const login: FC = () => {
       w="100vw"
     >
       <NextSeo title="Login" />
-      <Nav />
 
       <Flex align="center" justify="center" w="100vw">
         <VStack
@@ -70,7 +81,7 @@ const login: FC = () => {
           </Heading>
 
           <VStack gap={4}>
-            {providers.map(({ label, icon, color }) => (
+            {providers.map(({ label, icon, color, provider }) => (
               <Button
                 _active={{ bg: 'whiteAlpha.400' }}
                 _focus={{ boxShadow: 'none' }}
@@ -79,6 +90,9 @@ const login: FC = () => {
                 color="white"
                 key={label}
                 mt={4}
+                onClick={() => {
+                  signIn(provider);
+                }}
                 rounded="lg"
                 shadow="lg"
                 size="lg"
@@ -90,7 +104,14 @@ const login: FC = () => {
             ))}
           </VStack>
         </VStack>
-        <Flex align="center" justify="center" w="70vw" />
+        <Flex align="center" justify="center" w="70vw">
+          <Image
+            alt="Illustration"
+            h="100vh"
+            objectFit="cover"
+            src="/assets/illustration.jpeg"
+          />
+        </Flex>
       </Flex>
     </Flex>
   );
