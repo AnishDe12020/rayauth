@@ -1,3 +1,4 @@
+import Nav from '@/components/Nav';
 import Logo from '@/components/Nav/Logo';
 import {
   Button,
@@ -57,10 +58,11 @@ const login: FC = () => {
     >
       <NextSeo title="Login" />
 
-      <Flex align="center" justify="center" w="100vw">
+      <Nav w="80%" />
+
+      <Flex align="center" justify="center" w="100vw" as="main">
         <VStack
           backdropFilter="blur(50px)"
-          bg="whiteAlpha.50"
           borderRight="1px solid whiteAlpha.200"
           gap={8}
           h="100vh"
@@ -104,7 +106,12 @@ const login: FC = () => {
             ))}
           </VStack>
         </VStack>
-        <Flex align="center" justify="center" w="70vw">
+        <Flex
+          align="center"
+          justify="center"
+          w="70vw"
+          display={['none', 'none', 'block']}
+        >
           <Image
             alt="Illustration"
             h="100vh"

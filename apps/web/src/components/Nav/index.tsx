@@ -1,4 +1,10 @@
-import { Flex, HStack, Text, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Flex,
+  FlexProps,
+  HStack,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
@@ -6,7 +12,7 @@ import Logo from './Logo';
 import DesktopNav from './Desktop';
 import Mobile from './Mobile';
 
-const Nav: FC = () => {
+const Nav: FC<FlexProps> = props => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -41,6 +47,7 @@ const Nav: FC = () => {
         isScrolled ? 'saturate(220%) blur(40px)' : 'saturate(100%) blur(0px)'
       }
       willChange="backdrop-filter background-color"
+      {...props}
     >
       <Link href="/" role="group">
         <HStack gap={2}>
