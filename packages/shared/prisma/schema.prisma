@@ -16,21 +16,20 @@ enum ProjectMemberRole {
 }
 
 model User {
-  id                  String          @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt           DateTime        @default(now())
-  updatedAt           DateTime        @updatedAt
-  email               String          @unique
-  address             String          @unique
-  recoveryShareSentAt DateTime
-  name                String?
-  avatar              String?
-  bio                 String?
-  twitter             String?
-  metadata            Json?
-  Project             Project[]
-  ProjectMember       ProjectMember[]
-  ClientSecret        ClientSecret[]
-  Session             Session[]
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  email         String          @unique
+  address       String          @unique
+  name          String?
+  avatar        String?
+  bio           String?
+  twitter       String?
+  metadata      Json?
+  Project       Project[]
+  ProjectMember ProjectMember[]
+  ClientSecret  ClientSecret[]
+  Session       Session[]
 }
 
 model Project {
