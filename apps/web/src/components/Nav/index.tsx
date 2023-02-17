@@ -1,19 +1,49 @@
-import { Button, Flex, HStack, Text } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  HStack,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import Link from 'next/link';
-import type { FC } from 'react';
+import { FC, useState } from 'react';
+import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import Logo from './Logo';
 
 const Nav: FC = () => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useScrollPosition(
+    ({ currPos }) => {
+      if (currPos.y < -5) {
+        setIsScrolled(true);
+      } else if (currPos.y >= -5) {
+        setIsScrolled(false);
+      }
+    },
+    [isMobile],
+    undefined,
+    false,
+    16,
+  );
+
   return (
     <Flex
       align="center"
       color="white"
       justify="space-between"
-      position="fixed"
+      position="sticky"
       px={14}
-      py={4}
+      py={6}
       top={0}
       w="100%"
+      backdropBlur="xl"
+      as="header"
+      backdropFilter={
+        isScrolled ? 'saturate(220%) blur(40px)' : 'saturate(100%) blur(0px)'
+      }
+      willChange="backdrop-filter background-color"
     >
       <Link href="/" role="group">
         <HStack gap={2}>
@@ -29,7 +59,7 @@ const Nav: FC = () => {
         </HStack>
       </Link>
 
-      <Flex align="center" gap={4} ml={4}>
+      <Flex align="center" gap={4} ml={4} as="nav">
         <Link href="/dashboard">
           <Text _hover={{ color: 'gray.300' }} cursor="pointer" mr={4}>
             Dashboard

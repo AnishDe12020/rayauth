@@ -151,6 +151,7 @@ importers:
       '@emotion/react': ^11.10.5
       '@emotion/styled': ^11.10.5
       '@fontsource/inter': ^4.5.15
+      '@n8tb1t/use-scroll-position': ^2.0.3
       '@solana/web3.js': ^1.73.0
       '@types/node': 18.11.18
       '@types/react': 18.0.27
@@ -177,6 +178,7 @@ importers:
       '@emotion/react': 11.10.5_3stiutgnnbnfnf3uowm5cip22i
       '@emotion/styled': 11.10.5_jrh5enlbqfbnumycmktdqgd6se
       '@fontsource/inter': 4.5.15
+      '@n8tb1t/use-scroll-position': 2.0.3_3stiutgnnbnfnf3uowm5cip22i
       '@solana/web3.js': 1.73.2
       framer-motion: 8.5.5_biqbaboplfbrettd7655fr4n2y
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
@@ -3025,6 +3027,16 @@ packages:
       '@motionone/types': 10.15.1
       hey-listen: 1.0.8
       tslib: 2.5.0
+    dev: false
+
+  /@n8tb1t/use-scroll-position/2.0.3_3stiutgnnbnfnf3uowm5cip22i:
+    resolution: {integrity: sha512-6GO4FHVJTMI4jbRHborzemuL6B319qh2cVLOLj8DApJhjyT71eLgANbQ4bNKSZ51zBm3uJ3WmqnyNF17eSsDyw==}
+    peerDependencies:
+      '@types/react': '*'
+      react: '*'
+    dependencies:
+      '@types/react': 18.0.27
+      react: 18.2.0
     dev: false
 
   /@napi-rs/simple-git-android-arm-eabi/0.1.8:
