@@ -21,7 +21,7 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
         overflow="hidden"
       />
       <Nav />
-      <Box as="main" mx={16} pb={16}>
+      <Box as="main" mx={{ base: 8, md: 12, lg: 24 }} pb={16}>
         {children}
       </Box>
     </>

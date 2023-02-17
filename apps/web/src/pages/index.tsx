@@ -1,4 +1,3 @@
-import Nav from '@/components/Nav';
 import MainLayout from '@/Layout/Main.layout';
 import {
   Badge,
@@ -17,13 +16,12 @@ const Home = () => {
     <MainLayout>
       <HStack justifyContent="space-between">
         <Flex
-          align="flex-start"
+          align={{ base: 'center', lg: 'flex-start' }}
           flexDir="column"
           gap={10}
-          justify="flex-start"
+          justify="center"
           maxW="container.md"
           mt={20}
-          pl={14}
         >
           <Badge
             bg="rgba(255, 255, 255, 0.1)"
@@ -39,7 +37,12 @@ const Home = () => {
             Badge
           </Badge>
 
-          <Heading size="4xl">Financial Banking Management Solutions</Heading>
+          <Heading
+            size={['2xl', '3xl', '4xl']}
+            textAlign={{ base: 'center', lg: 'left' }}
+          >
+            Financial Banking Management Solutions
+          </Heading>
 
           <Button
             _hover={{
@@ -55,7 +58,7 @@ const Home = () => {
             Get Started <Icon as={AiOutlineArrowRight} ml={2} />
           </Button>
 
-          <Text mt={20}>
+          <Text mt={20} textAlign={{ base: 'center', lg: 'start' }}>
             A universal solution for financial customers and banks providing
             comprehensive banking services around the world.
           </Text>
@@ -66,6 +69,7 @@ const Home = () => {
           objectFit="contain"
           src="/assets/home-illu.png"
           w="600px"
+          display={['none', 'none', 'block']}
         />
       </HStack>
     </MainLayout>

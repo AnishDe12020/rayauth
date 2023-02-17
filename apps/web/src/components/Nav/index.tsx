@@ -1,14 +1,10 @@
-import {
-  Button,
-  Flex,
-  HStack,
-  Text,
-  useBreakpointValue,
-} from '@chakra-ui/react';
+import { Flex, HStack, Text, useBreakpointValue } from '@chakra-ui/react';
 import Link from 'next/link';
 import { FC, useState } from 'react';
 import { useScrollPosition } from '@n8tb1t/use-scroll-position';
 import Logo from './Logo';
+import DesktopNav from './Desktop';
+import Mobile from './Mobile';
 
 const Nav: FC = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -34,10 +30,11 @@ const Nav: FC = () => {
       color="white"
       justify="space-between"
       position="sticky"
-      px={14}
       py={6}
       top={0}
-      w="100%"
+      mx={{ base: 8, md: 12, lg: 24 }}
+      transition="all 50ms"
+      zIndex="overlay"
       backdropBlur="xl"
       as="header"
       backdropFilter={
@@ -59,37 +56,8 @@ const Nav: FC = () => {
         </HStack>
       </Link>
 
-      <Flex align="center" gap={4} ml={4} as="nav">
-        <Link href="/dashboard">
-          <Text _hover={{ color: 'gray.300' }} cursor="pointer" mr={4}>
-            Dashboard
-          </Text>
-        </Link>
-
-        <Link href="">
-          <Text _hover={{ color: 'gray.300' }} cursor="pointer" mr={4}>
-            Docs
-          </Text>
-        </Link>
-      </Flex>
-
-      <Link href="/login">
-        <Button
-          _active={{ bg: 'rgba(255, 255, 255, 0.3)' }}
-          _hover={{ bg: 'rgba(255, 255, 255, 0.2)' }}
-          bg="rgba(255, 255, 255, 0.1)"
-          border="1px solid rgba(255, 255, 255, 0.4)"
-          borderRadius="full"
-          color="white"
-          filter="drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))"
-          fontSize="sm"
-          fontWeight="bold"
-          px={10}
-          py={4}
-        >
-          Login
-        </Button>
-      </Link>
+      <DesktopNav />
+      <Mobile aria-label="Menu" />
     </Flex>
   );
 };
