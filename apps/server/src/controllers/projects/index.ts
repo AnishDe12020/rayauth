@@ -1,3 +1,5 @@
+import { Keypair } from "@solana/web3.js";
+import base58 from "bs58";
 import { randomUUID } from "crypto";
 import { Router } from "express";
 import { prisma, Project } from "../../../../../packages/shared/db";
@@ -134,6 +136,32 @@ router.post("/:id/rotate-client-secret", async (req, res) => {
   });
 
   return res.json({ success: true });
+});
+
+router.post("/:id/create-gas-tank", async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) return res.status(400).json({ message: "Invalid id" });
+
+  const { name } = req.body;
+
+  if (!name) return res.status(400).json({ message: "Invalid name" });
+
+  const tankKeypair = Keypair.generate();
+
+  const gasTank = await prisma.gasTank.create({
+    data: {
+      project: {
+        connect: {
+          id,
+        },
+      },
+      address: tankKeypair.publicKey.toBase58(),
+      privateKey: base58.encode(tankKeypair.secretKey),
+    },
+  });
+
+  return res.json({ gasTank: gasTank });
 });
 
 export default router;

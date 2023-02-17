@@ -75,7 +75,6 @@ model GasTank {
   updatedAt  DateTime @updatedAt
   project    Project  @relation(fields: [projectId], references: [id])
   projectId  String   @db.ObjectId
-  amount     Int
   address    String
   privateKey String
 }
