@@ -23,6 +23,7 @@ initGithub();
 initdiscord();
 initgoogle();
 app.use(cors());
+app.use(setQuery());
 app.use(
   session({
     secret: "xyz",
@@ -32,7 +33,7 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(setQuery());
+
 app.use(express.json());
 app.use(login);
 app.use(callback);
