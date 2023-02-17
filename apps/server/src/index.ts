@@ -15,7 +15,7 @@ import glogin from "./controllers/google/login";
 import gcallback from "./controllers/google/callback";
 import proejcts from "./controllers/projects";
 import cookieParser from "cookie-parser";
-
+import { setQuery } from "./middleware/query";
 const app: Express = express();
 
 initGithub();
@@ -31,7 +31,7 @@ app.use(
   })
 );
 app.use(cookieParser());
-
+app.use(setQuery());
 app.use(express.json());
 app.use(login);
 app.use(callback);
