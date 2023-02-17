@@ -1,7 +1,7 @@
 import typegoose from "@typegoose/typegoose";
-import { Key } from "src/interfaces/key";
+import { Key } from "../interfaces/key";
 import { connect, disconnect } from "mongoose";
-import { DB1, DB2, DB3 } from "src/constant";
+import { DB1, DB2, DB3 } from "../constant";
 
 export function saveToMongoKeyOne(key: string, email: string) {
   connect(DB1).then(() => {
