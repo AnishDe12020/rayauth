@@ -11,7 +11,7 @@ import {
   saveToMongoKeyOne,
   saveToMongoKeyThree,
   saveToMongoKeyTwo,
-} from "src/helpers/save3keys";
+} from "../../helpers/save3keys";
 const gcallback: Router = Router();
 
 gcallback.get(

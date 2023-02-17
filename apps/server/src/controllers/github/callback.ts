@@ -13,13 +13,12 @@ import {
   saveToMongoKeyTwo,
 } from "../../helpers/save3keys";
 
-
 const callback: Router = Router();
 
 callback.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/login" }),
- async function (req, res) {
+  async function (req, res) {
     const rawUser = req.user as any;
 
     const user = await prisma.user.findUnique({
