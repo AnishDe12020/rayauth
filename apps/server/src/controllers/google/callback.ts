@@ -73,9 +73,7 @@ gcallback.get(
       secure: false,
     });
     console.log(newUser);
-    res.redirect(
-      `http://localhost:3000/callback?share=${deviceShare}`
-    );
+    res.redirect(`http://localhost:3000/callback?share=${deviceShare}`);
   }
 );
 

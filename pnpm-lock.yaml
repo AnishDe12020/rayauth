@@ -98,6 +98,7 @@ importers:
       sqlite3: ^5.1.4
       ts-node: ^10.9.1
       tsup: ^6.6.3
+      typegoose: ^5.9.1
       typescript: ^4.9.5
     dependencies:
       '@prisma/client': 4.10.1_prisma@4.10.1
@@ -126,6 +127,7 @@ importers:
       secrets.js-grempe: 2.0.0
       sqlite3: 5.1.4
       tsup: 6.6.3_6qtx7vkbdhwvdm4crzlegk4mvi
+      typegoose: 5.9.1
     devDependencies:
       '@types/cookie-parser': 1.4.3
       '@types/cors': 2.8.13
@@ -8041,6 +8043,10 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
+  /reflect-metadata/0.1.13:
+    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
+    dev: false
+
   /regenerator-runtime/0.13.11:
     resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
 
@@ -9080,6 +9086,16 @@ packages:
       call-bind: 1.0.2
       for-each: 0.3.3
       is-typed-array: 1.1.10
+
+  /typegoose/5.9.1:
+    resolution: {integrity: sha512-D+vMhNyZeKBZHrmJFZwOodl3T9W2NOXY+hbnW/f1n60oEL8+L15eryFc9C6fAKrlnkgpui+kdQnNXsLwx2MgCw==}
+    engines: {node: '>=8.10.0'}
+    deprecated: No longer maintained, use https://github.com/typegoose/typegoose
+    peerDependencies:
+      mongoose: ^5.6.7
+    dependencies:
+      reflect-metadata: 0.1.13
+    dev: false
 
   /typescript/4.9.4:
     resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
