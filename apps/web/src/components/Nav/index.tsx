@@ -1,6 +1,7 @@
-import { Button, Flex, Text } from '@chakra-ui/react';
+import { Button, Flex, HStack, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import type { FC } from 'react';
+import Logo from './Logo';
 
 const Nav: FC = () => {
   return (
@@ -14,25 +15,29 @@ const Nav: FC = () => {
       top={0}
       w="100%"
     >
-      <Text>RayAuth</Text>
+      <Link href="/" role="group">
+        <HStack gap={2}>
+          <Logo h={6} _groupHover={{ opacity: 0.8 }} />
+
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            _groupHover={{ color: 'gray.300' }}
+          >
+            RayAuth
+          </Text>
+        </HStack>
+      </Link>
 
       <Flex align="center" gap={4} ml={4}>
-        <Link href="/">
-          <Text
-            _hover={{ color: 'rgba(255, 255, 255, 0.8)' }}
-            cursor="pointer"
-            mr={4}
-          >
-            Home
+        <Link href="/dashboard">
+          <Text _hover={{ color: 'gray.300' }} cursor="pointer" mr={4}>
+            Dashboard
           </Text>
         </Link>
 
         <Link href="">
-          <Text
-            _hover={{ color: 'rgba(255, 255, 255, 0.8)' }}
-            cursor="pointer"
-            mr={4}
-          >
+          <Text _hover={{ color: 'gray.300' }} cursor="pointer" mr={4}>
             Docs
           </Text>
         </Link>
