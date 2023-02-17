@@ -2,10 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { prisma } from "./../../../../packages/shared/db";
 
 export function setQuery() {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, _: Response, next: NextFunction) => {
     var { id, cb } = req.query;
     if (!id) {
-      res.redirect(`${cb}?error=project_not_found`);
       next();
       return;
     }
@@ -19,21 +18,18 @@ export function setQuery() {
     });
 
     if (!project) {
-      res.redirect(`${cb}?error=project_not_found`);
       next();
       return;
     }
 
     const callbacks = project.callbackUrls;
     if (callbacks.length == 0) {
-      res.redirect(`${cb}?error=callback_not_found`);
       next();
       return;
     }
     if (cb == undefined && callbacks.length != 0) cb = callbacks[0];
 
-    if (cb != undefined && !callbacks.includes(cb)) {
-      res.redirect(`${cb}?error=not_authorized`);
+    if (cb != undefined && !callbacks.includes(cb.toString())) {
       next();
       return;
     }
