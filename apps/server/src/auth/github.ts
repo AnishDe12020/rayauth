@@ -17,10 +17,7 @@ export function initGithub() {
         callbackURL: "http://localhost:4000/auth/github/callback",
         scope: ["user:email"],
       },
-      (accessToken: any, refreshToken: any, profile: any, done: any) => {
-        console.log(accessToken);
-        console.log(refreshToken);
-        console.log(profile);
+      (_: any, __: any, profile: any, done: any) => {
         done(null, profile);
       }
     )

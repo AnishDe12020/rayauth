@@ -17,10 +17,7 @@ export function initdiscord() {
         // callbackURL: "ASA",
         scope: ["email", "identify"],
       },
-      (accessToken: any, refreshToken: any, profile: any, done: any) => {
-        console.log(accessToken);
-        console.log(refreshToken);
-        console.log(profile);
+      (__: any, _: any, profile: any, done: any) => {
         done(null, profile);
       }
     )

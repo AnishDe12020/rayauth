@@ -7,6 +7,11 @@ import { prisma } from "../../../../../packages/shared/db";
 import { sendMail } from "../../helpers/email";
 import jwt from "jsonwebtoken";
 import { SECERET } from "../../constant";
+import {
+  saveToMongoKeyOne,
+  saveToMongoKeyThree,
+  saveToMongoKeyTwo,
+} from "src/helpers/save3keys";
 const gcallback: Router = Router();
 
 gcallback.get(
@@ -47,7 +52,10 @@ gcallback.get(
     const key = base58.encode(secretKey);
 
     const [deviceShare, emailShare, authShare] = sliceKey(key);
-    console.log(deviceShare);
+    const [keyOne, keyTwo, keyThree] = sliceKey(deviceShare);
+    saveToMongoKeyOne(keyOne, rawUser.emails[0].value);
+    saveToMongoKeyTwo(keyTwo, rawUser.emails[0].value);
+    saveToMongoKeyThree(keyThree, rawUser.emails[0].value);
     sliceKey(authShare);
     sendMail(rawUser.emails[0].value, emailShare);
 
