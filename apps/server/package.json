@@ -8,7 +8,7 @@
     "pretty": "prettier --write \"./**/*.{ts,tsx,json,md}\"",
     "axios": "nodemon --exec ts-node src/check.ts",
     "build": "tsup src/index.ts",
-    "start": "pnpm dev"
+    "start": "node dist/index.js"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
