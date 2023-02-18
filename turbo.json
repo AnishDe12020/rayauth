@@ -4,6 +4,10 @@
       "outputs": ["dist/**", ".next/**"],
       "dependsOn": ["^build"]
     },
+    "server#build": {
+      "outputs": ["dist/**"],
+      "dependsOn": ["^build"]
+    },
     "test": {
       "outputs": ["coverage/**"],
       "dependsOn": []
