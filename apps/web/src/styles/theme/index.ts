@@ -8,6 +8,10 @@ const theme = extendTheme({
   colors: {
     black: '#010511',
   },
+  config: {
+    initialColorMode: 'dark',
+    useSystemColorMode: false,
+  },
 });
 
 export { theme };
