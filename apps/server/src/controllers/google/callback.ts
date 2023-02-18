@@ -44,9 +44,11 @@ gcallback.get(
       console.log("cookie updated");
       console.log("exists");
       res.redirect(
-        `http://localhost:3000/callback?cb=${encodeURIComponent(
-          req.body.callback
-        )}`
+        `http://localhost:3000/callback${
+          req.query.mainCallback
+            ? encodeURIComponent(`?sdkCallback=${req.query.mainCallback}`)
+            : ""
+        }`
       );
 
       return;

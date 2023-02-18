@@ -9,8 +9,8 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { signIn } from 'next-auth/react';
 import { NextSeo } from 'next-seo';
+import { useRouter } from 'next/router';
 import type { FC } from 'react';
 import { FaDiscord, FaTwitter } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
@@ -33,12 +33,6 @@ const login: FC = () => {
       label: 'GitHub',
       icon: FiGithub,
       provider: 'github',
-    },
-    {
-      label: 'Twitter',
-      icon: FaTwitter,
-      color: '#1F9CEA',
-      provider: 'twitter',
     },
   ];
 
@@ -93,7 +87,9 @@ const login: FC = () => {
                 key={label}
                 mt={4}
                 onClick={() => {
-                  signIn(provider);
+                  window.location.replace(
+                    `http://localhost:8080/auth/${provider}?mainCallback=http://google.com`,
+                  );
                 }}
                 rounded="lg"
                 shadow="lg"
