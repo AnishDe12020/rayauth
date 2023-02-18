@@ -10,9 +10,8 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { NextSeo } from 'next-seo';
-import { useRouter } from 'next/router';
 import type { FC } from 'react';
-import { FaDiscord, FaTwitter } from 'react-icons/fa';
+import { FaDiscord } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { FiGithub } from 'react-icons/fi';
 

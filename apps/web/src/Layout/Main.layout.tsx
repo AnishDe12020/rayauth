@@ -11,8 +11,6 @@ const MainLayout: FC<IMainLayoutProps> = ({ children }) => {
     <>
       <Box
         bgColor="#0D0A12"
-        bgImage="url('/assets/bg.svg')"
-        bgSize="cover"
         color="white"
         h="100vh"
         w="100vw"

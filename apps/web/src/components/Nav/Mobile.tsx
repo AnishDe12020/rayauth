@@ -38,7 +38,7 @@ const Mobile = () => {
           bgSize="cover"
         >
           <VStack w="full" alignItems="start" px={8} gap={4}>
-            <Link href="/dashboard">
+            <Link href="/memo">
               <Text
                 _hover={{ color: 'gray.300' }}
                 cursor="pointer"
@@ -47,7 +47,7 @@ const Mobile = () => {
                 py={1}
                 w="full"
               >
-                Dashboard
+                MEMO
               </Text>
             </Link>
 

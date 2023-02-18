@@ -3,9 +3,9 @@ import { Button, HStack, Link, Text } from '@chakra-ui/react';
 const DesktopNav = () => (
   <HStack display={['none', 'none', 'flex']} fontWeight="bold" spacing={8}>
     <HStack>
-      <Link href="/dashboard">
+      <Link href="/memo">
         <Text _hover={{ color: 'gray.300' }} cursor="pointer" mr={4}>
-          Dashboard
+          MEMO
         </Text>
       </Link>
       <Link href="">
