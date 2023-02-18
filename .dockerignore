@@ -1,0 +1,137 @@
+# flyctl launch added from .gitignore
+**/.DS_Store
+**/node_modules
+**/.turbo
+**/*.log
+**/.next
+**/dist
+**/dist-ssr
+**/*.local
+**/.env
+**/.cache
+**/.vercel
+
+
+# flyctl launch added from .husky/_/.gitignore
+.husky/_/**/*
+
+# flyctl launch added from apps/docs/.gitignore
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+apps/docs/node_modules
+apps/docs/.pnp
+apps/docs/**/.pnp.js
+
+# testing
+apps/docs/coverage
+
+# next.js
+apps/docs/.next
+apps/docs/out
+
+# production
+apps/docs/build
+
+# misc
+apps/docs/**/.DS_Store
+apps/docs/**/*.pem
+
+# debug
+apps/docs/**/npm-debug.log*
+apps/docs/**/yarn-debug.log*
+apps/docs/**/yarn-error.log*
+apps/docs/**/.pnpm-debug.log*
+
+# local env files
+apps/docs/**/.env*.local
+
+# vercel
+apps/docs/**/.vercel
+
+# typescript
+apps/docs/**/*.tsbuildinfo
+apps/docs/**/next-env.d.ts
+
+# flyctl launch added from apps/server/.gitignore
+apps/server/**/.env
+apps/server/**/.vercel
+apps/server/**/.turbo
+
+# flyctl launch added from apps/web/.gitignore
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+apps/web/node_modules
+apps/web/.pnp
+apps/web/**/.pnp.js
+
+# testing
+apps/web/coverage
+
+# next.js
+apps/web/.next
+apps/web/out
+
+# production
+apps/web/build
+
+# misc
+apps/web/**/.DS_Store
+apps/web/**/*.pem
+
+# debug
+apps/web/**/npm-debug.log*
+apps/web/**/yarn-debug.log*
+apps/web/**/yarn-error.log*
+apps/web/**/.pnpm-debug.log*
+
+# local env files
+apps/web/**/.env*.local
+
+# vercel
+apps/web/**/.vercel
+
+# typescript
+apps/web/**/*.tsbuildinfo
+apps/web/**/next-env.d.ts
+
+apps/web/**/.turbo
+
+
+apps/web/**/yarn.lock
+
+# flyctl launch added from node_modules/.pnpm/jayson@3.7.0/node_modules/jayson/.gitignore
+node_modules/.pnpm/jayson@3.7.0/node_modules/jayson/node_modules
+node_modules/.pnpm/jayson@3.7.0/node_modules/jayson/**/.*
+!node_modules/.pnpm/jayson@3.7.0/node_modules/jayson/**/.gitignore
+!node_modules/.pnpm/jayson@3.7.0/node_modules/jayson/**/.travis.yml
+!node_modules/.pnpm/jayson@3.7.0/node_modules/jayson/**/.jshintrc
+!node_modules/.pnpm/jayson@3.7.0/node_modules/jayson/**/.npmignore
+node_modules/.pnpm/jayson@3.7.0/node_modules/jayson/coverage
+node_modules/.pnpm/jayson@3.7.0/node_modules/jayson/yarn-error.log
+
+# flyctl launch added from node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/.gitignore
+# ignore most things, include some others
+node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/*
+node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/.*
+
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/bin
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/lib
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/docs
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/package.json
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/package-lock.json
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/README.md
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/CONTRIBUTING.md
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/LICENSE
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/CHANGELOG.md
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/example
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/scripts
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/tap-snapshots
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/test
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/.travis.yml
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/.gitignore
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/.gitattributes
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/coverage-map.js
+!node_modules/.pnpm/minipass-sized@1.0.3/node_modules/minipass-sized/**/index.js
+fly.toml
