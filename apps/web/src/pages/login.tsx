@@ -88,7 +88,7 @@ const login: FC = () => {
                 mt={4}
                 onClick={() => {
                   window.location.replace(
-                    `http://localhost:8080/auth/${provider}?mainCallback=http://google.com`,
+                    `http://localhost:8080/auth/${provider}?callbackUrl=http://google.com&clientId=63ede626312c28bc4b903a9e`,
                   );
                 }}
                 rounded="lg"

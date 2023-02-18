@@ -45,8 +45,8 @@ gcallback.get(
       console.log("exists");
       res.redirect(
         `http://localhost:3000/callback${
-          req.query.mainCallback
-            ? encodeURIComponent(`?sdkCallback=${req.query.mainCallback}`)
+          req.body.callback
+            ? encodeURIComponent(`?callback=${req.body.callback}`)
             : ""
         }`
       );

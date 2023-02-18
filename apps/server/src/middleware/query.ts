@@ -3,39 +3,47 @@ import { prisma } from "../../lib/db";
 
 export function setQuery() {
   return async (req: Request, _: Response, next: NextFunction) => {
-    var { id, cb } = req.query;
-    if (!id) {
+    var { clientId, callbackUrl } = req.query;
+    if (!clientId) {
+      console.log("no client id");
       next();
       return;
     }
-    if (!cb) {
-      cb = undefined;
+    if (!callbackUrl) {
+      callbackUrl = undefined;
     }
     const project = await prisma.project.findUnique({
       where: {
-        id: id.toString(),
+        id: clientId.toString(),
       },
     });
 
     if (!project) {
+      console.log("project not found");
       next();
       return;
     }
 
     const callbacks = project.callbackUrls;
     if (callbacks.length == 0) {
+      console.log("no callbacks");
       next();
       return;
     }
-    if (cb == undefined && callbacks.length != 0) cb = callbacks[0];
+    if (callbackUrl == undefined && callbacks.length != 0)
+      callbackUrl = callbacks[0];
 
-    if (cb != undefined && !callbacks.includes(cb.toString())) {
+    if (
+      callbackUrl != undefined &&
+      !callbacks.includes(callbackUrl.toString())
+    ) {
+      console.log("callback not found");
       next();
       return;
     }
 
-    req.body.callback = cb;
-    req.body.clientId = id;
+    req.body.callback = callbackUrl;
+    req.body.clientId = clientId;
 
     next();
   };
