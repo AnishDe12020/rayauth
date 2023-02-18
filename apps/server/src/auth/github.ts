@@ -14,7 +14,7 @@ export function initGithub() {
       {
         clientID: GITID,
         clientSecret: GITSECRET,
-        callbackURL: "http://localhost:4000/auth/github/callback",
+        callbackURL: "http://localhost:8080/auth/github/callback",
         scope: ["user:email"],
       },
       (_: any, __: any, profile: any, done: any) => {

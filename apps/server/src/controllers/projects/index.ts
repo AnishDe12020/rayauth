@@ -2,7 +2,7 @@ import { Keypair } from "@solana/web3.js";
 import base58 from "bs58";
 import { randomUUID } from "crypto";
 import { Router } from "express";
-import { prisma, Project } from "../../../../../packages/shared/db";
+import { prisma, Project } from "../../../lib/db";
 
 const router = Router();
 

@@ -3,7 +3,7 @@ import { Router } from "express";
 import base58 from "bs58";
 import { Keypair } from "@solana/web3.js";
 import { sliceKey } from "../../helpers";
-import { prisma } from "../../../../../packages/shared/db";
+import { prisma } from "../../../lib/db";
 import { sendMail } from "../../helpers/email";
 import jwt from "jsonwebtoken";
 import { SECERET } from "../../constant";

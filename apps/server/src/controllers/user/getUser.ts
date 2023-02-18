@@ -1,7 +1,7 @@
 import { SECERET } from "../../constant";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
-import { prisma } from "../../../../../packages/shared/db";
+import { prisma } from "../../../lib/db";
 import { jwtInterface } from "src/interfaces/jwt";
 export function userController() {
   return async (req: Request, res: Response) => {

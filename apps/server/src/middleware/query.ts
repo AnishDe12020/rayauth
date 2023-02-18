@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "./../../../../packages/shared/db";
+import { prisma } from "../../lib/db";
 
 export function setQuery() {
   return async (req: Request, _: Response, next: NextFunction) => {

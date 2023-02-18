@@ -1,4 +1,4 @@
-export const PORT: number = Number(process.env.PORT) || 4000;
+export const PORT: number = Number(process.env.PORT) || 8080;
 export const HOST: string = process.env.HOST || "localhost";
 export const MONGOPASS: string = process.env.DATABASE_URL || "NOT-FOUND";
 
