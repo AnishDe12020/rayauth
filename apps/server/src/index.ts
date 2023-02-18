@@ -17,6 +17,7 @@ import proejcts from "./controllers/projects";
 import cookieParser from "cookie-parser";
 import { setQuery } from "./middleware/query";
 import { userController } from "./controllers/user/getUser";
+
 const app: Express = express();
 
 initGithub();
@@ -44,7 +45,7 @@ app.use(dcallback);
 app.use(glogin);
 app.use(gcallback);
 
-app.get("/user" , userController());
+app.get("/user", userController());
 app.use("/projects", proejcts);
 
 app.get("/", (req: Request, res: Response) => {
@@ -57,4 +58,4 @@ app.listen(Number(PORT), HOST, () => {
   console.log(process.env.PORT);
 });
 
-export default app;
+module.exports = app;

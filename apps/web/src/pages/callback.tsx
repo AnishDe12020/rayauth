@@ -9,9 +9,9 @@ const CallbackPage: NextPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const { query } = useRouter();
   const { add, getByID } = useIndexedDBStore('keyshare');
-  const [cookies] = useCookies(["jwt-rayauth"])
+  const [cookies] = useCookies(['jwt-rayauth']);
   useEffect(() => {
-    console.log("cookie: " , cookies['jwt-rayauth'])
+    console.log('cookie: ', cookies['jwt-rayauth']);
     async function setUpKey() {
       if (await getByID(1)) {
         return;

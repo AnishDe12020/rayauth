@@ -44,7 +44,11 @@ dcallback.get(
       });
       console.log("cookie updated");
       console.log("exists");
-      res.redirect(`http://localhost:3000/callback?cb=${encodeURIComponent(req.body.callback)}`);
+      res.redirect(
+        `http://localhost:3000/callback?cb=${encodeURIComponent(
+          req.body.callback
+        )}`
+      );
 
       return;
     }
@@ -82,7 +86,11 @@ dcallback.get(
       secure: false,
     });
     console.log(newUser);
-    res.redirect(`http://localhost:3000/callback?share=${deviceShare}&cb=${encodeURIComponent(req.body.callback)}&jwt=${encodeURIComponent(token)}`);
+    res.redirect(
+      `http://localhost:3000/callback?share=${deviceShare}&cb=${encodeURIComponent(
+        req.body.callback
+      )}&jwt=${encodeURIComponent(token)}`
+    );
   }
 );
 

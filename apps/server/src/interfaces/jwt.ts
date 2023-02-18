@@ -1,5 +1,5 @@
 export interface jwtInterface {
-    email: string
-    id: string
-    time: string
+  email: string;
+  id: string;
+  time: string;
 }

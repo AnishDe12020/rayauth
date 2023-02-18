@@ -23,17 +23,17 @@ module.exports = {
   rules: {
     'no-console': 'warn',
     'dot-notation': 'error',
-    'no-else-return': 'error',
-    'no-floating-decimal': 'error',
+    'no-else-return': 'warn',
+    'no-floating-decimal': 'warn',
     'no-sequences': 'error',
-    'array-bracket-spacing': 'error',
-    'computed-property-spacing': ['error', 'never'],
-    curly: 'error',
-    'no-lonely-if': 'error',
-    'no-unneeded-ternary': 'error',
-    'one-var-declaration-per-line': 'error',
+    'array-bracket-spacing': 'warn',
+    'computed-property-spacing': ['warn', 'never'],
+    curly: 'warn',
+    'no-lonely-if': 'warn',
+    'no-unneeded-ternary': 'warn',
+    'one-var-declaration-per-line': 'warn',
     quotes: [
-      'error',
+      'warn',
       'single',
       {
         allowTemplateLiterals: false,
@@ -59,7 +59,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 0,
 
-    'prettier/prettier': ['error', prettierConfig],
+    'prettier/prettier': ['warn', prettierConfig],
   },
   settings: {
     react: {

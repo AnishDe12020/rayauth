@@ -1,6 +1,5 @@
 import {
   Drawer,
-  IconButton,
   useDisclosure,
   VStack,
   Text,
@@ -8,7 +7,6 @@ import {
   Box,
 } from '@chakra-ui/react';
 import Link from 'next/link';
-import { FiMenu } from 'react-icons/fi';
 import { Rotate } from 'hamburger-react';
 
 const Mobile = () => {
