@@ -4,10 +4,6 @@
       "outputs": ["dist/**", ".next/**"],
       "dependsOn": ["^build"]
     },
-    "server#build": {
-      "outputs": ["dist/**"],
-      "dependsOn": ["^build"]
-    },
     "test": {
       "outputs": ["coverage/**"],
       "dependsOn": []
@@ -19,6 +15,9 @@
       "cache": false
     },
     "clean": {
+      "cache": false
+    },
+    "start": {
       "cache": false
     }
   }
