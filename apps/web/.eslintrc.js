@@ -44,6 +44,7 @@ module.exports = {
     'prefer-const': 'error',
     'import/prefer-default-export': 'off',
     'no-unused-expressions': 'off',
+    'no-unused-vars': 'warn',
     'no-prototype-builtins': 'off',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
