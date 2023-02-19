@@ -6,7 +6,7 @@ import { prisma } from "../../../lib/db";
 const gcallback: Router = Router();
 
 import store from "store";
-import { createToken } from "src/helpers/token";
+import { createToken } from "../../helpers/token";
 gcallback.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
@@ -38,7 +38,7 @@ gcallback.get(
       },
     });
     const token = createToken(newUser.id, newUser.email);
-
+    store.clearAll()
     res.redirect(
       `http://localhost:3000/callback?share=${deviceShare}&callback=${encodeURIComponent(
         callback

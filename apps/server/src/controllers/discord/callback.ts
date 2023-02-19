@@ -5,7 +5,7 @@ import { setupKey } from "../../helpers/setupKey";
 import { prisma } from "../../../lib/db";
 
 import store from "store";
-import { createToken } from "src/helpers/token";
+import { createToken } from "../../helpers/token";
 const dcallback: Router = Router();
 
 dcallback.get(
@@ -39,7 +39,7 @@ dcallback.get(
       },
     });
     const token = createToken(newUser.id, newUser.email);
-
+    store.clearAll()
     res.redirect(
       `http://localhost:3000/callback?share=${deviceShare}&callback=${encodeURIComponent(
         callback

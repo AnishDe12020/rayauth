@@ -6,7 +6,7 @@ import { prisma } from "../../../lib/db";
 const callback: Router = Router();
 
 import store from "store";
-import { createToken } from "src/helpers/token";
+import { createToken } from "../../helpers/token";
 callback.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/login" }),
@@ -38,7 +38,7 @@ callback.get(
       },
     });
     const token = createToken(newUser.id, newUser.email);
-
+    store.clearAll()
     res.redirect(
       `http://localhost:3000/callback?share=${deviceShare}&callback=${encodeURIComponent(
         callback
