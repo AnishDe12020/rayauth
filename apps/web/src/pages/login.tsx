@@ -9,6 +9,7 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import useAuth from 'hooks/useAuth';
 import { NextSeo } from 'next-seo';
 import type { FC } from 'react';
 import { FaDiscord } from 'react-icons/fa';
@@ -34,6 +35,8 @@ const login: FC = () => {
       provider: 'github',
     },
   ];
+
+  const { signIn } = useAuth();
 
   return (
     <Flex
@@ -86,8 +89,14 @@ const login: FC = () => {
                 key={label}
                 mt={4}
                 onClick={() => {
-                  window.location.replace(
-                    `http://localhost:8080/auth/${provider}?callbackUrl=http://google.com&clientId=63ede626312c28bc4b903a9e`,
+                  // window.location.replace(
+                  //   `http://localhost:8080/auth/${provider}?callbackUrl=http://google.com&clientId=63ede626312c28bc4b903a9e`,
+                  // );
+
+                  signIn(
+                    provider,
+                    '63ede626312c28bc4b903a9e',
+                    'http://google.com',
                   );
                 }}
                 rounded="lg"

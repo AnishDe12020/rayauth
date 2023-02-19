@@ -35,7 +35,7 @@ gcallback.get(
       );
 
       res.cookie("jwt-rayauth", token, {
-        maxAge: 60000, // Lifetime
+        maxAge: 60 * 60 * 24 * 7, // 7 days
         httpOnly: true,
         secure: false,
       });
