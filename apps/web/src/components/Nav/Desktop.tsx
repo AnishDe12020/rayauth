@@ -1,11 +1,12 @@
-import { Button, HStack, Link, Text } from '@chakra-ui/react';
+import { Button, HStack, Text } from '@chakra-ui/react';
+import Link from 'next/link';
 
 const DesktopNav = () => (
   <HStack display={['none', 'none', 'flex']} fontWeight="bold" spacing={8}>
     <HStack>
       <Link href="/memo">
         <Text _hover={{ color: 'gray.300' }} cursor="pointer" mr={4}>
-          MEMO
+          Memo
         </Text>
       </Link>
       <Link href="">
@@ -18,20 +19,15 @@ const DesktopNav = () => (
     <HStack>
       <Link href="/login">
         <Button
-          _hover={{
-            bgGradient: 'linear(to-r, blue.300, blue.500)',
-          }}
-          bgGradient="linear(to-r, blue.500, blue.300)"
-          colorScheme="blue"
-          borderRadius="full"
-          color="white"
-          filter="drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))"
-          fontSize="sm"
-          fontWeight="bold"
-          px={10}
-          py={4}
+          fontSize="md"
+          rounded="full"
+          background="white"
+          color="black"
+          fontWeight={900}
+          textDecoration="none"
+          _hover={{ bg: 'whiteAlpha.700' }}
         >
-          Login
+          Get Started
         </Button>
       </Link>
     </HStack>

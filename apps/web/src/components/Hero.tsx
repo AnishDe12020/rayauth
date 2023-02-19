@@ -26,9 +26,11 @@ const Hero: FC = () => {
         gap={6}
       >
         <Heading
+          as="h1"
           size={['2xl', '3xl', '4xl']}
           textAlign={{ base: 'center', lg: 'left' }}
           color="white"
+          fontWeight={900}
         >
           Streamline user
           <br />
@@ -47,9 +49,17 @@ const Hero: FC = () => {
           users
         </Text>
 
-        <Flex gap={4}>
-          <Button fontSize="xl" rounded="full" color="black">
-            Try for free
+        <Flex gap={6}>
+          <Button
+            fontSize="xl"
+            rounded="full"
+            background="white"
+            color="black"
+            fontWeight={900}
+            _hover={{ bg: 'whiteAlpha.700' }}
+            p={6}
+          >
+            Get Started
           </Button>
           <Button
             fontSize="xl"
@@ -57,6 +67,8 @@ const Hero: FC = () => {
             bg="transparent"
             color="white"
             border="1px solid white"
+            fontWeight={700}
+            p={6}
           >
             Documentation
           </Button>
@@ -65,14 +77,15 @@ const Hero: FC = () => {
 
       <Box
         display={['none', 'none', 'block']}
-        background="linear-gradient(180deg, rgba(69, 160, 245, 0.5) 0%, rgba(38, 227, 194, 0.5) 100%)"
+        background="linear-gradient(180deg, #45A0F5 50%, #26E3C2  )"
         filter="blur(100px)"
+        rounded="full"
         position="absolute"
         right={40}
-        top={40}
+        top={60}
         zIndex={-1}
-        width={80}
-        height={80}
+        width="400px"
+        height="400px"
       />
 
       <Image

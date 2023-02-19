@@ -1,9 +1,15 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
-import '@fontsource/inter/variable.css';
 import { theme } from '@/styles/theme';
 import { NextSeo } from 'next-seo';
 import { SessionProvider } from 'next-auth/react';
+import '@fontsource/kumbh-sans/300.css';
+import '@fontsource/kumbh-sans/400.css';
+import '@fontsource/kumbh-sans/500.css';
+import '@fontsource/kumbh-sans/600.css';
+import '@fontsource/kumbh-sans/700.css';
+import '@fontsource/kumbh-sans/800.css';
+import '@fontsource/kumbh-sans/900.css';
 
 const metadata = {
   title: 'RayAuth',

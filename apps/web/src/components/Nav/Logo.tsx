@@ -35,7 +35,7 @@ const Logo: FC<IconProps> = ({ ...otherProps }) => {
           gradientUnits="userSpaceOnUse"
         >
           <stop />
-          <stop offset="1" stop-opacity="0" />
+          <stop offset="1" stopOpacity="0" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_41_2"

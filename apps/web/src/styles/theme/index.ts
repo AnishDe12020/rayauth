@@ -2,8 +2,8 @@ import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
   fonts: {
-    body: 'Inter, sans-serif',
-    primary: 'Satoshi, sans-serif',
+    heading: `'Kumbh Sans', sans-serif`,
+    body: `'Kumbh Sans', sans-serif`,
   },
   colors: {
     black: '#010511',
