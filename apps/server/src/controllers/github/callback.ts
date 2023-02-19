@@ -53,7 +53,7 @@ callback.get(
     const key = base58.encode(secretKey);
 
     const [deviceShare, emailShare, authShare] = sliceKey(key);
-    const _ = sliceKey(deviceShare);
+    sliceKey(deviceShare);
     sliceKey(authShare);
     sendMail(rawUser.emails[0].value, emailShare);
 

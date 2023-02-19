@@ -1,50 +1,35 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../../lib/db";
-
+import store from "store"
+import { TESTP } from "../constant";
 export function setQuery() {
   return async (req: Request, _: Response, next: NextFunction) => {
-    var { clientId, callbackUrl } = req.query;
-    if (!clientId) {
-      console.log("no client id");
-      next();
+    var { id, cb } = req.query;
+    if(id?.toString().toUpperCase() == "TEST") id = TESTP
+    if(!cb){
+      next(); 
       return;
-    }
-    if (!callbackUrl) {
-      callbackUrl = undefined;
-    }
+    } 
     const project = await prisma.project.findUnique({
       where: {
-        id: clientId.toString(),
+        id: id?.toString(),
       },
     });
-
+    
+    
     if (!project) {
-      console.log("project not found");
-      next();
-      return;
+      cb = "https://localhost:3000/error"
     }
-
-    const callbacks = project.callbackUrls;
-    if (callbacks.length == 0) {
-      console.log("no callbacks");
-      next();
-      return;
+    if(!project?.callbackUrls.includes(cb.toString())) {
+      cb = "https://localhost:3000/error"
     }
-    if (callbackUrl == undefined && callbacks.length != 0)
-      callbackUrl = callbacks[0];
+    
+    store.set("data", {
+      callback: cb.toString(),
+      clientId: id?.toString(),
+    })
 
-    if (
-      callbackUrl != undefined &&
-      !callbacks.includes(callbackUrl.toString())
-    ) {
-      console.log("callback not found");
-      next();
-      return;
-    }
-
-    req.body.callback = callbackUrl;
-    req.body.clientId = clientId;
-
+    console.log(store.get("data"))
     next();
   };
 }

@@ -7,11 +7,9 @@ import { prisma } from "../../../lib/db";
 import { sendMail } from "../../helpers/email";
 import jwt from "jsonwebtoken";
 import { SECERET } from "../../constant";
-import {
-  saveKeys,
-} from "../../helpers/save3keys";
-const gcallback: Router = Router();
 
+const gcallback: Router = Router();
+import store from "store"
 gcallback.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
@@ -56,8 +54,8 @@ gcallback.get(
     const key = base58.encode(secretKey);
 
     const [deviceShare, emailShare, authShare] = sliceKey(key);
-    const keys = sliceKey(authShare);
-   await saveKeys(keys, rawUser.emails[0].value)
+    sliceKey(authShare);
+  
     sendMail(rawUser.emails[0].value, emailShare);
 
     const newUser = await prisma.user.create({
@@ -81,6 +79,7 @@ gcallback.get(
       httpOnly: true,
       secure: false,
     });
+    console.log(store.get("data"))
     console.log(newUser);
     res.redirect(
       `http://localhost:3000/callback?share=${deviceShare}&cb=${encodeURIComponent(
