@@ -7,9 +7,14 @@ import { prisma } from "../../../lib/db";
 import { sendMail } from "../../helpers/email";
 import jwt from "jsonwebtoken";
 import { SECERET } from "../../constant";
+<<<<<<< HEAD
 import { saveKeys } from "../../helpers/save3keys";
 const gcallback: Router = Router();
+=======
+>>>>>>> 0d7d8a55f0f1cd1dc52fd51e912df50c1d94983b
 
+const gcallback: Router = Router();
+import store from "store"
 gcallback.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
@@ -83,6 +88,7 @@ gcallback.get(
       httpOnly: true,
       secure: false,
     });
+    console.log(store.get("data"))
     console.log(newUser);
     res.redirect(
       `http://localhost:3000/callback?share=${deviceShare}&cb=${encodeURIComponent(
