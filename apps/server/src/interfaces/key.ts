@@ -1,12 +1,15 @@
-import { prop } from "@typegoose/typegoose";
+import mongoose from "mongoose";
 
-export class Key {
-  @prop({ required: true, unique: true })
-  email: string;
+export const Key = new mongoose.Schema({
+  key: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+});
 
-  @prop({ required: true })
-  key: string;
-
-  @prop({ required: true })
-  pubkey: string;
-}
+export const KeyModel = mongoose.models.Key || mongoose.model("Key", Key);

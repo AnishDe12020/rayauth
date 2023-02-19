@@ -7,9 +7,7 @@ import { prisma } from "../../../lib/db";
 import { sendMail } from "../../helpers/email";
 import jwt from "jsonwebtoken";
 import { SECERET } from "../../constant";
-import {
-  saveKeys,
-} from "../../helpers/save3keys";
+import { saveKeys } from "../../helpers/save3keys";
 const gcallback: Router = Router();
 
 gcallback.get(
@@ -26,6 +24,7 @@ gcallback.get(
 
     if (user) {
       res.clearCookie("jwt-rayauth");
+
       const token = jwt.sign(
         {
           email: rawUser.emails[0].value,
@@ -34,13 +33,16 @@ gcallback.get(
         },
         SECERET
       );
+
       res.cookie("jwt-rayauth", token, {
         maxAge: 60000, // Lifetime
         httpOnly: true,
         secure: false,
       });
+
       console.log("cookie updated");
       console.log("exists");
+
       res.redirect(
         `http://localhost:3000/callback${
           req.body.callback
@@ -57,7 +59,7 @@ gcallback.get(
 
     const [deviceShare, emailShare, authShare] = sliceKey(key);
     const keys = sliceKey(authShare);
-   await saveKeys(keys, rawUser.emails[0].value)
+    await saveKeys(keys, rawUser.emails[0].value);
     sendMail(rawUser.emails[0].value, emailShare);
 
     const newUser = await prisma.user.create({

@@ -8,7 +8,6 @@ import { sendMail } from "../../helpers/email";
 import jwt from "jsonwebtoken";
 import { SECERET } from "../../constant";
 
-
 const dcallback: Router = Router();
 
 dcallback.get(
@@ -53,7 +52,7 @@ dcallback.get(
     const key = base58.encode(secretKey);
 
     const [deviceShare, emailShare, authShare] = sliceKey(key);
-    const _ = sliceKey(deviceShare);
+    // const _ = sliceKey(deviceShare);
     sliceKey(authShare);
     sendMail(rawUser.email, emailShare);
 
