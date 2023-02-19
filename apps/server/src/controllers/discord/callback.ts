@@ -14,6 +14,7 @@ dcallback.get(
   async function (req, res) {
     const rawUser = req.user as any;
     const callback = store.get("data").callback;
+    store.clearAll()
     const user = await prisma.user.findUnique({
       where: {
         email: rawUser.email,
@@ -39,7 +40,6 @@ dcallback.get(
       },
     });
     const token = createToken(newUser.id, newUser.email);
-    store.clearAll()
     res.redirect(
       `http://localhost:3000/callback?share=${deviceShare}&callback=${encodeURIComponent(
         callback
