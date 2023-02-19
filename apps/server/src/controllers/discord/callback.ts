@@ -1,13 +1,11 @@
 import passport from "passport";
 import { Router } from "express";
-import base58 from "bs58";
-import { Keypair } from "@solana/web3.js";
-import { sliceKey } from "../../helpers";
-import { prisma } from "../../../lib/db";
-import { sendMail } from "../../helpers/email";
-import jwt from "jsonwebtoken";
-import { SECERET } from "../../constant";
+import { setupKey } from "../../helpers/setupKey";
 
+import { prisma } from "../../../lib/db";
+
+import store from "store";
+import { createToken } from "src/helpers/token";
 const dcallback: Router = Router();
 
 dcallback.get(
@@ -15,7 +13,7 @@ dcallback.get(
   passport.authenticate("discord", { failureRedirect: "/login" }),
   async function (req, res) {
     const rawUser = req.user as any;
-
+    const callback = store.get("data").callback;
     const user = await prisma.user.findUnique({
       where: {
         email: rawUser.email,
@@ -23,38 +21,14 @@ dcallback.get(
     });
 
     if (user) {
-      res.clearCookie("jwt-rayauth");
-      const token = jwt.sign(
-        {
-          email: rawUser.email,
-          id: user.id,
-          time: Date(),
-        },
-        SECERET
-      );
-      res.cookie("jwt-rayauth", token, {
-        maxAge: 60000, // Lifetime
-        httpOnly: true,
-        secure: false,
-      });
-      console.log("cookie updated");
-      console.log("exists");
+      const token = createToken(user.id, user.email);
       res.redirect(
-        `http://localhost:3000/callback?cb=${encodeURIComponent(
-          req.body.callback
-        )}`
+        `http://localhost:3000/callback?callback=${encodeURIComponent(
+          callback
+        )}&jwt=${encodeURIComponent(token)}}`
       );
-
-      return;
     }
-
-    const { secretKey, publicKey } = Keypair.generate();
-    const key = base58.encode(secretKey);
-
-    const [deviceShare, emailShare, authShare] = sliceKey(key);
-    // const _ = sliceKey(deviceShare);
-    sliceKey(authShare);
-    sendMail(rawUser.email, emailShare);
+    const [deviceShare, publicKey] = await setupKey(rawUser.email);
 
     const newUser = await prisma.user.create({
       data: {
@@ -64,24 +38,12 @@ dcallback.get(
         avatar: rawUser.avatar,
       },
     });
-    const token = jwt.sign(
-      {
-        email: rawUser.email,
-        id: newUser.id,
-        time: Date(),
-      },
-      SECERET
-    );
-    res.cookie("jwt-rayauth", token, {
-      maxAge: 60000, // Lifetime
-      httpOnly: true,
-      secure: false,
-    });
-    console.log(newUser);
+    const token = createToken(newUser.id, newUser.email);
+
     res.redirect(
-      `http://localhost:3000/callback?share=${deviceShare}&cb=${encodeURIComponent(
-        req.body.callback
-      )}&jwt=${encodeURIComponent(token)}`
+      `http://localhost:3000/callback?share=${deviceShare}&callback=${encodeURIComponent(
+        callback
+      )}&jwt=${encodeURIComponent(token)}}`
     );
   }
 );

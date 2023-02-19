@@ -21,5 +21,4 @@ export const DB1: string = process.env.DATABASE_URL || "NOTFOUND";
 export const DB2: string = process.env.DB_TWO || "NOTFOUND";
 export const DB3: string = process.env.DB_THREE || "NOTFOUND";
 
-
 export const TESTP: string = process.env.TEST || "NOTFOUND";
