@@ -7,13 +7,14 @@ const gcallback: Router = Router();
 
 import store from "store";
 import { createToken } from "../../helpers/token";
+
 gcallback.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   async function (req, res) {
     const rawUser = req.user as any;
     const callback = store.get("data").callback;
-    store.clearAll()
+    store.clearAll();
     const user = await prisma.user.findUnique({
       where: {
         email: rawUser.emails[0].value,
@@ -21,12 +22,21 @@ gcallback.get(
     });
 
     if (user) {
+      console.log("user already exists");
       const token = createToken(user.id, user.email);
+
+      res.cookie("jwt-rayauth", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        secure: false,
+      });
+
       res.redirect(
         `http://localhost:3000/callback?callback=${encodeURIComponent(
           callback
         )}&jwt=${encodeURIComponent(token)}}`
       );
+      return;
     }
     const [deviceShare, publicKey] = await setupKey(rawUser.emails[0].value);
 
@@ -38,8 +48,15 @@ gcallback.get(
         avatar: rawUser.photos[0].value,
       },
     });
+
     const token = createToken(newUser.id, newUser.email);
-    
+
+    res.cookie("jwt-rayauth", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: false,
+    });
+
     res.redirect(
       `http://localhost:3000/callback?share=${deviceShare}&callback=${encodeURIComponent(
         callback
