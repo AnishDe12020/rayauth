@@ -59,28 +59,31 @@ app.get("/", (req: Request, res: Response) => {
 app.post("/delete-user", async (req: Request, res: Response) => {
   const emailId = req.body.email;
 
-  console.log(emailId);
+  const mongo1 = await connect(DB1);
+  await KeyModel.deleteOne({ email: emailId });
+  await mongo1.disconnect();
 
-  await prisma.user.delete({
+  const mongo2 = await connect(DB2);
+  await KeyModel.deleteOne({ email: emailId });
+  await mongo2.disconnect();
+
+  const mongo3 = await connect(DB3);
+  await KeyModel.deleteOne({ email: emailId });
+  await mongo3.disconnect();
+
+  const user = await prisma.user.findUnique({
     where: {
       email: emailId,
     },
   });
 
-  const mongo1 = await connect(DB1);
-  const key1 = new KeyModel({ email: emailId });
-  await key1.deleteOne();
-  await mongo1.disconnect();
-
-  const mongo2 = await connect(DB2);
-  const key2 = new KeyModel({ email: emailId });
-  await key2.deleteOne();
-  await mongo2.disconnect();
-
-  const mongo3 = await connect(DB3);
-  const key3 = new KeyModel({ email: emailId });
-  await key3.deleteOne();
-  await mongo3.disconnect();
+  if (user) {
+    await prisma.user.delete({
+      where: {
+        email: emailId,
+      },
+    });
+  }
 
   res.send("User deleted");
 });

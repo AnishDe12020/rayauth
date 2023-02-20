@@ -11,7 +11,7 @@ export const handleProviderCallback = async (
   name?: string,
   avatarUrl?: string
 ) => {
-  const callback = store.get("data").callback;
+  const callback = store.get("data")?.callback;
   store.clearAll();
 
   const user = await prisma.user.findUnique({
@@ -19,6 +19,12 @@ export const handleProviderCallback = async (
       email: email,
     },
   });
+
+  const redirectUrl = new URL("http://localhost:3000/callback");
+
+  if (callback) {
+    redirectUrl.searchParams.append("callback", callback);
+  }
 
   if (user) {
     console.log("user already exists");
@@ -29,11 +35,10 @@ export const handleProviderCallback = async (
       secure: true,
     });
 
-    res.redirect(
-      `http://localhost:3000/callback?callback=${encodeURIComponent(
-        callback
-      )}&jwt=${encodeURIComponent(token)}}`
-    );
+    redirectUrl.searchParams.append("jwt", token);
+
+    res.redirect(redirectUrl.toString());
+
     return;
   }
   const [deviceShare, publicKey] = await setupKey(email);
@@ -54,9 +59,8 @@ export const handleProviderCallback = async (
     secure: true,
   });
 
-  res.redirect(
-    `http://localhost:3000/callback?share=${deviceShare}&callback=${encodeURIComponent(
-      callback
-    )}&jwt=${encodeURIComponent(token)}}`
-  );
+  redirectUrl.searchParams.append("jwt", token);
+  redirectUrl.searchParams.append("share", deviceShare);
+
+  res.redirect(redirectUrl.toString());
 };
