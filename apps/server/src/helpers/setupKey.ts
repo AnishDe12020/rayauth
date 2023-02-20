@@ -10,6 +10,5 @@ export async function setupKey(email: string): Promise<string[]> {
   const keys = sliceKey(authShare);
   await saveKeys(keys, email);
   sendMail(email, emailShare);
-
   return [deviceShare, publicKey.toString()];
 }
