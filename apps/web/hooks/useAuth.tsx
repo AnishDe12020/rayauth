@@ -48,8 +48,13 @@ const useAuth = () => {
 
     setUser(decoded);
 
+    console.log("checking if already added");
+
+    console.log(await getByID(1));
+
     if (await getByID(1)) {
       setLoading(false);
+      console.log("already added");
       return;
     }
 
@@ -58,7 +63,21 @@ const useAuth = () => {
         .then(() => console.log("success"))
         .catch((e) => console.error("error / unsupported", e));
 
-      add({ key: router.query.share }).then(console.log);
+      add({ key: router.query.share }).then((v) =>
+        console.log("added to indexeddb", v)
+      );
+
+      if (router.query.callback) {
+        const callbackUrl = new URL(router.query.callback as string);
+
+        if (!router.query.jwt) {
+          console.log("no jwt");
+        }
+
+        callbackUrl.searchParams.append("jwt", router.query.jwt as string);
+
+        window.location.replace(callbackUrl.toString());
+      }
     } else {
       console.log("no share");
       setNeedsRecovery(true);
