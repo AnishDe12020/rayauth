@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      ksans: ["'Kumbh Sans', sans-serif"],
+    },
   },
   plugins: [],
 };
