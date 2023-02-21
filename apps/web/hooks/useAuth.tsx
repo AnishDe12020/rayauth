@@ -3,7 +3,8 @@ import { getCookie, removeCookies } from "cookies-next";
 import { decodeJwt, JWTPayload } from "jose";
 import setupIndexedDB, { useIndexedDBStore } from "use-indexeddb";
 import { idbConfig } from "lib/indexeddbConfig";
-import { useRouter } from "next/router";
+import { NextRouter, Router, useRouter } from "next/router";
+import { useDeviceShare } from "./useDeviceShare";
 
 const useAuth = () => {
   const [user, setUser] = useState<JWTPayload>();
@@ -12,7 +13,7 @@ const useAuth = () => {
 
   const { add, getByID } = useIndexedDBStore("keyshare");
 
-  const router = useRouter();
+  const { deviceShare, setDeviceShare } = useDeviceShare();
 
   const signIn = (
     provider: string,
@@ -32,7 +33,11 @@ const useAuth = () => {
     window.location.replace(url.toString());
   };
 
-  const handleCallback = async () => {
+  const handleCallback = async (router: NextRouter) => {
+    if (!router.isReady) {
+      return;
+    }
+
     setLoading(true);
     const jwt = getCookie("jwt-rayauth");
 
@@ -44,28 +49,17 @@ const useAuth = () => {
 
     const decoded = decodeJwt(jwt.toString());
 
-    console.log(decoded);
-
     setUser(decoded);
 
     console.log("checking if already added");
 
-    console.log(await getByID(1));
+    console.log("router.query", router.query);
 
-    if (await getByID(1)) {
+    if (deviceShare) {
       setLoading(false);
-      console.log("already added");
-      return;
-    }
+      setNeedsRecovery(false);
 
-    if (router.query.share) {
-      setupIndexedDB(idbConfig)
-        .then(() => console.log("success"))
-        .catch((e) => console.error("error / unsupported", e));
-
-      add({ key: router.query.share }).then((v) =>
-        console.log("added to indexeddb", v)
-      );
+      console.log("deviceShare", deviceShare);
 
       if (router.query.callback) {
         const callbackUrl = new URL(router.query.callback as string);
@@ -79,11 +73,27 @@ const useAuth = () => {
         window.location.replace(callbackUrl.toString());
       }
     } else {
-      console.log("no share");
-      setNeedsRecovery(true);
-    }
+      if (router.query.share) {
+        console.log("router.query.share", router.query.share);
 
-    setLoading(false);
+        setDeviceShare(router.query.share as string);
+
+        if (router.query.callback) {
+          const callbackUrl = new URL(router.query.callback as string);
+
+          if (!router.query.jwt) {
+            console.log("no jwt");
+          }
+
+          callbackUrl.searchParams.append("jwt", router.query.jwt as string);
+
+          window.location.replace(callbackUrl.toString());
+        }
+      } else {
+        setNeedsRecovery(true);
+      }
+      setLoading(false);
+    }
   };
 
   const signOut = () => {
