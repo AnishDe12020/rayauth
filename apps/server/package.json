@@ -28,6 +28,8 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "@elasticemail/elasticemail-client": "^4.0.23",
+    "@elasticemail/elasticemail-client-ts-axios": "^4.0.22",
     "@prisma/client": "^4.10.1",
     "@sendgrid/mail": "^7.7.0",
     "@solana/web3.js": "^1.73.0",

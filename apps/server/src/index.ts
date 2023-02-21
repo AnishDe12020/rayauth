@@ -91,6 +91,7 @@ app.post("/delete-user", async (req: Request, res: Response) => {
 app.listen(Number(PORT), HOST, () => {
   console.log("Server up and running;");
   console.log(process.env.PORT);
+  console.log(process.env.ELASTIC_EMAIL);
 });
 
 module.exports = app;
