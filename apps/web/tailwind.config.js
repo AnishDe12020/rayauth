@@ -9,7 +9,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#1E1E1E",
+      },
+    },
     fontFamily: {
       ksans: ["'Kumbh Sans', sans-serif"],
     },
