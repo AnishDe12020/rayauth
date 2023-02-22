@@ -33,3 +33,5 @@ export const getCombinedKey = async(email:string):Promise<string> => {
     const authShare = combineKey(keys)
     return authShare
 }
+
+
