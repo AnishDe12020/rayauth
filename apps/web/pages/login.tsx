@@ -7,7 +7,13 @@ const LoginPage: NextPage = () => {
   const { signIn } = useAuth();
 
   return (
-    <div className="h-screen bg-primary max-w-screen-2xl mx-auto relative">
+    <div
+      style={{
+        background:
+          "radial-gradient(381px 364px ellipse at 35% 50%, #45A0F540, #26E3C240, #1E1E1E)",
+      }}
+      className="h-screen bg-primary max-w-screen-2xl mx-auto relative"
+    >
       <div className="min-h-screen flex flex-row items-center justify-center ">
         <div className="flex-auto">
           <div className="min-h-screen flex flex-col items-center justify-center">
@@ -22,13 +28,13 @@ const LoginPage: NextPage = () => {
                 />
               </div>
               <div>
-                <h1 className="text-[#FCFCFC] font-bold font-ksans text-5xl">
+                <h1 className="text-[#FCFCFC] font-bold font-ksans text-3xl lg:text-5xl">
                   RayAuth
                 </h1>
               </div>
             </div>
             <div className="py-6 mb-3">
-              <h2 className="text-[#FFFFFF80] font-bold font-ksans text-[32px] ">
+              <h2 className="text-[#FFFFFF80] font-bold font-ksans text-2xl lg:text-[32px] ">
                 Enter the Solana Portal
               </h2>
             </div>
@@ -90,7 +96,7 @@ const LoginPage: NextPage = () => {
                     "linear-gradient(90deg, #45A0F5 -0.1%, #26E3C2 100.03%)",
                   boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 }}
-                className="text-white w-4/6 py-2 px-4 rounded-3xl"
+                className="text-white w-5/6 lg:w-4/6 py-2 px-4 rounded-3xl"
               >
                 <span className="flex justify-center">
                   <Image
@@ -100,12 +106,14 @@ const LoginPage: NextPage = () => {
                     height={100}
                   />
                 </span>
-                <span className="text-base font-black">Connect Wallet</span>
+                <span className="text-sm lg:text-base font-black">
+                  Connect Wallet
+                </span>
               </button>
             </div>
           </div>
         </div>
-        <div className="w-2/3 h-screen overflow-hidden relative">
+        <div className="w-2/3 h-screen overflow-hidden relative hidden lg:block">
           <img
             className="h-full w-full object-cover object-center"
             src="/door.svg"
