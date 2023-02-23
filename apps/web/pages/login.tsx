@@ -7,7 +7,7 @@ const LoginPage: NextPage = () => {
   const { signIn } = useAuth();
 
   return (
-    <div className="relative h-screen mx-auto bg-primary max-w-screen-2xl -z-20">
+    <div className="h-screen mx-auto bg-primary max-w-screen-2xl -z-20">
       <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] top-[158px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
       <div className="z-10 flex flex-row items-center justify-center min-h-screen">
         <div className="flex-auto">
@@ -36,8 +36,7 @@ const LoginPage: NextPage = () => {
             <div className="flex flex-col w-5/6 space-y-4">
               <div>
                 <button
-                  type="button"
-                  className="flex justify-center items-center w-full text-black bg-[#FFFFFFE5] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2 hover:bg-green-500 transition duration-150 cursor-pointer"
+                  className="flex justify-center items-center w-full text-black bg-[#FFFFFFE5] focus:outline-none focus-visible::ring-4 focus-visible:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2 hover:opacity-80 transition duration-150"
                   onClick={() => signIn("google")}
                 >
                   <span className="px-4">
@@ -52,10 +51,7 @@ const LoginPage: NextPage = () => {
                 </button>
               </div>
               <div>
-                <button
-                  type="button"
-                  className="flex justify-center items-center w-full text-white bg-[#5865F2] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                >
+                <button className="flex justify-center items-center w-full text-white bg-[#5865F2] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2 hover:opacity-80 transition duration-150">
                   <span className="px-4">
                     <Image
                       src={"/icon/discord.svg"}
@@ -68,10 +64,7 @@ const LoginPage: NextPage = () => {
                 </button>
               </div>
               <div>
-                <button
-                  type="button"
-                  className="flex justify-center items-center w-full text-white bg-[#212121] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                >
+                <button className="flex justify-center items-center w-full text-white bg-[#212121] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2 hover:opacity-80 transition duration-150">
                   <span className="px-4">
                     <Image
                       src={"/icon/github.svg"}
@@ -94,7 +87,7 @@ const LoginPage: NextPage = () => {
                     "linear-gradient(90deg, #45A0F5 -0.1%, #26E3C2 100.03%)",
                   boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 }}
-                className="w-5/6 px-4 py-4 text-white lg:w-4/6 rounded-3xl"
+                className="w-5/6 px-4 py-4 text-white transition duration-150 lg:w-4/6 rounded-3xl hover:opacity-80 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300"
               >
                 <span className="flex justify-center">
                   <Image
