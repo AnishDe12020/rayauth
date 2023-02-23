@@ -33,65 +33,68 @@ const LoginPage: NextPage = () => {
                 Enter the Solana Portal
               </h2>
             </div>
-            <div className="w-5/6">
-              <button
-                type="button"
-                className="flex justify-center items-center w-full text-black bg-[#FFFFFFE5] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              >
-                <span className="px-4">
-                  <Image
-                    src={"/icon/google.svg"}
-                    alt={"google"}
-                    height={15}
-                    width={15}
-                  />
-                </span>
-                <span> Continue with Google</span>
-              </button>
+            <div className="flex flex-col w-5/6 space-y-4">
+              <div>
+                <button
+                  type="button"
+                  className="flex justify-center items-center w-full text-black bg-[#FFFFFFE5] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2 hover:bg-green-500 transition duration-150 cursor-pointer"
+                  onClick={() => signIn("google")}
+                >
+                  <span className="px-4">
+                    <Image
+                      src={"/icon/google.svg"}
+                      alt={"google"}
+                      height={15}
+                      width={15}
+                    />
+                  </span>
+                  <span> Continue with Google</span>
+                </button>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  className="flex justify-center items-center w-full text-white bg-[#5865F2] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                >
+                  <span className="px-4">
+                    <Image
+                      src={"/icon/discord.svg"}
+                      alt={"Discord"}
+                      height={15}
+                      width={15}
+                    />
+                  </span>
+                  <span> Continue with Discord</span>
+                </button>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  className="flex justify-center items-center w-full text-white bg-[#212121] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                >
+                  <span className="px-4">
+                    <Image
+                      src={"/icon/github.svg"}
+                      alt={"Github"}
+                      height={15}
+                      width={15}
+                    />
+                  </span>
+                  <span> Continue with Github</span>
+                </button>
+              </div>
             </div>
-            <div className="w-5/6">
-              <button
-                type="button"
-                className="flex justify-center items-center w-full text-white bg-[#5865F2] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              >
-                <span className="px-4">
-                  <Image
-                    src={"/icon/discord.svg"}
-                    alt={"Discord"}
-                    height={15}
-                    width={15}
-                  />
-                </span>
-                <span> Continue with Discord</span>
-              </button>
-            </div>
-            <div className="w-5/6">
-              <button
-                type="button"
-                className="flex justify-center items-center w-full text-white bg-[#212121] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium  rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              >
-                <span className="px-4">
-                  <Image
-                    src={"/icon/github.svg"}
-                    alt={"Github"}
-                    height={15}
-                    width={15}
-                  />
-                </span>
-                <span> Continue with Github</span>
-              </button>
-            </div>
-            <div>
+            <div className="mt-8">
               <span className="text-white">Or use wallet</span>
             </div>
-            <div className="flex items-center justify-center w-3/6 my-6">
+            <div className="flex items-center justify-center w-5/6 my-8">
               <button
                 style={{
                   background:
                     "linear-gradient(90deg, #45A0F5 -0.1%, #26E3C2 100.03%)",
                   boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
                 }}
-                className="w-5/6 px-4 py-2 text-white lg:w-4/6 rounded-3xl"
+                className="w-5/6 px-4 py-4 text-white lg:w-4/6 rounded-3xl"
               >
                 <span className="flex justify-center">
                   <Image
