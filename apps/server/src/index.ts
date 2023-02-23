@@ -20,6 +20,7 @@ import { userController } from "./controllers/user/getUser";
 import { prisma } from "../lib/db";
 import { connect } from "mongoose";
 import { KeyModel } from "./interfaces/key";
+import { deviceShare } from "./controllers/user/deviceKey";
 
 const app: Express = express();
 
@@ -50,7 +51,7 @@ app.use(gcallback);
 
 app.get("/user", userController());
 app.use("/projects", proejcts);
-
+app.post("/user/device-share", deviceShare())
 app.get("/", (req: Request, res: Response) => {
   console.log(req.body);
   res.send("Hello");
