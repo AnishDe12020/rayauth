@@ -9,7 +9,16 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#02050D",
+        "gradient-1": "#45A0F5",
+        "gradient-2": "#26E3C2",
+      },
+    },
+    fontFamily: {
+      ksans: ["'Kumbh Sans', sans-serif"],
+    },
   },
   plugins: [],
 };
