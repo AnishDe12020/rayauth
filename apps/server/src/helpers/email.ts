@@ -48,10 +48,10 @@ export const sendMail = (email: string, key: string) => {
         Subject: "Your RayAuth recovery key",
       },
     })
-    .then((response) => {
+    .then((response:any) => {
       console.log("email sent", response.data);
     })
-    .catch((error) => {
+    .catch((error:any) => {
       console.error("failed to send email", error);
     });
 };
