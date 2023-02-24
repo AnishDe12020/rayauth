@@ -20,12 +20,14 @@ describe("account-delegation", () => {
   const project_account = anchor.web3.Keypair.generate();
   const payer = anchor.web3.Keypair.generate();
 
+  const newDelegate = anchor.web3.Keypair.generate();
+
   const airdropToPayer = async () => {
     const sig = await connection.requestAirdrop(payer.publicKey, 1000000000);
     await connection.confirmTransaction(sig);
   };
 
-  it("Creates a new delegate account", async () => {
+  it("creates a new delegated account", async () => {
     await airdropToPayer();
 
     const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
@@ -77,8 +79,6 @@ describe("account-delegation", () => {
       ],
       program.programId
     );
-
-    const newDelegate = anchor.web3.Keypair.generate();
 
     const currentDelegateAccount = await program.account.delegatedAccount.fetch(
       delegatedAccount
@@ -135,19 +135,45 @@ describe("account-delegation", () => {
       delegatedAccount
     );
 
-    expect(delegatedAccountInfo).to.not.be.null;
-    expect(delegatedAccountInfo.owner.toBase58()).to.equal(
-      userWallet.publicKey.toBase58()
-    );
-    expect(delegatedAccountInfo.projectAccount.toBase58()).to.equal(
-      project_account.publicKey.toBase58()
-    );
     expect(delegatedAccountInfo.delegates.length).to.equal(2);
     expect(delegatedAccountInfo.delegates[0].toBase58()).to.equal(
       project_account.publicKey.toBase58()
     );
     expect(delegatedAccountInfo.delegates[1].toBase58()).to.equal(
       newDelegate.publicKey.toBase58()
+    );
+  });
+
+  it("can remove a delegate", async () => {
+    const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("delegated_account"),
+        project_account.publicKey.toBuffer(),
+        userWallet.publicKey.toBuffer(),
+      ],
+      program.programId
+    );
+
+    const removeDelegateTx = await program.methods
+      .removeDelegate(newDelegate.publicKey)
+      .accounts({
+        delegated: delegatedAccount,
+        owner: userWallet.publicKey,
+        payer: payer.publicKey,
+        projectAccount: project_account.publicKey,
+      })
+      .signers([payer])
+      .rpc();
+
+    console.log("removeDelegateTx: ", removeDelegateTx);
+
+    const delegatedAccountInfo = await program.account.delegatedAccount.fetch(
+      delegatedAccount
+    );
+
+    expect(delegatedAccountInfo.delegates.length).to.equal(1);
+    expect(delegatedAccountInfo.delegates[0].toBase58()).to.equal(
+      project_account.publicKey.toBase58()
     );
   });
 });

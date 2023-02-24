@@ -31,7 +31,13 @@ impl DelegatedAccount {
     pub fn add_delegate(&mut self, new_delegate: Pubkey) -> Result<()> {
         if matches!(self.is_delegate(new_delegate), None) {
             self.delegates.push(new_delegate);
-            // self.delegates.sort();
+        }
+        Ok(())
+    }
+
+    pub fn remove_delegate(&mut self, delegate: Pubkey) -> Result<()> {
+        if let Some(idx) = self.is_delegate(delegate) {
+            self.delegates.remove(idx);
         }
         Ok(())
     }

@@ -25,7 +25,7 @@ pub mod account_delegation {
         let project_account = &ctx.accounts.project_account;
 
         let mut delegates = delegates;
-        // delegates.sort();
+        delegates.sort();
         delegates.dedup();
 
         let total_delegate_count = delegates.len();
@@ -81,6 +81,19 @@ pub mod account_delegation {
         delegated_account.reload()?;
 
         delegated_account.add_delegate(new_delegate)?;
+
+        Ok(())
+    }
+
+    pub fn remove_delegate(ctx: Context<DelegatedAccountRealloc>, delegate: Pubkey) -> Result<()> {
+        let delegated_account = &mut ctx.accounts.delegated;
+        let owner = &ctx.accounts.owner;
+
+        if delegated_account.owner != *owner.key {
+            return Err(AccountDelegationError::NotSufficientPermission.into());
+        }
+
+        delegated_account.remove_delegate(delegate)?;
 
         Ok(())
     }
