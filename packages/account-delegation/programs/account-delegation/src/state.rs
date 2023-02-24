@@ -20,4 +20,19 @@ impl DelegatedAccount {
         self.project_account = *project_account;
         self.delegates = delegates;
     }
+
+    pub fn is_delegate(&self, delegate: Pubkey) -> Option<usize> {
+        match self.delegates.binary_search(&delegate) {
+            Ok(idx) => Some(idx),
+            _ => None,
+        }
+    }
+
+    pub fn add_delegate(&mut self, new_delegate: Pubkey) -> Result<()> {
+        if matches!(self.is_delegate(new_delegate), None) {
+            self.delegates.push(new_delegate);
+            // self.delegates.sort();
+        }
+        Ok(())
+    }
 }

@@ -26,3 +26,26 @@ pub struct CreatedDelegatedAccount<'info> {
     pub delegated: Account<'info, DelegatedAccount>, // delegated account
     pub system_program: Program<'info, System>, // system program
 }
+
+#[derive(Accounts)]
+pub struct DelegatedAccountRealloc<'info> {
+    #[account(mut)]
+    pub owner: Signer<'info>, // owner of the delegated account (can add delegates)
+    #[account(mut)]
+    pub payer: Signer<'info>, // payer of the delegated account (can be owner)
+    /// CHECK: we are not writing to the project account, so we don't need to mark it as mut
+    pub project_account: AccountInfo<'info>, // project account
+    #[account(
+        mut,
+        seeds = [
+            b"delegated_account".as_ref(),
+            project_account.key.as_ref(),
+            owner.key.as_ref(),
+        ],
+        bump
+    )]
+    pub delegated: Account<'info, DelegatedAccount>, // delegated account
+
+    pub system_program: Program<'info, System>, // system program
+    pub rent: Sysvar<'info, Rent>,              // rent sysvar
+}
