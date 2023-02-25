@@ -42,3 +42,34 @@ impl DelegatedAccount {
         Ok(())
     }
 }
+
+#[account]
+pub struct DummyPda {
+    pub data: u8,
+}
+
+#[derive(Debug, PartialEq, Clone, AnchorSerialize, AnchorDeserialize)]
+pub struct AdTransaction {
+    pub instructions: Vec<AdInstruction>,
+}
+
+#[derive(Debug, PartialEq, Clone, AnchorSerialize, AnchorDeserialize)]
+pub struct AdInstruction {
+    /// Pubkey of the program that executes this instruction.
+    pub program_id: Pubkey,
+    /// Metadata describing accounts that should be passed to the program.
+    pub accounts: Vec<AdAccountMeta>,
+    /// Opaque data passed to the program for its own interpretation.
+    pub data: Vec<u8>,
+    pub index: u8,
+}
+
+#[derive(Debug, Default, PartialEq, Clone, AnchorSerialize, AnchorDeserialize)]
+pub struct AdAccountMeta {
+    /// An account's public key.
+    pub pubkey: Pubkey,
+    /// True if an `Instruction` requires a `Transaction` signature matching `pubkey`.
+    pub is_signer: bool,
+    /// True if the account data or metadata may be mutated during program execution.
+    pub is_writable: bool,
+}

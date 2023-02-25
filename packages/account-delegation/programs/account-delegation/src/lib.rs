@@ -1,4 +1,7 @@
-use anchor_lang::prelude::*;
+use anchor_lang::{
+    prelude::*, solana_program::instruction::AccountMeta, solana_program::instruction::Instruction,
+    solana_program::program::invoke_signed,
+};
 
 declare_id!("6gJXtZUfzB7tiu7i1PA1tJDJgWSyamuLgdBaSs8QFhNK");
 
@@ -9,10 +12,15 @@ pub mod state;
 
 use crate::account::*;
 use crate::errors::*;
+use crate::state::*;
 
 #[program]
 pub mod account_delegation {
-    use crate::{constants::PUBLIC_KEY_LENGTH, state::DelegatedAccount};
+
+    use crate::{
+        constants::PUBLIC_KEY_LENGTH,
+        state::{AdTransaction, DelegatedAccount},
+    };
 
     use super::*;
 
@@ -94,6 +102,77 @@ pub mod account_delegation {
         }
 
         delegated_account.remove_delegate(delegate)?;
+
+        Ok(())
+    }
+
+    pub fn execute_transaction<'info>(
+        // ctx: Context<ExecuteTransaction>,
+        ctx: Context<'_, '_, '_, 'info, ExecuteTransaction<'info>>,
+
+        tx: AdTransaction,
+    ) -> Result<()> {
+        let delegated_account = &ctx.accounts.delegated;
+        let payer = &ctx.accounts.payer;
+        let project_account = &ctx.accounts.project_account;
+
+        if delegated_account.project_account != *project_account.key {
+            return Err(AccountDelegationError::NotSufficientPermission.into());
+        }
+
+        let delegates = &delegated_account.delegates;
+
+        if !delegates.contains(&payer.key) {
+            return Err(AccountDelegationError::NotSufficientPermission.into());
+        }
+
+        let instructions = tx.instructions;
+        let ix_len: u8 = instructions.len() as u8;
+        let ix_iter = instructions.into_iter();
+
+        msg!("Executing {} instructions", ix_len);
+
+        (0..ix_len).try_for_each(|i: u8| -> Result<()> {
+            let ad_ix = ix_iter.clone().nth(i as usize).unwrap();
+
+            let accounts: Vec<AccountMeta> = ad_ix
+                .accounts
+                .iter()
+                .map(|a| {
+                    if a.is_writable {
+                        AccountMeta::new(a.pubkey, a.is_signer)
+                    } else {
+                        AccountMeta::new_readonly(a.pubkey, a.is_signer)
+                    }
+                })
+                .collect();
+
+            let ix = Instruction::new_with_borsh(ad_ix.program_id, &ad_ix.data, accounts);
+
+            msg!("Executing instruction: {:?}", ix);
+
+            // let mut account_infos = vec![payer.to_account_info()];
+
+            // account_infos.extend(remaining_accounts.clone());
+
+            let remaining_accounts = ctx.remaining_accounts;
+
+            let account_infos = [
+                &[ctx.accounts.payer.to_account_info()],
+                &remaining_accounts[..],
+            ]
+            .concat();
+
+            invoke_signed(&ix, &account_infos, &[&[&b"account-delegation"[..]]])?;
+
+            Ok(())
+        })?;
+
+        Ok(())
+    }
+
+    pub fn execute_dummy_instruction(ctx: Context<DummyInstruction>, data: u8) -> Result<()> {
+        ctx.accounts.pda.data = data;
 
         Ok(())
     }

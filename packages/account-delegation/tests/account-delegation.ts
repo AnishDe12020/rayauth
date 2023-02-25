@@ -22,13 +22,13 @@ describe("account-delegation", () => {
 
   const newDelegate = anchor.web3.Keypair.generate();
 
-  const airdropToPayer = async () => {
-    const sig = await connection.requestAirdrop(payer.publicKey, 1000000000);
+  const airdropTo = async (pubkey: anchor.web3.PublicKey) => {
+    const sig = await connection.requestAirdrop(pubkey, 1000000000);
     await connection.confirmTransaction(sig);
   };
 
   it("creates a new delegated account", async () => {
-    await airdropToPayer();
+    await airdropTo(payer.publicKey);
 
     const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
       [
@@ -38,6 +38,23 @@ describe("account-delegation", () => {
       ],
       program.programId
     );
+
+    const ixEncoded = program.coder.instruction.encode(
+      "createDelegatedAccount",
+      program.methods
+        .createDelegatedAccount([project_account.publicKey])
+        .accounts({
+          delegated: delegatedAccount,
+          owner: userWallet.publicKey,
+          projectAccount: project_account.publicKey,
+          payer: payer.publicKey,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([payer])
+        .instruction()
+    );
+
+    console.log(ixEncoded);
 
     const createTx = await program.methods
       .createDelegatedAccount([project_account.publicKey])
@@ -175,5 +192,69 @@ describe("account-delegation", () => {
     expect(delegatedAccountInfo.delegates[0].toBase58()).to.equal(
       project_account.publicKey.toBase58()
     );
+  });
+
+  it("can execute a transaction", async () => {
+    airdropTo(project_account.publicKey);
+
+    const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("delegated_account"),
+        project_account.publicKey.toBuffer(),
+        userWallet.publicKey.toBuffer(),
+      ],
+      program.programId
+    );
+
+    const [dummyPda] = anchor.web3.PublicKey.findProgramAddressSync(
+      [Buffer.from("dummy")],
+      program.programId
+    );
+
+    console.log("userWallet: ", userWallet.publicKey.toBase58());
+    console.log("project_account: ", project_account.publicKey.toBase58());
+    console.log("delegatedAccount: ", delegatedAccount.toBase58());
+    console.log("payer: ", payer.publicKey.toBase58());
+    console.log("dummyPda: ", dummyPda.toBase58());
+
+    const dummyIx = await program.methods
+      .executeDummyInstruction(1)
+      .accounts({
+        payer: project_account.publicKey,
+        pda: dummyPda,
+      })
+      .signers([project_account])
+      .instruction();
+
+    const executeTx = await program.methods
+      .executeTransaction({
+        instructions: [
+          {
+            program_id: dummyIx.programId,
+            accounts: dummyIx.keys,
+            data: dummyIx.data,
+          },
+        ],
+      })
+      .accounts({
+        delegated: delegatedAccount,
+        owner: userWallet.publicKey,
+        payer: project_account.publicKey,
+        projectAccount: project_account.publicKey,
+      })
+      .remainingAccounts([
+        { pubkey: dummyPda, isSigner: false, isWritable: true },
+      ])
+      .signers([project_account])
+      .rpc();
+
+    console.log("executeTx: ", executeTx);
+
+    const dummyAccountInfo = await program.account.dummyPda.fetch(dummyPda);
+
+    console.log(dummyAccountInfo);
+
+    expect(dummyAccountInfo).to.not.be.null;
+    expect(dummyAccountInfo.data).to.equal(1);
   });
 });
