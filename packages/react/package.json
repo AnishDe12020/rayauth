@@ -1,0 +1,44 @@
+{
+  "name": "react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write ./**/*.{ts,json,md}",
+    "dev": "cd example && yarn dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  
+  "dependencies": {
+    "tsup": "^6.6.3"
+  },
+  "peerDependencies": {
+    "react": "^16.9.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/runtime": "^7.3.1",
+    "@rollup/plugin-babel": "^5.2.0",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-typescript": "^5.0.2",
+    "@rollup/plugin-url": "^5.0.1",
+    "@testing-library/react-hooks": "^3.2.1",
+    "@types/jest": "^23.3.13",
+    "@types/react": "^16.7.22",
+    "cross-env": "^5.2.0",
+    "gh-pages": "^2.0.1",
+    "react": "^16.9.0",
+    "react-scripts": "^3.4.0",
+    "react-test-renderer": "^16.9.0",
+    "rollup": "^2.26.9",
+    "rollup-plugin-peer-deps-external": "^2.2.0",
+    "tslib": "^2.0.1",
+    "typescript": "^3.2.4"
+  }
+}
