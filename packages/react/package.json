@@ -2,21 +2,27 @@
   "name": "react",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "author": "apoorvcodes",
+  "license": "MIT",
+  "repository": "apoorvcodes/react",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "jsnext:main": "dist/index.es.js",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsup",
-    "typecheck": "tsc --noEmit",
-    "format": "prettier --write ./**/*.{ts,json,md}",
-    "dev": "cd example && yarn dev"
+    "test": "cross-env CI=1 react-scripts test --env=jsdom",
+    "test:watch": "react-scripts test --env=jsdom",
+    "build": "rollup -c && tsc -d --emitDeclarationOnly --noEmit false --declarationDir dist",
+    "start": "rollup -c -w",
+    "prepare": "yarn run build",
+    "predeploy": "cd example && yarn install && yarn run build",
+    "deploy": "gh-pages -d example/build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  
-  "dependencies": {
-    "tsup": "^6.6.3"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^16.9.0"
   },
@@ -28,7 +34,6 @@
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-typescript": "^5.0.2",
     "@rollup/plugin-url": "^5.0.1",
-    "@testing-library/react-hooks": "^3.2.1",
     "@types/jest": "^23.3.13",
     "@types/react": "^16.7.22",
     "cross-env": "^5.2.0",
