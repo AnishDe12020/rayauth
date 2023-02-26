@@ -15,6 +15,10 @@ module.exports = {
         "gradient-1": "#45A0F5",
         "gradient-2": "#26E3C2",
       },
+      textOverflow: {
+        ellipsis: "...",
+        clip: "clip",
+      },
     },
     fontFamily: {
       ksans: ["'Kumbh Sans', sans-serif"],
