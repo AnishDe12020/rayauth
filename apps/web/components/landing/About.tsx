@@ -54,7 +54,7 @@ const About = (props: Props) => {
             backgroundClip: "text",
             fill: "transparent",
           }}
-          className="font-extrabold  text-4xl lg:text-8xl leading-9 lg:leading-[96px]"
+          className="font-extrabold  text-4xl lg:text-8xl leading-9 lg:leading-[96px] text-center md:text-left"
         >
           Next gen SDKs for your loved platforms and technologies to help users
           onboard.
@@ -71,16 +71,18 @@ const About = (props: Props) => {
       </div>
       <div className="w-full my-32 relative">
         <div className="w-fit">
-          <h3 className="font-ksans text-4xl lg:text-6xl text-white font-bold mb-9">
+          <h3 className="font-ksans text-4xl lg:text-6xl text-white font-bold mb-9 text-center md:text-left">
             Our Key Infrastructure
           </h3>
-          <h4 className="text-[#FFFFFFB2] text-base font-medium font-ksans leading-6 w-4/5 lg:w-3/5">
+          <h4 className="text-[#FFFFFFB2] text-base font-medium font-ksans leading-6 w-full lg:w-3/5 text-center md:text-left">
             We have a very secure way of saving your private keys which makes it
             near impossible to be compromised.
           </h4>
-          <button className="my-8 font-ksans font-extrabold bg-white text-black rounded-full px-6 py-3">
-            Learn More
-          </button>
+          <div className="flex justify-center lg:justify-start">
+            <button className="my-8 font-ksans font-extrabold bg-white text-black rounded-full px-6 py-3 text-center md:text-left">
+              Learn More
+            </button>
+          </div>
         </div>
 
         <div className="relative h-[30vh] lg:h-[50vh] my-2 lg:my-16 mx-auto">
@@ -90,7 +92,7 @@ const About = (props: Props) => {
             alt={"Our Key Infrastructure"}
             fill
           />
-          <div className="rounded-full overflow-hidden absolute w-[260px] h-[500px] md:w-[483px] md:h-[200px] left-[25%] top-[0] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
+          <div className="rounded-full overflow-hidden absolute w-[260px] h-[200px] md:w-[483px] lg:h-[200px] left-[25%] top-[0] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
         </div>
       </div>
     </div>

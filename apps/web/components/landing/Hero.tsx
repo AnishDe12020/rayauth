@@ -8,7 +8,7 @@ function Hero({}: Props) {
       <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] top-[158px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
       <div className="flex flex-col items-center justify-center ">
         <div>
-          <h1 className="text-[#FCFCFC] font-bold font-ksans text-5xl lg:text-8xl">
+          <h1 className="text-[#FCFCFC] font-bold font-ksans text-5xl lg:text-8xl text-center md:text-left">
             Streamline user
             <br />
             <span
@@ -19,16 +19,16 @@ function Hero({}: Props) {
                 backgroundClip: "text",
                 fill: "transparent",
               }}
-              className="text-gradient from-purple-400 to-pink-500"
+              className="text-gradient from-purple-400 to-pink-500 text-center md:text-left"
             >
               authorization
             </span>
           </h1>
-          <p className="text-[#FFFFFFB2] my-6 lg:my-8 font-ksans font-bold lg:font-semibold">
+          <p className="text-[#FFFFFFB2] my-6 lg:my-8 font-ksans font-bold lg:font-semibold text-center md:text-left">
             Our sdks and infrastructure helps you to onboard <br /> new
             generation of users
           </p>
-          <div className="flex flex-row my-6">
+          <div className="flex flex-row my-6 justify-center md:justify-start">
             <button className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-black text-lg lg:text-2xl font-ksans">
               Get Started
             </button>
