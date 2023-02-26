@@ -19,6 +19,9 @@ export const createTestTransferInstruction = (
   recipient: anchor.web3.PublicKey,
   amount = 1000000
 ) => {
+  console.log("authority: ", authority.toBase58());
+  console.log("recipient: ", recipient.toBase58());
+
   return anchor.web3.SystemProgram.transfer({
     fromPubkey: authority,
     lamports: amount,

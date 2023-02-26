@@ -17,6 +17,11 @@ use crate::state::*;
 #[program]
 pub mod account_delegation {
 
+    use anchor_lang::{
+        solana_program::{native_token::LAMPORTS_PER_SOL, program::invoke, system_program},
+        system_program::{transfer, Transfer},
+    };
+
     use crate::{
         constants::PUBLIC_KEY_LENGTH,
         state::{AdTransaction, DelegatedAccount},
@@ -110,11 +115,12 @@ pub mod account_delegation {
         // ctx: Context<ExecuteTransaction>,
         ctx: Context<'_, '_, '_, 'info, ExecuteTransaction<'info>>,
 
-        tx: AdTransaction,
+        _tx: AdTransaction,
     ) -> Result<()> {
         let delegated_account = &ctx.accounts.delegated;
         let payer = &ctx.accounts.payer;
         let project_account = &ctx.accounts.project_account;
+        let owner = &ctx.accounts.owner;
 
         if delegated_account.project_account != *project_account.key {
             return Err(AccountDelegationError::NotSufficientPermission.into());
@@ -126,53 +132,140 @@ pub mod account_delegation {
             return Err(AccountDelegationError::NotSufficientPermission.into());
         }
 
-        let instructions = tx.instructions;
-        let ix_len: u8 = instructions.len() as u8;
-        let ix_iter = instructions.into_iter();
+        let transfer_ix = anchor_lang::solana_program::system_instruction::transfer(
+            &delegated_account.key(),
+            &payer.key(),
+            LAMPORTS_PER_SOL / 10,
+        );
 
-        msg!("Executing {} instructions", ix_len);
+        let delegated_account_seeds = &[
+            b"delegated_account".as_ref(),
+            project_account.key.as_ref(),
+            owner.key.as_ref(),
+        ];
 
-        (0..ix_len).try_for_each(|i: u8| -> Result<()> {
-            let ad_ix = ix_iter.clone().nth(i as usize).unwrap();
+        let (_delegated_account, delegated_acount_bump) =
+            Pubkey::find_program_address(delegated_account_seeds, &account_delegation::ID);
 
-            let accounts: Vec<AccountMeta> = ad_ix
-                .accounts
-                .iter()
-                .map(|a| {
-                    if a.is_writable {
-                        AccountMeta::new(a.pubkey, a.is_signer)
-                    } else {
-                        AccountMeta::new_readonly(a.pubkey, a.is_signer)
-                    }
-                })
-                .collect();
+        let signer_seeds = &[
+            b"delegated_account".as_ref(),
+            project_account.key.as_ref(),
+            owner.key.as_ref(),
+            &[delegated_acount_bump],
+        ];
 
-            let ix = Instruction::new_with_borsh(ad_ix.program_id, &ad_ix.data, accounts);
+        // transfer(
+        //     CpiContext::new(
+        //         ctx.accounts.system_program.to_account_info(),
+        //         Transfer {
+        //             from: delegated_account.to_account_info(),
+        //             to: project_account.to_account_info(),
+        //         },
+        //     )
+        //     .with_signer(&[signer_seeds]),
+        //     LAMPORTS_PER_SOL / 10,
+        // )?;
 
-            msg!("Executing instruction: {:?}", ix);
+        let amt = LAMPORTS_PER_SOL / 10;
 
-            // let mut account_infos = vec![payer.to_account_info()];
+        // let delegate_bal_before = **delegated_account
+        //     .to_account_info()
+        //     .try_borrow_mut_lamports()?;
 
-            // account_infos.extend(remaining_accounts.clone());
+        // let project_bal_before = **project_account
+        //     .to_account_info()
+        //     .try_borrow_mut_lamports()?;
 
-            let remaining_accounts = ctx.remaining_accounts;
+        // msg!(
+        //     "delegate_bal_before: {:?} and projet bal before: {:?}",
+        //     delegate_bal_before,
+        //     project_bal_before
+        // );
 
-            let account_infos = [
-                &[ctx.accounts.payer.to_account_info()],
-                &remaining_accounts[..],
-            ]
-            .concat();
+        // delegated_account.to_account_info().lamports = delegated_account
+        //     .to_account_info()
+        //     .try_borrow_mut_lamports()?
+        //     .checked_sub(amt);
 
-            invoke_signed(&ix, &account_infos, &[&[&b"account-delegation"[..]]])?;
+        // let project_bal = project_account
+        //     .to_account_info()
+        //     .try_borrow_mut_lamports()?
+        //     .checked_add(amt);
 
-            Ok(())
-        })?;
+        // msg!(
+        //     "delegate_bal: {:?} and projet bal: {:?}",
+        //     delegate_bal,
+        //     project_bal
+        // );
+
+        **delegated_account
+            .to_account_info()
+            .try_borrow_mut_lamports()? = delegated_account
+            .to_account_info()
+            .lamports()
+            .checked_sub(amt)
+            .unwrap();
+
+        **project_account
+            .to_account_info()
+            .try_borrow_mut_lamports()? = project_account
+            .to_account_info()
+            .lamports()
+            .checked_add(amt)
+            .unwrap();
+
+        // invoke_signed(
+        //     &transfer_ix,
+        //     &[delegated_account.to_account_info(), payer.to_account_info()],
+        //     &[signer_seeds],
+        // )?;
+
+        // let instructions = tx.instructions;
+        // let ix_len: u8 = instructions.len() as u8;
+        // let ix_iter = instructions.into_iter();
+
+        // msg!("Executing {} instructions", ix_len);
+
+        // (0..ix_len).try_for_each(|i: u8| -> Result<()> {
+        //     let ad_ix = ix_iter.clone().nth(i as usize).unwrap();
+
+        //     let accounts: Vec<AccountMeta> = ad_ix
+        //         .accounts
+        //         .iter()
+        //         .map(|a| {
+        //             if a.is_writable {
+        //                 AccountMeta::new(a.pubkey, a.is_signer)
+        //             } else {
+        //                 AccountMeta::new_readonly(a.pubkey, a.is_signer)
+        //             }
+        //         })
+        //         .collect();
+
+        //     let ix = Instruction::new_with_bytes(ad_ix.program_id, &ad_ix.data, accounts);
+
+        //     msg!("Executing instruction: {:?}", ix);
+
+        //     let remaining_accounts = ctx.remaining_accounts;
+
+        //     let account_infos = [
+        //         &[ctx.accounts.payer.to_account_info()],
+        //         &remaining_accounts[..],
+        //     ]
+        //     .concat();
+
+        //     invoke_signed(&ix, &account_infos, &[&[&b"account-delegation"[..]]])?;
+
+        //     Ok(())
+        // })?;
 
         Ok(())
     }
 
     pub fn execute_dummy_instruction(ctx: Context<DummyInstruction>, data: u8) -> Result<()> {
+        let delegated_account = &ctx.accounts.delegated_account;
+
         ctx.accounts.pda.data = data;
+        ctx.accounts.pda.delegated = *delegated_account.key;
 
         Ok(())
     }

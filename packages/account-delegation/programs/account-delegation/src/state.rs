@@ -45,6 +45,7 @@ impl DelegatedAccount {
 
 #[account]
 pub struct DummyPda {
+    pub delegated: Pubkey,
     pub data: u8,
 }
 

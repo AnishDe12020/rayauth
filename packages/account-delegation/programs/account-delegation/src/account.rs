@@ -56,7 +56,8 @@ pub struct ExecuteTransaction<'info> {
     pub owner: AccountInfo<'info>, // owner of the delegated account (can add delegates)
     #[account(mut)]
     pub payer: Signer<'info>, // payer of the delegated account (can be owner)
-    /// CHECK: we are not writing to the project account, so we don't need to mark it as mut
+    #[account(mut)]
+    /// CHECK: safe
     pub project_account: AccountInfo<'info>, // project account
     #[account(
         mut,
@@ -76,11 +77,13 @@ pub struct ExecuteTransaction<'info> {
 pub struct DummyInstruction<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
+    /// CHECK: we are not writing to the project account, so we don't need to mark it as mut
+    pub delegated_account: AccountInfo<'info>,
     #[account(
         init,
         payer = payer,
-        space = 16,
-        seeds = [b"dummy".as_ref()],
+        space = 48,
+        seeds = [delegated_account.key.as_ref(), b"dummy".as_ref()],
         bump,
     )]
     pub pda: Account<'info, DummyPda>,

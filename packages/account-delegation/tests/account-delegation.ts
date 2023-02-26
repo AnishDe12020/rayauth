@@ -222,9 +222,34 @@ describe("account-delegation", () => {
       .accounts({
         payer: project_account.publicKey,
         pda: dummyPda,
+        delegatedAccount: delegatedAccount,
       })
       .signers([project_account])
       .instruction();
+
+    const transferIx = createTestTransferInstruction(
+      // project_account.publicKey,
+      payer.publicKey,
+      delegatedAccount,
+      0.2 * anchor.web3.LAMPORTS_PER_SOL
+    );
+
+    // console.log("transferIx: ", transferIx);
+
+    const trSig = await anchor.web3.sendAndConfirmTransaction(
+      connection,
+      new anchor.web3.Transaction().add(transferIx),
+      [payer]
+    );
+
+    // console.log("trSig: ", trSig);
+
+    // get SOL balance of delegated account
+    const delegatedAccountInfoBefore = await connection.getAccountInfo(
+      delegatedAccount
+    );
+
+    const delegatedAccountLamportsBefore = delegatedAccountInfoBefore?.lamports;
 
     const executeTx = await program.methods
       .executeTransaction({
@@ -250,11 +275,22 @@ describe("account-delegation", () => {
 
     console.log("executeTx: ", executeTx);
 
-    const dummyAccountInfo = await program.account.dummyPda.fetch(dummyPda);
+    // get SOL balance of delegated account
+    const delegatedAccountInfoAfter = await connection.getAccountInfo(
+      delegatedAccount
+    );
 
-    console.log(dummyAccountInfo);
+    const delegatedAccountLamportsAfter = delegatedAccountInfoAfter?.lamports;
 
-    expect(dummyAccountInfo).to.not.be.null;
-    expect(dummyAccountInfo.data).to.equal(1);
+    expect(delegatedAccountLamportsAfter).to.equal(
+      delegatedAccountLamportsBefore - 0.1 * anchor.web3.LAMPORTS_PER_SOL
+    );
+
+    // const dummyAccountInfo = await program.account.dummyPda.fetch(dummyPda);
+
+    // console.log(dummyAccountInfo);
+
+    // expect(dummyAccountInfo).to.not.be.null;
+    // expect(dummyAccountInfo.data).to.equal(1);
   });
 });
