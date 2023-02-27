@@ -44,7 +44,7 @@ model Project {
   callbackUrls  String[]
   ProjectMember ProjectMember[]
   ClientSecret  ClientSecret?
-  GasTank       GasTank[]
+  GasTank       GasTank?
 }
 
 model ProjectMember {
@@ -74,7 +74,7 @@ model GasTank {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   project    Project  @relation(fields: [projectId], references: [id])
-  projectId  String   @db.ObjectId
+  projectId  String   @unique @db.ObjectId
   address    String
   privateKey String
 }
