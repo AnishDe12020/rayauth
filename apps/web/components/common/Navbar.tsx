@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -10,35 +11,35 @@ const Navbar = () => {
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <a
+            <Link
               href="/"
               className="font-bold text-[#FCFCFC] font-ksans text-2xl lg:text-3xl"
             >
               RayAuth
-            </a>
+            </Link>
           </div>
           <div className="hidden md:block font-ksans">
             <div className="ml-10 flex items-baseline space-x-4">
-              <a
+              <Link
                 href="/"
                 className="hover:text-slate-50 px-10  text-white rounded-md text-lg font-semibold"
               >
                 MEMO
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/"
                 className="hover:text-slate-50 px-10  text-white rounded-md text-lg font-semibold"
               >
                 DOCS
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/contact"
                 className="hover:text-slate-50 px-8   rounded-md text-lg font-semibold"
               >
                 <button className="rounded-2xl text-black bg-white px-3 py-1">
                   Get Started
                 </button>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -80,26 +81,26 @@ const Navbar = () => {
 
       <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
         <div className="flex flex-col items-baseline space-x-4 text-center w-full ">
-          <a
+          <Link
             href="/"
             className="hover:text-slate-50 px-10  text-white rounded-md text-base my-4 font-semibold w-full"
           >
             MEMO
-          </a>
-          <a
+          </Link>
+          <Link
             href="/"
             className="hover:text-slate-50 px-10  text-white rounded-md text-base my-4 font-semibold w-full"
           >
             DOCS
-          </a>
-          <a
+          </Link>
+          <Link
             href="/contact"
             className="hover:text-slate-50 px-10   rounded-md text-lg my-4 font-semibold w-full"
           >
             <button className="rounded-2xl text-black bg-white px-4 py-2">
               Get Started
             </button>
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
