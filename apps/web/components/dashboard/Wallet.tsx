@@ -3,28 +3,36 @@ import { AiOutlineQrcode, AiOutlineScan, AiOutlineWifi } from "react-icons/ai";
 import Button from "../common/Button";
 import { BiRefresh } from "react-icons/bi";
 type Props = {};
-
+const AccountOption = () => {
+  return (
+    <div className="flex flex-row items-center">
+      <button className="border h-fit p-1 lg:p-2 rounded-full mx-2">
+        <AiOutlineQrcode />
+      </button>
+      <button className="text-xs truncate block w-28 border px-2 rounded-full mx-2 p-1 lg:p-2">
+        34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM
+      </button>
+      <button className=" text-xs border px-2 rounded-full mx-2 flex flex-row items-center p-1 lg:p-2">
+        <AiOutlineScan className="mx-2 text-sm" /> scan and pay
+      </button>
+    </div>
+  );
+};
 const Wallet = (props: Props) => {
   return (
     <div className="my-1 md:my-6 block max-w-2xl p-6  border border-transparent rounded-lg shadow  mx-auto font-ksans">
+      <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] lg:left-[530px] top-[158px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
+
       <div className="flex flex-col text-white ">
         {/* Header */}
         <div className="flex flex-row justify-between w-full py-6 ">
           <div>
-            <h3 className="font-ksans  text-3xl font-medium">
+            <h3 className="font-ksans text-xl lg:text-3xl font-medium">
               Account Balance
             </h3>
           </div>
-          <div className="flex flex-row">
-            <button className="border p-2 rounded-full mx-2">
-              <AiOutlineQrcode />
-            </button>
-            <button className="text-xs truncate block w-28 border px-2 rounded-full mx-2">
-              34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM
-            </button>
-            <button className=" text-xs border px-2 rounded-full mx-2 flex flex-row items-center">
-              <AiOutlineScan className="mx-2 text-sm" /> scan and pay
-            </button>
+          <div className="hidden lg:block">
+            <AccountOption />
           </div>
         </div>
         {/* Body */}
@@ -68,6 +76,9 @@ const Wallet = (props: Props) => {
               Transfer
             </Button>
           </div>
+        </div>
+        <div className=" lg:hidden my-4 flex justify-center">
+          <AccountOption />
         </div>
         {/* Footer */}
         <div className="py-4">

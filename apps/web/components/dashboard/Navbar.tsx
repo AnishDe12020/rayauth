@@ -8,15 +8,16 @@ type Props = {};
 
 const Links = [
   {
-    name: "Home",
-    href: "/",
-    icon: <AiOutlineHome />,
-  },
-  {
     name: "Wallet",
     href: "/wallet",
     icon: <BsWallet2 />,
   },
+  {
+    name: "NFTs",
+    href: "/",
+    icon: <AiOutlineHome />,
+  },
+
   {
     name: "Settings",
     href: "/settings",
@@ -30,7 +31,7 @@ const Navbar = (props: Props) => {
       <div>
         <h2 className="font-ksans text-2xl font-medium">RayAuth</h2>
       </div>
-      <div className=" flex flex-row flex-1 justify-center absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:static md:translate-x-0 md:translate-y-0">
+      <div className=" flex flex-row flex-1 justify-center fixed bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-0 md:static md:translate-x-0 md:translate-y-0 bg-gray-900 lg:bg-transparent w-full">
         {Links.map((link, key) => {
           return (
             <div
