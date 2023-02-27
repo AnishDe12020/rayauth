@@ -8,7 +8,7 @@ type Props = {};
 
 const LandingPage = (props: Props) => {
   return (
-    <div>
+    <div className="max-w-screen-xl mx-auto">
       <Hero />
       <About />
     </div>
