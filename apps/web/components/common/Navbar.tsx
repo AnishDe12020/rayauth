@@ -6,13 +6,13 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="bg-transparent py-6">
+    <nav className="bg-transparent py-6 max-w-screen-xl mx-auto">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             <a
               href="/"
-              className="font-bold text-[#FCFCFC] font-ksans text-2xl lg:text-5xl"
+              className="font-bold text-[#FCFCFC] font-ksans text-2xl lg:text-3xl"
             >
               RayAuth
             </a>
@@ -21,21 +21,21 @@ const Navbar = () => {
             <div className="ml-10 flex items-baseline space-x-4">
               <a
                 href="/"
-                className="hover:text-slate-50 px-10  text-white rounded-md text-2xl font-semibold"
+                className="hover:text-slate-50 px-10  text-white rounded-md text-lg font-semibold"
               >
                 MEMO
               </a>
               <a
                 href="/"
-                className="hover:text-slate-50 px-10  text-white rounded-md text-2xl font-semibold"
+                className="hover:text-slate-50 px-10  text-white rounded-md text-lg font-semibold"
               >
                 DOCS
               </a>
               <a
                 href="/contact"
-                className="hover:text-slate-50 px-10   rounded-md text-xl font-semibold"
+                className="hover:text-slate-50 px-8   rounded-md text-lg font-semibold"
               >
-                <button className="rounded-2xl text-black bg-white px-4 py-2">
+                <button className="rounded-2xl text-black bg-white px-3 py-1">
                   Get Started
                 </button>
               </a>
@@ -82,13 +82,13 @@ const Navbar = () => {
         <div className="flex flex-col items-baseline space-x-4 text-center w-full ">
           <a
             href="/"
-            className="hover:text-slate-50 px-10  text-white rounded-md text-lg my-4 font-semibold w-full"
+            className="hover:text-slate-50 px-10  text-white rounded-md text-base my-4 font-semibold w-full"
           >
             MEMO
           </a>
           <a
             href="/"
-            className="hover:text-slate-50 px-10  text-white rounded-md text-lg my-4 font-semibold w-full"
+            className="hover:text-slate-50 px-10  text-white rounded-md text-base my-4 font-semibold w-full"
           >
             DOCS
           </a>

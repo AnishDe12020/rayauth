@@ -54,7 +54,7 @@ const About = (props: Props) => {
             backgroundClip: "text",
             fill: "transparent",
           }}
-          className="font-extrabold  text-4xl lg:text-8xl leading-9 lg:leading-[96px] text-center md:text-left"
+          className="font-extrabold  text-4xl lg:text-6xl leading-9 lg:leading-[80px] text-center md:text-left"
         >
           Next gen SDKs for your loved platforms and technologies to help users
           onboard.
