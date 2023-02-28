@@ -217,7 +217,7 @@ describe("account-delegation", () => {
     console.log("payer: ", payer.publicKey.toBase58());
     console.log("dummyPda: ", dummyPda.toBase58());
 
-    const dummyIx = await program.methods
+    const ix = await program.methods
       .executeDummyInstruction(1)
       .accounts({
         payer: project_account.publicKey,
@@ -227,40 +227,47 @@ describe("account-delegation", () => {
       .signers([project_account])
       .instruction();
 
-    const transferIx = createTestTransferInstruction(
-      // project_account.publicKey,
-      payer.publicKey,
-      delegatedAccount,
-      0.2 * anchor.web3.LAMPORTS_PER_SOL
-    );
+    console.log("ix.programId.toBase58()", ix.programId.toBase58());
 
-    // console.log("transferIx: ", transferIx);
-
-    const trSig = await anchor.web3.sendAndConfirmTransaction(
-      connection,
-      new anchor.web3.Transaction().add(transferIx),
-      [payer]
-    );
-
-    // console.log("trSig: ", trSig);
-
-    // get SOL balance of delegated account
-    const delegatedAccountInfoBefore = await connection.getAccountInfo(
-      delegatedAccount
-    );
-
-    const delegatedAccountLamportsBefore = delegatedAccountInfoBefore?.lamports;
+    // const ix = new anchor.web3.TransactionInstruction({
+    //   keys: [
+    //     {
+    //       pubkey: project_account.publicKey,
+    //       isSigner: true,
+    //       isWritable: true,
+    //     },
+    //     {
+    //       pubkey: delegatedAccount,
+    //       isSigner: true,
+    //       isWritable: false,
+    //     },
+    //     {
+    //       pubkey: dummyPda,
+    //       isSigner: false,
+    //       isWritable: true,
+    //     },
+    //     {
+    //       pubkey: anchor.web3.SystemProgram.programId,
+    //       isSigner: false,
+    //       isWritable: false,
+    //     },
+    //   ],
+    //   programId: program.programId,
+    //   data: Buffer.from("1"),
+    // });
 
     const executeTx = await program.methods
       .executeTransaction({
         instructions: [
           {
-            program_id: dummyIx.programId,
-            accounts: dummyIx.keys,
-            data: dummyIx.data,
+            programId: ix.programId,
+            accounts: ix.keys,
+            data: ix.data,
+            index: 1,
           },
         ],
       })
+      // .executeTransaction("gm")
       .accounts({
         delegated: delegatedAccount,
         owner: userWallet.publicKey,
@@ -269,22 +276,16 @@ describe("account-delegation", () => {
       })
       .remainingAccounts([
         { pubkey: dummyPda, isSigner: false, isWritable: true },
+        {
+          pubkey: anchor.web3.SystemProgram.programId,
+          isSigner: false,
+          isWritable: false,
+        },
       ])
       .signers([project_account])
       .rpc();
 
     console.log("executeTx: ", executeTx);
-
-    // get SOL balance of delegated account
-    const delegatedAccountInfoAfter = await connection.getAccountInfo(
-      delegatedAccount
-    );
-
-    const delegatedAccountLamportsAfter = delegatedAccountInfoAfter?.lamports;
-
-    expect(delegatedAccountLamportsAfter).to.equal(
-      delegatedAccountLamportsBefore - 0.1 * anchor.web3.LAMPORTS_PER_SOL
-    );
 
     // const dummyAccountInfo = await program.account.dummyPda.fetch(dummyPda);
 

@@ -5,7 +5,8 @@
     },
     "dependencies": {
         "@lumina-dev/test": "^0.0.12",
-        "@project-serum/anchor": "^0.25.0"
+        "@project-serum/anchor": "^0.25.0",
+        "borsh": "^0.7.0"
     },
     "devDependencies": {
         "@types/bn.js": "^5.1.0",
