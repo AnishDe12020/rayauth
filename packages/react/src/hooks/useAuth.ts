@@ -34,6 +34,7 @@ function providerFunc(options: config): () => void {
       const url = new URL(`http://localhost:8080/auth/${options.provider}`)
       url.searchParams.append("cb", options.callbackUrl)
       url.searchParams.append("id", options.clientId)
+      console.log(url.toString())
       window.location.replace(url.toString());
     }
 }

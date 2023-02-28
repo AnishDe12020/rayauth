@@ -1,5 +1,5 @@
 export enum providers {
-    discord = "DISCORD",
-    github = "GITHUB",
-    google = "GOOGLE"
+    discord = "discord",
+    github = "github",
+    google = "google"
 }
