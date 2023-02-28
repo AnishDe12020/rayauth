@@ -220,7 +220,6 @@ describe("account-delegation", () => {
     const ix = await program.methods
       .executeDummyInstruction(1)
       .accounts({
-        payer: project_account.publicKey,
         pda: dummyPda,
         delegatedAccount: delegatedAccount,
       })
@@ -275,9 +274,15 @@ describe("account-delegation", () => {
         projectAccount: project_account.publicKey,
       })
       .remainingAccounts([
+        { pubkey: delegatedAccount, isSigner: true, isWritable: true },
         { pubkey: dummyPda, isSigner: false, isWritable: true },
         {
           pubkey: anchor.web3.SystemProgram.programId,
+          isSigner: false,
+          isWritable: false,
+        },
+        {
+          pubkey: anchor.web3.SYSVAR_RENT_PUBKEY,
           isSigner: false,
           isWritable: false,
         },

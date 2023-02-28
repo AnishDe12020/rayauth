@@ -127,13 +127,13 @@ pub mod account_delegation {
             return Err(AccountDelegationError::NotSufficientPermission.into());
         }
 
-        msg!("Executing transaction: {:?}", tx);
+        // msg!("Executing transaction: {:?}", tx);
 
         let instructions = tx.instructions;
         let ix_len: u8 = instructions.len() as u8;
         let ix_iter = instructions.into_iter();
 
-        msg!("Executing {} instructions", ix_len);
+        // msg!("Executing {} instructions", ix_len);
 
         (0..ix_len).try_for_each(|i: u8| -> Result<()> {
             let ad_ix = ix_iter.clone().nth(i as usize).unwrap();
@@ -150,23 +150,26 @@ pub mod account_delegation {
                 })
                 .collect();
 
-            msg!("data, {:?}", ad_ix.data);
+            // msg!("data, {:?}", ad_ix.data);
             // deserialize this data field into its value
 
             let ix = Instruction::new_with_bincode(ad_ix.program_id, &ad_ix.data, accounts);
 
-            msg!("Executing instruction: {:?}", ix);
+            // msg!("Executing instruction: {:?}", ix);
 
             let remaining_accounts = ctx.remaining_accounts;
 
-            msg!("remaining accounts: {:?}", remaining_accounts);
+            // msg!("remaining accounts: {:?}", remaining_accounts);
 
-            let account_infos = [
-                &[ctx.accounts.payer.to_account_info()],
-                &[ctx.accounts.delegated.to_account_info()],
-                &remaining_accounts[..],
-            ]
-            .concat();
+            // let account_infos = [
+            //     &[
+            //         ctx.accounts.payer.to_account_info(),
+            //         ctx.accounts.delegated.to_account_info(),
+
+            //     ],
+            //     &remaining_accounts[..],
+            // ]
+            // .concat();
 
             let delegated_account_seeds = &[
                 b"delegated_account".as_ref(),
@@ -184,9 +187,9 @@ pub mod account_delegation {
                 &[delegated_acount_bump],
             ];
 
-            // msg!("account infos: {:?}", account_infos);
+            msg!("account infos: {:?}", remaining_accounts);
 
-            invoke_signed(&ix, &account_infos, &[signer_seeds])?;
+            invoke_signed(&ix, &remaining_accounts, &[signer_seeds])?;
 
             Ok(())
         })?;
