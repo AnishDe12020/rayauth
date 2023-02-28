@@ -2,9 +2,9 @@ import { SECERET } from "../../constant";
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { prisma } from "../../../lib/db";
-import { jwtInterface } from "src/interfaces/jwt";
-import { getCombinedKey } from "src/helpers/getAuthKey";
-import { combineKey, sliceKey } from "src/helpers";
+import { jwtInterface } from "../../interfaces/jwt";
+import { getCombinedKey } from "../../helpers/getAuthKey";
+import { combineKey, sliceKey } from "../../helpers";
 export function deviceShare() {
   return async (req: Request, res: Response) => {
     const auth = req.headers.authorization?.replace("Bearer ", "");
