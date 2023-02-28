@@ -1,11 +1,16 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-import {useMyHook} from "../../src"
+import {useAuth} from "../../src"
+import { providers } from '../../src/enums'
 
 function App() {
   const [count, setCount] = useState(0)
-  useMyHook()
+  const signIn = useAuth({
+    clientId: "hi",
+    callbackUrl: "/",
+    provider: providers.discord
+  })
   return (
     <div className="App">
       <div>
@@ -21,7 +26,7 @@ function App() {
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
+        <p onClick={() => signIn.signIn()}>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
