@@ -19,9 +19,10 @@ export function userController() {
       res.end();
       return;
     }
+    console.log(data)
     const user = await prisma.user.findUnique({
       where: {
-        id: data.email,
+        email: data.email,
       },
     });
     if (!user) {
@@ -30,6 +31,5 @@ export function userController() {
       return;
     }
     res.status(200).json(user);
-    res.send("Hello");
   };
 }

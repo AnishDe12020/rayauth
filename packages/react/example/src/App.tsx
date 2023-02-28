@@ -11,11 +11,12 @@ function App() {
     callbackUrl: "http://localhost:5173",
     provider: providers.google
   })
+  console.log("User", user)
   return (
     <div className="App">
      <button onClick={() => signIn()}> SignIn </button>
      <button onClick={() => signOut()}> SignOut </button>
-     <div> {user?.email} </div>
+     <div> {user?.address} </div>
      <div>{String(isLoading)} </div>
 
 

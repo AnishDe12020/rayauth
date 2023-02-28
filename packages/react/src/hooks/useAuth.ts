@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { config } from "../interfaces"
+import { config, userOptions } from "../interfaces"
 import {useCookies} from "react-cookie"
 import { authInterface } from "../interfaces/auth";
 import { userConstructor } from "../classes";
@@ -9,21 +9,20 @@ import { getUser } from "../helpers/fetchUser";
 
 export function useAuth(config: config): authInterface{ 
 handleCallback();
-let user:userConstructor|null = new userConstructor()
- 
+ let user:userConstructor|null = null
  let isLoading = true
- const [cookies, _, removeCookie] = useCookies(['token']);
+ const [cookies, _, removeCookie] = useCookies(['jwt-rayauth']);
  const signIn = providerFunc(config)
    const signOut = signOutFunc(removeCookie)
-  if(!cookies.token) {
-   user = null
-  //  setIsLoading(false)
-   return {signIn, signOut,user,isLoading}
+  if(!cookies["jwt-rayauth"]) {
+    console.log(cookies["jwt-rayauth"])
+    console.log("doesnt run")
+    user = null
+    return {signIn, signOut,user,isLoading}
   }
-  getUser(cookies.token, user)
 
-  // setIsLoading(true)
-  console.log(user)
+  console.log(getUser(cookies["jwt-rayauth"]))
+  console.log("address", user)
   return {signIn, signOut,user,isLoading}
 }   
 
@@ -41,20 +40,20 @@ function providerFunc(options: config): () => void {
 
 function signOutFunc(removeCookie: any) {
   return function signOut(){
-    removeCookie("token")
+    removeCookie("jwt-rayauth")
   }
 }
 
 
 function handleCallback() {
   console.log("RUNNING CALLBACK")
-  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [cookies, setCookie, removeCookie] = useCookies(['jwt-rayauth']);
    const urlParams = new URLSearchParams(window.location.search);
    const jwt = urlParams.get('jwt');
    if(!jwt) return;
-   if(cookies.token) {
-    removeCookie("token");
-    setCookie("token", jwt)
+   if(cookies["jwt-rayauth"]) {
+    removeCookie("jwt-rayauth");
+    setCookie("jwt-rayauth", jwt)
   }
 }
 

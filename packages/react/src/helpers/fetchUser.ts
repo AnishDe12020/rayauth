@@ -4,33 +4,23 @@ import { BASEURL } from "../constants"
 
 
 
-export  function getUser(jwt: string, setUser: userConstructor | null) {
- axios.get(`${BASEURL}/user`, {
+export async function getUser(jwt: string):Promise<userConstructor> {
+ const data = await axios.get(`${BASEURL}/user`, {
     headers: {
         "Authorization": `Bearer ${jwt}`
     }
- }).then(data => {
-    if(data.status == 200) {
-      if(setUser == null) return;
-        setUser.id = data.data.user,
-        setUser.createdAt = data.data.createdAt,
-        setUser.updatedAt = data.data.updatedAt,
-        setUser.email = data.data.email,
-        setUser.address = data.data.address,
-        setUser.avatar = data.data.avatar
-      
-      return
-    }else {
-        console.log(data.data)
-        console.log("err", data.status)
-        setUser = null
-        return
-    }
- }).catch(err => {
-   setUser = null
-   console.log(err);
-   return
  })
+
+ const returnData = new userConstructor({
+  id: data.data.id,
+  createdAt: data.data.createdAt,
+  updatedAt: data.data.updatedAt,
+  email: data.data.email,
+  address: data.data.address,
+  avatar: data.data.avatar,
+ })
+
+return returnData
 }
 
 
