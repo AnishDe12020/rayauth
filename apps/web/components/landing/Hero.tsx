@@ -4,11 +4,11 @@ type Props = {};
 import authcard from "../../public/assets/authcard.svg";
 function Hero({}: Props) {
   return (
-    <div className="my-16 flex flex-col lg:flex-row justify-between max-w-screen-2xl mx-auto w-11/12">
-      <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] top-[158px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
+    <div className="relative my-16 flex flex-col lg:flex-row justify-between max-w-screen-xl mx-auto w-11/12">
+      <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] md:left-[650px] top-[158px] md:top-[100px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
       <div className="flex flex-col items-center justify-center ">
         <div>
-          <h1 className="text-[#FCFCFC] font-bold font-ksans text-5xl lg:text-8xl text-center md:text-left">
+          <h1 className="text-[#FCFCFC] font-bold font-ksans text-4xl lg:text-7xl text-center md:text-left">
             Streamline user
             <br />
             <span
@@ -29,10 +29,10 @@ function Hero({}: Props) {
             generation of users
           </p>
           <div className="flex flex-row my-6 justify-center md:justify-start">
-            <button className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-black text-lg lg:text-2xl font-ksans">
+            <button className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans">
               Get Started
             </button>
-            <button className="px-3 md:px-8 py-0 lg:py-2 ml-4 lg:ml-8 rounded-xl  lg:rounded-full text-white border-solid border-2 font-bold lg:font-black text-lg lg:text-2xl font-ksans border-slate-50 ">
+            <button className="px-3 md:px-8 py-0 lg:py-2 ml-4 lg:ml-8 rounded-xl  lg:rounded-full text-white border-solid border-2 font-bold lg:font-bold text-base lg:text-xl font-ksans border-slate-50 ">
               Documentation
             </button>
           </div>
