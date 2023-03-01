@@ -5,6 +5,7 @@ import { TESTP } from "../constant";
 export function setQuery() {
   return async (req: Request, _: Response, next: NextFunction) => {
     var { id, cb } = req.query;
+    console.log(id, cb)
     if (id?.toString().toUpperCase() == "TEST") id = TESTP;
     if (!cb) {
       next();
@@ -19,10 +20,8 @@ export function setQuery() {
     if (!project) {
       cb = "https://localhost:3000/error";
     }
-    if (!project?.callbackUrls.includes(cb.toString())) {
-      cb = "https://localhost:3000/error";
-    }
-
+    
+   console.log(project?.callbackUrls)
     store.set("data", {
       callback: cb.toString(),
       clientId: id?.toString(),

@@ -32,6 +32,7 @@
     "@elasticemail/elasticemail-client-ts-axios": "^4.0.22",
     "@prisma/client": "^4.10.1",
     "@sendgrid/mail": "^7.7.0",
+    "@solana/octane-core": "https://gitpkg.now.sh/solana-labs/octane/packages/core?630a8d6afc90d2fe5aad88db2dc56c880cdbb5ad&scripts.postinstall=yarn%20install%20--ignore-scripts%20%26%26%20yarn%20run%20build",
     "@solana/web3.js": "^1.73.0",
     "@typegoose/typegoose": "^10.1.1",
     "@types/express": "^4.17.17",
