@@ -303,7 +303,6 @@ describe("account-delegation", () => {
       })
       .remainingAccounts([
         { pubkey: project_account.publicKey, isSigner: true, isWritable: true },
-        { pubkey: delegatedAccount, isSigner: false, isWritable: true },
         { pubkey: dummyPda, isSigner: false, isWritable: true },
         {
           pubkey: anchor.web3.SystemProgram.programId,
