@@ -187,7 +187,14 @@ pub mod account_delegation {
                 &[delegated_acount_bump],
             ];
 
-            msg!("account infos: {:?}", remaining_accounts);
+            let (dummy_pda, _dummy_pda_bump) =
+                Pubkey::find_program_address(&[b"dummy".as_ref()], &account_delegation::ID);
+
+            msg!("dummy pda: {:?}", dummy_pda);
+
+            msg!("ix: {:?}", ix);
+
+            // msg!("account infos: {:?}", remaining_accounts);
 
             invoke_signed(&ix, &remaining_accounts, &[signer_seeds])?;
 
@@ -197,9 +204,9 @@ pub mod account_delegation {
         Ok(())
     }
 
-    pub fn execute_dummy_instruction(ctx: Context<DummyInstruction>, data: u8) -> Result<()> {
-        ctx.accounts.pda.data = data;
+    // pub fn execute_dummy_instruction(ctx: Context<DummyInstruction>, data: u8) -> Result<()> {
+    //     ctx.accounts.pda.data = data;
 
-        Ok(())
-    }
+    //     Ok(())
+    // }
 }

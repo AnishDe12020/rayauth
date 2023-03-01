@@ -1,6 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { AccountDelegation } from "../target/types/account_delegation";
+import { DummyProgram } from "../target/types/dummy_program";
 
 import lumina from "@lumina-dev/test";
 import { expect } from "chai";
@@ -14,6 +15,8 @@ describe("account-delegation", () => {
 
   const program = anchor.workspace
     .AccountDelegation as Program<AccountDelegation>;
+  const dummyProgram = anchor.workspace.DummyProgram as Program<DummyProgram>;
+
   const connection = anchor.getProvider().connection;
   const userWallet = anchor.workspace.AccountDelegation.provider.wallet;
 
@@ -194,6 +197,44 @@ describe("account-delegation", () => {
     );
   });
 
+  it("can execute dummy instruction", async () => {
+    const [dummyPda] = anchor.web3.PublicKey.findProgramAddressSync(
+      [Buffer.from("dummy")],
+      dummyProgram.programId
+    );
+
+    const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("delegated_account"),
+        project_account.publicKey.toBuffer(),
+        userWallet.publicKey.toBuffer(),
+      ],
+      program.programId
+    );
+
+    // const dummyTx = await program.methods
+    //   .executeDummyInstruction(1)
+    //   .accounts({
+    //     payer: payer.publicKey,
+    //     delegatedAccount: delegatedAccount,
+    //     pda: dummyPda,
+    //   })
+    //   .signers([payer])
+    //   .rpc();
+
+    const dummyTx = await dummyProgram.methods
+      .executeDummyInstruction(1)
+      .accounts({
+        payer: payer.publicKey,
+        delegatedAccount: delegatedAccount,
+        pda: dummyPda,
+      })
+      .signers([payer])
+      .rpc();
+
+    console.log("dummyTx: ", dummyTx);
+  });
+
   it("can execute a transaction", async () => {
     airdropTo(project_account.publicKey);
 
@@ -208,7 +249,7 @@ describe("account-delegation", () => {
 
     const [dummyPda] = anchor.web3.PublicKey.findProgramAddressSync(
       [Buffer.from("dummy")],
-      program.programId
+      dummyProgram.programId
     );
 
     console.log("userWallet: ", userWallet.publicKey.toBase58());
@@ -217,13 +258,13 @@ describe("account-delegation", () => {
     console.log("payer: ", payer.publicKey.toBase58());
     console.log("dummyPda: ", dummyPda.toBase58());
 
-    const ix = await program.methods
+    const ix = await dummyProgram.methods
       .executeDummyInstruction(1)
       .accounts({
+        payer: project_account.publicKey,
         pda: dummyPda,
         delegatedAccount: delegatedAccount,
       })
-      .signers([project_account])
       .instruction();
 
     console.log("ix.programId.toBase58()", ix.programId.toBase58());
@@ -266,7 +307,6 @@ describe("account-delegation", () => {
           },
         ],
       })
-      // .executeTransaction("gm")
       .accounts({
         delegated: delegatedAccount,
         owner: userWallet.publicKey,
@@ -274,7 +314,8 @@ describe("account-delegation", () => {
         projectAccount: project_account.publicKey,
       })
       .remainingAccounts([
-        { pubkey: delegatedAccount, isSigner: true, isWritable: true },
+        { pubkey: project_account.publicKey, isSigner: true, isWritable: true },
+        { pubkey: delegatedAccount, isSigner: false, isWritable: true },
         { pubkey: dummyPda, isSigner: false, isWritable: true },
         {
           pubkey: anchor.web3.SystemProgram.programId,

@@ -43,11 +43,10 @@ impl DelegatedAccount {
     }
 }
 
-#[account]
-pub struct DummyPda {
-    pub delegated: Pubkey,
-    pub data: u8,
-}
+// #[account]
+// pub struct DummyPda {
+//     pub data: u8,
+// }
 
 #[derive(Debug, PartialEq, Clone, AnchorSerialize, AnchorDeserialize)]
 pub struct AdTransaction {

@@ -73,18 +73,20 @@ pub struct ExecuteTransaction<'info> {
     pub rent: Sysvar<'info, Rent>,              // rent sysvar
 }
 
-#[derive(Accounts)]
-pub struct DummyInstruction<'info> {
-    #[account(mut)]
-    pub delegated_account: Signer<'info>,
-    #[account(
-        init,
-        payer = delegated_account,
-        space = 48,
-        seeds = [delegated_account.key.as_ref(), b"dummy".as_ref()],
-        bump,
-    )]
-    pub pda: Account<'info, DummyPda>,
-    pub system_program: Program<'info, System>,
-    pub rent: Sysvar<'info, Rent>,
-}
+// #[derive(Accounts)]
+// pub struct DummyInstruction<'info> {
+//     #[account(mut)]
+//     pub payer: Signer<'info>,
+//     /// CHECK: we are not writing to the owner account, so we don't need to mark it as mut
+//     pub delegated_account: AccountInfo<'info>,
+//     #[account(
+//         init,
+//         payer = payer,
+//         space = 16,
+//         seeds = [b"dummy".as_ref()],
+//         bump,
+//     )]
+//     pub pda: Account<'info, DummyPda>,
+//     pub system_program: Program<'info, System>,
+//     pub rent: Sysvar<'info, Rent>,
+// }

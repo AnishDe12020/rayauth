@@ -3,6 +3,7 @@ seeds = false
 skip-lint = false
 [programs.localnet]
 account_delegation = "6gJXtZUfzB7tiu7i1PA1tJDJgWSyamuLgdBaSs8QFhNK"
+dummy_program = "6Xf5XGsg8trkvZnNenGpusQJudfTPY77Girr6TVDkqMs"
 
 [registry]
 url = "https://api.apr.dev"
