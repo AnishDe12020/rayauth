@@ -17,8 +17,6 @@ pub mod dummy_program {
 pub struct DummyInstruction<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
-    /// CHECK: we are not writing to the owner account, so we don't need to mark it as mut
-    pub delegated_account: AccountInfo<'info>,
     #[account(
         init,
         payer = payer,

@@ -187,14 +187,16 @@ pub mod account_delegation {
                 &[delegated_acount_bump],
             ];
 
-            let (dummy_pda, _dummy_pda_bump) =
-                Pubkey::find_program_address(&[b"dummy".as_ref()], &account_delegation::ID);
+            let (dummy_pda, _dummy_pda_bump) = Pubkey::find_program_address(
+                &[b"dummy".as_ref()],
+                &Pubkey::try_from("6Xf5XGsg8trkvZnNenGpusQJudfTPY77Girr6TVDkqMs").unwrap(),
+            );
 
             msg!("dummy pda: {:?}", dummy_pda);
 
-            msg!("ix: {:?}", ix);
+            // msg!("ix: {:?}", ix);
 
-            // msg!("account infos: {:?}", remaining_accounts);
+            msg!("account infos: {:?}", remaining_accounts);
 
             invoke_signed(&ix, &remaining_accounts, &[signer_seeds])?;
 

@@ -212,21 +212,10 @@ describe("account-delegation", () => {
       program.programId
     );
 
-    // const dummyTx = await program.methods
-    //   .executeDummyInstruction(1)
-    //   .accounts({
-    //     payer: payer.publicKey,
-    //     delegatedAccount: delegatedAccount,
-    //     pda: dummyPda,
-    //   })
-    //   .signers([payer])
-    //   .rpc();
-
     const dummyTx = await dummyProgram.methods
       .executeDummyInstruction(1)
       .accounts({
         payer: payer.publicKey,
-        delegatedAccount: delegatedAccount,
         pda: dummyPda,
       })
       .signers([payer])
@@ -263,7 +252,6 @@ describe("account-delegation", () => {
       .accounts({
         payer: project_account.publicKey,
         pda: dummyPda,
-        delegatedAccount: delegatedAccount,
       })
       .instruction();
 
