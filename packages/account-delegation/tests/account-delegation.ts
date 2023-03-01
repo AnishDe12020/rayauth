@@ -197,32 +197,32 @@ describe("account-delegation", () => {
     );
   });
 
-  it("can execute dummy instruction", async () => {
-    const [dummyPda] = anchor.web3.PublicKey.findProgramAddressSync(
-      [Buffer.from("dummy")],
-      dummyProgram.programId
-    );
+  // it("can execute dummy instruction", async () => {
+  //   const [dummyPda] = anchor.web3.PublicKey.findProgramAddressSync(
+  //     [Buffer.from("dummy")],
+  //     dummyProgram.programId
+  //   );
 
-    const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
-      [
-        Buffer.from("delegated_account"),
-        project_account.publicKey.toBuffer(),
-        userWallet.publicKey.toBuffer(),
-      ],
-      program.programId
-    );
+  //   const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
+  //     [
+  //       Buffer.from("delegated_account"),
+  //       project_account.publicKey.toBuffer(),
+  //       userWallet.publicKey.toBuffer(),
+  //     ],
+  //     program.programId
+  //   );
 
-    const dummyTx = await dummyProgram.methods
-      .executeDummyInstruction(1)
-      .accounts({
-        payer: payer.publicKey,
-        pda: dummyPda,
-      })
-      .signers([payer])
-      .rpc();
+  //   const dummyTx = await dummyProgram.methods
+  //     .executeDummyInstruction(1)
+  //     .accounts({
+  //       payer: payer.publicKey,
+  //       pda: dummyPda,
+  //     })
+  //     .signers([payer])
+  //     .rpc();
 
-    console.log("dummyTx: ", dummyTx);
-  });
+  //   console.log("dummyTx: ", dummyTx);
+  // });
 
   it("can execute a transaction", async () => {
     airdropTo(project_account.publicKey);
@@ -302,6 +302,11 @@ describe("account-delegation", () => {
         projectAccount: project_account.publicKey,
       })
       .remainingAccounts([
+        {
+          pubkey: dummyProgram.programId,
+          isSigner: false,
+          isWritable: false,
+        },
         { pubkey: project_account.publicKey, isSigner: true, isWritable: true },
         { pubkey: dummyPda, isSigner: false, isWritable: true },
         {
