@@ -252,37 +252,16 @@ describe("account-delegation", () => {
       .accounts({
         payer: project_account.publicKey,
         pda: dummyPda,
+        owner: delegatedAccount,
       })
       .instruction();
 
     console.log("ix.programId.toBase58()", ix.programId.toBase58());
 
-    // const ix = new anchor.web3.TransactionInstruction({
-    //   keys: [
-    //     {
-    //       pubkey: project_account.publicKey,
-    //       isSigner: true,
-    //       isWritable: true,
-    //     },
-    //     {
-    //       pubkey: delegatedAccount,
-    //       isSigner: true,
-    //       isWritable: false,
-    //     },
-    //     {
-    //       pubkey: dummyPda,
-    //       isSigner: false,
-    //       isWritable: true,
-    //     },
-    //     {
-    //       pubkey: anchor.web3.SystemProgram.programId,
-    //       isSigner: false,
-    //       isWritable: false,
-    //     },
-    //   ],
-    //   programId: program.programId,
-    //   data: Buffer.from("1"),
-    // });
+    const modifyComputeUnits =
+      anchor.web3.ComputeBudgetProgram.setComputeUnitLimit({
+        units: 1000000,
+      });
 
     const executeTx = await program.methods
       .executeTransaction({
@@ -307,6 +286,7 @@ describe("account-delegation", () => {
           isSigner: false,
           isWritable: false,
         },
+        { pubkey: delegatedAccount, isSigner: false, isWritable: true },
         { pubkey: project_account.publicKey, isSigner: true, isWritable: true },
         { pubkey: dummyPda, isSigner: false, isWritable: true },
         {
@@ -320,6 +300,7 @@ describe("account-delegation", () => {
           isWritable: false,
         },
       ])
+      .preInstructions([modifyComputeUnits])
       .signers([project_account])
       .rpc();
 

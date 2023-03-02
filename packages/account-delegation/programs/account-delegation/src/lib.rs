@@ -153,23 +153,19 @@ pub mod account_delegation {
             // msg!("data, {:?}", ad_ix.data);
             // deserialize this data field into its value
 
-            let ix = Instruction::new_with_bincode(ad_ix.program_id, &ad_ix.data, accounts);
+            let ix = Instruction::new_with_bytes(ad_ix.program_id, &ad_ix.data, accounts);
 
-            // msg!("Executing instruction: {:?}", ix);
+            msg!("Executing instruction: {:?}", ix);
 
             let remaining_accounts = ctx.remaining_accounts;
 
-            // msg!("remaining accounts: {:?}", remaining_accounts);
+            // msg!("remaining accounts: {:?}", remaining_accounts);\
 
-            // let account_infos = [
-            //     &[
-            //         ctx.accounts.payer.to_account_info(),
-            //         ctx.accounts.delegated.to_account_info(),
+            let mut delegated_account_info = AccountInfo::from(delegated_account.to_account_info());
 
-            //     ],
-            //     &remaining_accounts[..],
-            // ]
-            // .concat();
+            delegated_account_info.is_signer = true;
+
+            let account_infos = [&[delegated_account_info], &remaining_accounts[..]].concat();
 
             let delegated_account_seeds = &[
                 b"delegated_account".as_ref(),
@@ -196,9 +192,9 @@ pub mod account_delegation {
 
             // msg!("ix: {:?}", ix);
 
-            // msg!("account infos: {:?}", remaining_accounts);
+            msg!("account infos: {:?}", account_infos);
 
-            invoke_signed(&ix, &remaining_accounts, &[signer_seeds])?;
+            invoke_signed(&ix, &account_infos, &[signer_seeds])?;
 
             Ok(())
         })?;
