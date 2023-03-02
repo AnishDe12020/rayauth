@@ -205,6 +205,7 @@ importers:
     specifiers:
       '@lumina-dev/test': ^0.0.12
       '@project-serum/anchor': ^0.25.0
+      '@solana/spl-token': ^0.3.7
       '@types/bn.js': ^5.1.0
       '@types/chai': ^4.3.0
       '@types/mocha': ^9.0.0
@@ -217,6 +218,7 @@ importers:
     dependencies:
       '@lumina-dev/test': 0.0.12_typescript@4.9.5
       '@project-serum/anchor': 0.25.0
+      '@solana/spl-token': 0.3.7
       borsh: 0.7.0
     devDependencies:
       '@types/bn.js': 5.1.1
@@ -4890,6 +4892,21 @@ packages:
     resolution: {integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==}
     dev: false
 
+  /@solana/buffer-layout-utils/0.2.0:
+    resolution: {integrity: sha512-szG4sxgJGktbuZYDg2FfNmkMi0DYQoVjN2h7ta1W1hPrwzarcFLBq9UpX1UjNXsNpT9dn+chgprtWGioUAr4/g==}
+    engines: {node: '>= 10'}
+    dependencies:
+      '@solana/buffer-layout': 4.0.1
+      '@solana/web3.js': 1.73.2
+      bigint-buffer: 1.1.5
+      bignumber.js: 9.1.1
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   /@solana/buffer-layout-utils/0.2.0_encoding@0.1.13:
     resolution: {integrity: sha512-szG4sxgJGktbuZYDg2FfNmkMi0DYQoVjN2h7ta1W1hPrwzarcFLBq9UpX1UjNXsNpT9dn+chgprtWGioUAr4/g==}
     engines: {node: '>= 10'}
@@ -4937,6 +4954,22 @@ packages:
       '@solana/buffer-layout-utils': 0.2.0_encoding@0.1.13
       '@solana/web3.js': 1.73.2_encoding@0.1.13
       start-server-and-test: 1.15.5
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@solana/spl-token/0.3.7:
+    resolution: {integrity: sha512-bKGxWTtIw6VDdCBngjtsGlKGLSmiu/8ghSt/IOYJV24BsymRbgq7r12GToeetpxmPaZYLddKwAz7+EwprLfkfg==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@solana/web3.js': ^1.47.4
+    dependencies:
+      '@solana/buffer-layout': 4.0.1
+      '@solana/buffer-layout-utils': 0.2.0
+      buffer: 6.0.3
     transitivePeerDependencies:
       - bufferutil
       - encoding
