@@ -16,10 +16,10 @@ pub mod dummy_program {
 
 #[derive(Accounts)]
 pub struct DummyInstruction<'info> {
+    /// CHECK: not writing
+    pub owner: Signer<'info>,
     #[account(mut)]
     pub payer: Signer<'info>,
-    /// CHECK: This is the account that will be used to sign the instruction
-    pub owner: Signer<'info>,
     #[account(
         init,
         payer = payer,

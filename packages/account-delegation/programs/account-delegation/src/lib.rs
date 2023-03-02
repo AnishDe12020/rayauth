@@ -161,11 +161,11 @@ pub mod account_delegation {
 
             // msg!("remaining accounts: {:?}", remaining_accounts);\
 
-            let mut delegated_account_info = AccountInfo::from(delegated_account.to_account_info());
-
-            delegated_account_info.is_signer = true;
-
-            let account_infos = [&[delegated_account_info], &remaining_accounts[..]].concat();
+            // let account_infos = [
+            //     &[delegated_account.to_account_info()],
+            //     &remaining_accounts[..],
+            // ]
+            // .concat();
 
             let delegated_account_seeds = &[
                 b"delegated_account".as_ref(),
@@ -191,6 +191,11 @@ pub mod account_delegation {
             // msg!("dummy pda: {:?}", dummy_pda);
 
             // msg!("ix: {:?}", ix);
+
+            let account_infos = remaining_accounts
+                .iter()
+                .map(|a| a.to_account_info())
+                .collect::<Vec<_>>();
 
             msg!("account infos: {:?}", account_infos);
 

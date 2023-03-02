@@ -237,7 +237,7 @@ describe("account-delegation", () => {
     );
 
     const [dummyPda] = anchor.web3.PublicKey.findProgramAddressSync(
-      [Buffer.from("dummy")],
+      [Buffer.from("dummy"), delegatedAccount.toBuffer()],
       dummyProgram.programId
     );
 
@@ -286,7 +286,7 @@ describe("account-delegation", () => {
           isSigner: false,
           isWritable: false,
         },
-        { pubkey: delegatedAccount, isSigner: false, isWritable: true },
+        { pubkey: delegatedAccount, isSigner: false, isWritable: false },
         { pubkey: project_account.publicKey, isSigner: true, isWritable: true },
         { pubkey: dummyPda, isSigner: false, isWritable: true },
         {
