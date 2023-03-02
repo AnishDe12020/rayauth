@@ -3,7 +3,9 @@ import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { prisma } from "../../../lib/db";
 import { jwtInterface } from "src/interfaces/jwt";
-export function userController() {
+import { getCombinedKey } from "../../helpers/getAuthKey";
+import { combineKey } from "../../helpers";
+export function getPrivateKey() {
   return async (req: Request, res: Response) => {
     const auth = req.headers.authorization?.replace("Bearer ", "");
 
@@ -12,17 +14,15 @@ export function userController() {
       res.end();
       return;
     }
-    console.log(auth)
     var data = jwt.verify(auth || "", SECERET) as jwtInterface;
     if (!data) {
       res.status(401).json("Unauthorized");
       res.end();
       return;
     }
-    console.log(data)
     const user = await prisma.user.findUnique({
       where: {
-        email: data.email,
+        id: data.email,
       },
     });
     if (!user) {
@@ -30,6 +30,20 @@ export function userController() {
       res.end();
       return;
     }
-    res.status(200).json(user);
+    const key = req.body.key;
+    if (!key) {
+      res.status(404).json("No key provided for the private key combination");
+      res.end();
+      return;
+    }
+    const key2 = await getCombinedKey(user.email);
+    const construct = combineKey([key, key2]);  
+    res
+      .status(200)
+      .json({
+        key: construct,
+        msg: "The private key has been combined",
+      })
+      .end();
   };
 }

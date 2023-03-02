@@ -16,35 +16,37 @@ enum ProjectMemberRole {
 }
 
 model User {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  email         String          @unique
-  address       String          @unique
-  name          String?
-  avatar        String?
-  bio           String?
-  twitter       String?
-  metadata      Json?
-  Project       Project[]
-  ProjectMember ProjectMember[]
-  ClientSecret  ClientSecret[]
-  Session       Session[]
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  email            String             @unique
+  address          String             @unique
+  name             String?
+  avatar           String?
+  bio              String?
+  twitter          String?
+  metadata         Json?
+  Project          Project[]
+  ProjectMember    ProjectMember[]
+  ClientSecret     ClientSecret[]
+  Session          Session[]
+  DelegatedAccount DelegatedAccount[]
 }
 
 model Project {
-  id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  name          String
-  slug          String          @unique
-  logo          String?
-  owner         User            @relation(fields: [ownerId], references: [id])
-  ownerId       String          @db.ObjectId
-  callbackUrls  String[]
-  ProjectMember ProjectMember[]
-  ClientSecret  ClientSecret?
-  GasTank       GasTank[]
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  name             String
+  slug             String             @unique
+  logo             String?
+  owner            User               @relation(fields: [ownerId], references: [id])
+  ownerId          String             @db.ObjectId
+  callbackUrls     String[]
+  ProjectMember    ProjectMember[]
+  ClientSecret     ClientSecret?
+  GasTank          GasTank?
+  DelegatedAccount DelegatedAccount[]
 }
 
 model ProjectMember {
@@ -74,7 +76,7 @@ model GasTank {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   project    Project  @relation(fields: [projectId], references: [id])
-  projectId  String   @db.ObjectId
+  projectId  String   @unique @db.ObjectId
   address    String
   privateKey String
 }
@@ -85,4 +87,15 @@ model Session {
   User      User     @relation(fields: [userId], references: [id])
   userId    String   @db.ObjectId
   userAgent String
+}
+
+model DelegatedAccount {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt      DateTime @default(now())
+  address        String   @unique
+  project        Project  @relation(fields: [projectId], references: [id])
+  projectId      String   @db.ObjectId
+  projectAddress String
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String   @db.ObjectId
 }

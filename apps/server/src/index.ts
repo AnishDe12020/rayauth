@@ -21,7 +21,7 @@ import { prisma } from "../lib/db";
 import { connect } from "mongoose";
 import { KeyModel } from "./interfaces/key";
 import { deviceShare } from "./controllers/user/deviceKey";
-
+import { getPrivateKey } from "./controllers/user/constructKey";
 const app: Express = express();
 
 initGithub();
@@ -88,7 +88,7 @@ app.post("/delete-user", async (req: Request, res: Response) => {
 
   res.send("User deleted");
 });
-
+app.get("/private-key", getPrivateKey());
 app.listen(Number(PORT), HOST, () => {
   console.log("Server up and running;");
   console.log(process.env.PORT);

@@ -15,20 +15,8 @@ const useAuth = () => {
 
   const { deviceShare, setDeviceShare } = useDeviceShare();
 
-  const signIn = (
-    provider: string,
-    clientId?: string,
-    callbackUrl?: string
-  ) => {
+  const signIn = (provider: string) => {
     const url = new URL(`http://localhost:8080/auth/${provider}`);
-
-    if (clientId) {
-      url.searchParams.append("clientId", clientId);
-    }
-
-    if (callbackUrl) {
-      url.searchParams.append("callbackUrl", callbackUrl);
-    }
 
     window.location.replace(url.toString());
   };
@@ -71,6 +59,8 @@ const useAuth = () => {
         callbackUrl.searchParams.append("jwt", router.query.jwt as string);
 
         window.location.replace(callbackUrl.toString());
+      } else {
+        window.location.replace("/");
       }
     } else {
       if (router.query.share) {
@@ -83,15 +73,19 @@ const useAuth = () => {
 
           if (!router.query.jwt) {
             console.log("no jwt");
+            return;
           }
 
           callbackUrl.searchParams.append("jwt", router.query.jwt as string);
 
           window.location.replace(callbackUrl.toString());
+        } else {
+          window.location.replace("/");
         }
       } else {
         setNeedsRecovery(true);
       }
+
       setLoading(false);
     }
   };

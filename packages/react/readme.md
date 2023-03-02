@@ -1,13 +1,13 @@
-# @rayauth/react
+# react
 
-> react hooks for rayauth sdk
+> 
 
-[![NPM](https://img.shields.io/npm/v/@rayauth/react.svg)](https://www.npmjs.com/package/@rayauth/react) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react.svg)](https://www.npmjs.com/package/react) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save @rayauth/react
+npm install --save react
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ npm install --save @rayauth/react
 ```tsx
 import * as React from 'react'
 
-import { useMyHook } from '@rayauth/react'
+import { useMyHook } from 'react'
 
 const Example = () => {
   const example = useMyHook()

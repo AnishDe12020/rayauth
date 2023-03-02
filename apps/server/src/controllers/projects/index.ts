@@ -143,10 +143,6 @@ router.post("/:id/create-gas-tank", async (req, res) => {
 
   if (!id) return res.status(400).json({ message: "Invalid id" });
 
-  const { name } = req.body;
-
-  if (!name) return res.status(400).json({ message: "Invalid name" });
-
   const tankKeypair = Keypair.generate();
 
   const gasTank = await prisma.gasTank.create({

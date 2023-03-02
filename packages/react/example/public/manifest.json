@@ -1,8 +1,0 @@
-{
-  "short_name": "@rayauth/react",
-  "name": "@rayauth/react",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
-}

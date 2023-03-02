@@ -11,10 +11,10 @@ const CallbackPage: NextPage = () => {
 
   useEffect(() => {
     handleCallback(router);
-  }, [router.isReady]);
+  }, [router.isReady, handleCallback, router]);
 
   return (
-    <div>
+    <div className="text-white">
       <h1>{loading ? "loading" : "done"}</h1>
       <p>{JSON.stringify(user)}</p>
 
