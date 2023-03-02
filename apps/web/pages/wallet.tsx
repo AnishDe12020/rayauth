@@ -12,7 +12,7 @@ const Wallet = (props: Props) => {
   );
 };
 
-// Wallet.PageLayout = WalletLayout;
-Wallet.PageLayout = DashboardLayout;
+Wallet.PageLayout = WalletLayout;
+// Wallet.PageLayout = DashboardLayout;
 
 export default Wallet;
