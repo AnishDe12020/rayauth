@@ -30,6 +30,7 @@ importers:
       '@types/react-dom': 18.0.10
       eslint: 8.32.0
       eslint-config-next: ^13
+      lucide-react: ^0.121.0
       next: ^13.1.6
       nextra: ^2.2.14
       nextra-theme-docs: ^2.2.14
@@ -44,6 +45,7 @@ importers:
       '@types/react-dom': 18.0.10
       eslint: 8.32.0
       eslint-config-next: 13.1.6_7uibuqfxkfaozanbtbziikiqje
+      lucide-react: 0.121.0_react@18.2.0
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
       nextra: 2.2.15_3vryta7zmbcsw4rrqf4axjqggm
       nextra-theme-docs: 2.2.15_nawrw5znntwyopy744opt7wo7e
@@ -13767,6 +13769,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /lucide-react/0.121.0_react@18.2.0:
+    resolution: {integrity: sha512-O4DgRR9YnlIO1vnzeiin9h2K70u17jM5HrCBWXp0kzVEH20vp0ONhe/rCnUWSj/GpGXsHDbSIxZWXdEvXVYHIw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /magic-string/0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}

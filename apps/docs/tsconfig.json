@@ -19,6 +19,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "theme.config.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "theme.config.tsx",
+    "src/pages/architecture/gasless.mdx",
+    "src/pages/architecture/wallet.mdx"
+  ],
   "exclude": ["node_modules"]
 }
