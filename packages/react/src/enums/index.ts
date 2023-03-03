@@ -1,2 +1,2 @@
-export * from "./providers"
-export * from "./redirects"
+export * from "./providers";
+export * from "./redirects";

@@ -6,9 +6,7 @@ export function sliceKey(key: string): string[] {
   return shares;
 }
 
-
 export function combineKey(keys: string[]): string {
-  const shares = secret.combine(keys)
-  return shares
+  const shares = secret.combine(keys);
+  return shares;
 }
-

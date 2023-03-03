@@ -1,7 +1,7 @@
-import { providers } from "../enums"
+import { providers } from "../enums";
 
 export interface config {
- clientId: string
- callbackUrl: string
- provider: providers
+  clientId: string;
+  callbackUrl: string;
+  provider: providers;
 }

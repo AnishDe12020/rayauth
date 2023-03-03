@@ -1,4 +1,3 @@
-
 export enum redirects {
-    discord = "",
+  discord = "",
 }

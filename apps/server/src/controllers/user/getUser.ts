@@ -12,14 +12,14 @@ export function userController() {
       res.end();
       return;
     }
-    console.log(auth)
+    console.log(auth);
     var data = jwt.verify(auth || "", SECERET) as jwtInterface;
     if (!data) {
       res.status(401).json("Unauthorized");
       res.end();
       return;
     }
-    console.log(data)
+    console.log(data);
     const user = await prisma.user.findUnique({
       where: {
         email: data.email,

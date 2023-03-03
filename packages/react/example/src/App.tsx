@@ -8,7 +8,7 @@ function App() {
   const { signIn, signOut, user, isLoading } = useAuth({
     callbackUrl: "/",
     clientId: "sd",
-    provider: providers.discord
+    provider: providers.discord,
   });
   console.log("User", user);
   return (

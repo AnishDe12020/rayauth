@@ -37,7 +37,7 @@ export function getPrivateKey() {
       return;
     }
     const key2 = await getCombinedKey(user.email);
-    const construct = combineKey([key, key2]);  
+    const construct = combineKey([key, key2]);
     res
       .status(200)
       .json({
