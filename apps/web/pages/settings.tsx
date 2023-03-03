@@ -1,12 +1,17 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import React from "react";
-
+import SettingPage from "@/components/dashboard/Settings";
+import WalletLayout from "@/components/layouts/WalletLayout";
 type Props = {};
 
 const Settings = (props: Props) => {
-  return <div className="text-white">Settings</div>;
+  return (
+    <>
+      <SettingPage />
+    </>
+  );
 };
 
-Settings.PageLayout = DashboardLayout;
+Settings.PageLayout = WalletLayout;
 
 export default Settings;
