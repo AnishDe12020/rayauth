@@ -30,7 +30,7 @@ model User {
   ProjectMember    ProjectMember[]
   ClientSecret     ClientSecret[]
   Session          Session[]
-  DelegatedAccount DelegatedAccount[]
+  DelegatedAccount Delegate[]
 }
 
 model Project {
@@ -46,7 +46,7 @@ model Project {
   ProjectMember    ProjectMember[]
   ClientSecret     ClientSecret?
   GasTank          GasTank?
-  DelegatedAccount DelegatedAccount[]
+  DelegatedAccount Delegate[]
 }
 
 model ProjectMember {
@@ -89,7 +89,7 @@ model Session {
   userAgent String
 }
 
-model DelegatedAccount {
+model Delegate {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt      DateTime @default(now())
   address        String   @unique

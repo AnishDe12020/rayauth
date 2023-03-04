@@ -54,6 +54,7 @@ app.use("/projects", proejcts);
 app.post("/user/device-share", deviceShare());
 app.get("/", (req: Request, res: Response) => {
   console.log(req.body);
+  console.log("req sent")
   res.send("Hello");
 });
 
