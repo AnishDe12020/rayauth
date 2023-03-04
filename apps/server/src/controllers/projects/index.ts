@@ -160,4 +160,51 @@ router.post("/:id/create-gas-tank", async (req, res) => {
   return res.json({ gasTank: gasTank });
 });
 
+
+router.post("/delegate", async (req, res) => {
+  const { address, projectId, userId, projectAddress } = req.body;
+  if (!address || !projectId || !userId) {
+    return res.status(400).json({ message: "Invalid data" });
+  }
+  try {
+   const delegate = prisma.delegate.create({
+    data: {
+       address: address,
+       userId: userId,
+       user :{
+        connect: {
+          id: userId
+        }
+       },
+       projectId: projectId,
+       project: {
+        connect: {
+          id: projectId
+        }
+       },
+       projectAddress: projectAddress
+    }
+   })
+  return res.json({ delegate: delegate });
+} catch (error) {
+  console.log(error);
+  return res.status(500).json({ message: "Internal server error" });
+}
+})
+
+router.get("/delegate/:userid", async (req, res) => { 
+  if(!req.params.userid) {
+     res.status(400).json({message: "Bad request"})
+     return;
+  }
+  const user = prisma.user.findUnique({
+    where: {
+      id: req.params.userid
+    }
+  })
+
+  if(!user){  res.status(400).json({messafe: "User not found"}); return}
+  res.status(200).json({delegates: user.DelegatedAccount})
+})
+
 export default router;
