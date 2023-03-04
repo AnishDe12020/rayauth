@@ -1,15 +1,17 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "./dist/index.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/dist"
-        }
-    ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "./dist/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/dist"
+    }
+  ],
+  "buildCommand": "npm run build",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./"
 }
