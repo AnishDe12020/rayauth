@@ -14,6 +14,7 @@ import { initgoogle } from "./auth/google";
 import glogin from "./controllers/google/login";
 import gcallback from "./controllers/google/callback";
 import proejcts from "./controllers/projects";
+import gasless from "./controllers/gasless";
 import cookieParser from "cookie-parser";
 import { setQuery } from "./middleware/query";
 import { userController } from "./controllers/user/getUser";
@@ -51,10 +52,11 @@ app.use(gcallback);
 
 app.get("/user", userController());
 app.use("/projects", proejcts);
+app.use("/gasless", gasless);
 app.post("/user/device-share", deviceShare());
 app.get("/", (req: Request, res: Response) => {
   console.log(req.body);
-  console.log("req sent")
+  console.log("req sent");
   res.send("Hello");
 });
 

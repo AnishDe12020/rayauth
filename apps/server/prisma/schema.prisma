@@ -16,11 +16,11 @@ enum ProjectMemberRole {
 }
 
 model User {
-  id               String             @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  email            String             @unique
-  address          String             @unique
+  id               String          @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  email            String          @unique
+  address          String          @unique
   name             String?
   avatar           String?
   bio              String?
@@ -34,14 +34,15 @@ model User {
 }
 
 model Project {
-  id               String             @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  id               String          @id @default(auto()) @map("_id") @db.ObjectId
+  address          String          @unique
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
   name             String
-  slug             String             @unique
+  slug             String          @unique
   logo             String?
-  owner            User               @relation(fields: [ownerId], references: [id])
-  ownerId          String             @db.ObjectId
+  owner            User            @relation(fields: [ownerId], references: [id])
+  ownerId          String          @db.ObjectId
   callbackUrls     String[]
   ProjectMember    ProjectMember[]
   ClientSecret     ClientSecret?
