@@ -22,6 +22,7 @@
     "deploy": "gh-pages -d example/build"
   },
   "dependencies": {
+    "@solana/web3.js": "^1.73.0",
     "axios": "^1.3.4",
     "jotai": "^2.0.2",
     "react-cookie": "^4.1.1",
