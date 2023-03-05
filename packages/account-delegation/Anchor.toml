@@ -18,8 +18,8 @@ account_delegation = "6gJXtZUfzB7tiu7i1PA1tJDJgWSyamuLgdBaSs8QFhNK"
 url = "https://api.apr.dev"
 
 [provider]
-# cluster = "localnet"
-cluster = "devnet"
+cluster = "localnet"
+# cluster = "devnet"
 wallet = "/Users/anish/.config/solana/id.json"
 
 [scripts]
