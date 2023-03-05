@@ -29,7 +29,7 @@ const About = (props: Props) => {
         {card.map((item, index) => {
           return (
             <div key={index} className="w-full lg:w-1/3 px-4 lg:px-12  mb-12">
-              <div className="bg-primary border rounded-3xl border-white text-white overflow-hidden shadow-md">
+              <div className="bg-primary border rounded-3xl border-white text-white overflow-hidden shadow-md hover:border-blue-400 hover:cursor-pointer">
                 <div className="px-8 py-14">
                   <Image
                     src={item.icon}
@@ -45,7 +45,7 @@ const About = (props: Props) => {
           );
         })}
       </div>
-      <div>
+      <div data-aos="fade-up">
         <h3
           style={{
             background: "linear-gradient(90deg, #45A0F5 0%, #26E3C2 100%)",
@@ -54,7 +54,7 @@ const About = (props: Props) => {
             backgroundClip: "text",
             fill: "transparent",
           }}
-          className="font-extrabold  text-4xl lg:text-6xl leading-9 lg:leading-[80px] text-center md:text-left"
+          className="font-extrabold  text-4xl lg:text-7xl leading-9 lg:leading-[80px] text-center md:text-left"
         >
           Next gen SDKs for your loved platforms and technologies to help users
           onboard.
@@ -79,7 +79,7 @@ const About = (props: Props) => {
             near impossible to be compromised.
           </h4>
           <div className="flex justify-center lg:justify-start">
-            <button className="my-8 font-ksans font-extrabold bg-white text-black rounded-full px-6 py-3 text-center md:text-left">
+            <button className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans hover:bg-transparent border-2 hover:border-2 hover:text-white mt-6">
               Learn More
             </button>
           </div>

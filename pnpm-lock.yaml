@@ -163,6 +163,7 @@ importers:
       '@types/node': 18.14.0
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
+      aos: ^2.3.4
       autoprefixer: ^10.4.13
       cookies-next: ^2.1.1
       eslint: 8.34.0
@@ -186,6 +187,7 @@ importers:
       '@types/node': 18.14.0
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
+      aos: 2.3.4
       cookies-next: 2.1.1
       eslint: 8.34.0
       eslint-config-next: 13.1.6_7kw3g6rralp5ps6mg3uyzz6azm
@@ -6223,6 +6225,14 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
+  /aos/2.3.4:
+    resolution: {integrity: sha512-zh/ahtR2yME4I51z8IttIt4lC1Nw0ktsFtmeDzID1m9naJnWXhCoARaCgNOGXb5CLy3zm+wqmRAEgMYB5E2HUw==}
+    dependencies:
+      classlist-polyfill: 1.2.0
+      lodash.debounce: 4.0.8
+      lodash.throttle: 4.1.1
+    dev: false
+
   /aproba/1.2.0:
     resolution: {integrity: sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==}
     dev: true
@@ -7590,6 +7600,10 @@ packages:
       isobject: 3.0.1
       static-extend: 0.1.2
     dev: true
+
+  /classlist-polyfill/1.2.0:
+    resolution: {integrity: sha512-GzIjNdcEtH4ieA2S8NmrSxv7DfEV5fmixQeyTmqmRmRJPGpRBaSnA2a0VrCjyT8iW8JjEdMbKzDotAJf+ajgaQ==}
+    dev: false
 
   /clean-css/4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
@@ -13669,7 +13683,6 @@ packages:
 
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
-    dev: true
 
   /lodash.get/4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
@@ -13721,6 +13734,10 @@ packages:
     dependencies:
       lodash._reinterpolate: 3.0.0
     dev: true
+
+  /lodash.throttle/4.1.1:
+    resolution: {integrity: sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==}
+    dev: false
 
   /lodash.uniq/4.5.0:
     resolution: {integrity: sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==}
