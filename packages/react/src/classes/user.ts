@@ -1,6 +1,6 @@
 import { userOptions } from "../interfaces";
 import {Transaction, VersionedTransaction} from "@solana/web3.js"
-import { WALLET } from "src/constants";
+import { WALLET } from "../constants";
 export class userConstructor {
   public id!: string | undefined;
   public createdAt!: string | undefined;

@@ -4,7 +4,7 @@ import { authInterface } from "../interfaces/auth";
 import { userConstructor } from "../classes";
 import { getUser } from "../helpers/fetchUser";
 import { useConfig } from "../providers";
-import { BASEURL } from "src/constants";
+import { BASEURL } from "../constants";
 
 export function useAuth(): authInterface {
   const [user, setUser] = useState<userConstructor | null>(null);
