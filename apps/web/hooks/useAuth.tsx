@@ -1,22 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getCookie, removeCookies } from "cookies-next";
 import { decodeJwt, JWTPayload } from "jose";
-import setupIndexedDB, { useIndexedDBStore } from "use-indexeddb";
-import { idbConfig } from "lib/indexeddbConfig";
-import { NextRouter, Router, useRouter } from "next/router";
+import { NextRouter } from "next/router";
 import { useDeviceShare } from "./useDeviceShare";
+import { BACKEND_URL } from "@/lib/constants";
+import { IRayAuthJWT } from "@/types/jwt";
+import { PublicKey } from "@solana/web3.js";
 
 const useAuth = () => {
-  const [user, setUser] = useState<JWTPayload>();
+  const [user, setUser] = useState<IRayAuthJWT>();
   const [needsRecovery, setNeedsRecovery] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const { add, getByID } = useIndexedDBStore("keyshare");
+  const [publickey, setPublickey] = useState<PublicKey>();
 
   const { deviceShare, setDeviceShare } = useDeviceShare();
 
+  useEffect(() => {
+    if (user?.address) {
+      setPublickey(new PublicKey(user?.address));
+    }
+  }, [user?.address]);
+
+  useEffect(() => {
+    setLoading(true);
+    const jwt = getCookie("jwt-rayauth");
+
+    if (jwt) {
+      const decoded = decodeJwt(jwt.toString());
+
+      setUser(decoded as unknown as IRayAuthJWT);
+    }
+
+    setLoading(false);
+  }, []);
+
   const signIn = (provider: string) => {
-    const url = new URL(`http://localhost:8080/auth/${provider}`);
+    const url = new URL(`${BACKEND_URL}/auth/${provider}`);
 
     window.location.replace(url.toString());
   };
@@ -37,7 +57,7 @@ const useAuth = () => {
 
     const decoded = decodeJwt(jwt.toString());
 
-    setUser(decoded);
+    setUser(decoded as IRayAuthJWT);
 
     console.log("checking if already added");
 
@@ -94,7 +114,15 @@ const useAuth = () => {
     removeCookies("rayauth-jwt");
   };
 
-  return { signIn, signOut, handleCallback, user, needsRecovery, loading };
+  return {
+    signIn,
+    signOut,
+    handleCallback,
+    user,
+    needsRecovery,
+    loading,
+    publickey,
+  };
 };
 
 export default useAuth;

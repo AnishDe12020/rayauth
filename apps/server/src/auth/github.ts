@@ -1,6 +1,6 @@
 import passport from "passport";
 import Github from "passport-github2";
-import { GITID, GITSECRET } from "../constant";
+import { BASE_URL, GITID, GITSECRET } from "../constant";
 
 export function initGithub() {
   passport.serializeUser(function (user, done) {
@@ -14,7 +14,7 @@ export function initGithub() {
       {
         clientID: GITID,
         clientSecret: GITSECRET,
-        callbackURL: "http://localhost:8080/auth/github/callback",
+        callbackURL: `${BASE_URL}/auth/github/callback`,
         scope: ["user:email"],
       },
       (_: any, __: any, profile: any, done: any) => {

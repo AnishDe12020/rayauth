@@ -11,7 +11,8 @@
     "version-packages": "changeset version",
     "release": "turbo run build && changeset publish",
     "prepare": "husky install",
-    "start:server": "turbo run start --filter server"
+    "start:server": "turbo run start --filter server",
+    "build:server": "turbo run build --filter server"
   },
   "devDependencies": {
     "@changesets/cli": "^2.24.4",

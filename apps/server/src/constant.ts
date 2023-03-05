@@ -22,3 +22,5 @@ export const DB2: string = process.env.DB_TWO || "NOTFOUND";
 export const DB3: string = process.env.DB_THREE || "NOTFOUND";
 
 export const TESTP: string = process.env.TEST || "NOTFOUND";
+
+export const BASE_URL: string = process.env.BASE_URL || "http://localhost:8080";

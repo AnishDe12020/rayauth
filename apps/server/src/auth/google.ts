@@ -1,6 +1,6 @@
 import passport from "passport";
 import google from "passport-google-oauth20";
-import { GID, GSECRET } from "../constant";
+import { BASE_URL, GID, GSECRET } from "../constant";
 
 export function initgoogle() {
   passport.serializeUser(function (user, done) {
@@ -14,7 +14,7 @@ export function initgoogle() {
       {
         clientID: GID,
         clientSecret: GSECRET,
-        callbackURL: "http://localhost:8080/auth/google/callback",
+        callbackURL: `${BASE_URL}/auth/google/callback`,
         scope: [
           "https://www.googleapis.com/auth/userinfo.profile",
           "https://www.googleapis.com/auth/userinfo.email",

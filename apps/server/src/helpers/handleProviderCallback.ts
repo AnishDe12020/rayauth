@@ -28,7 +28,7 @@ export const handleProviderCallback = async (
 
   if (user) {
     console.log("user already exists");
-    const token = createToken(user.id, user.email);
+    const token = createToken(user.id, user.email, user.address);
 
     res.cookie("jwt-rayauth", token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -52,7 +52,7 @@ export const handleProviderCallback = async (
     },
   });
 
-  const token = createToken(newUser.id, newUser.email);
+  const token = createToken(newUser.id, newUser.email, newUser.address);
 
   res.cookie("jwt-rayauth", token, {
     maxAge: 1000 * 60 * 60 * 24 * 7,

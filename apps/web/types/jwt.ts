@@ -1,4 +1,4 @@
-export interface jwtInterface {
+export interface IRayAuthJWT {
   email: string;
   address: string;
   id: string;

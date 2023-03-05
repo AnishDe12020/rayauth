@@ -4,6 +4,7 @@ import { authInterface } from "../interfaces/auth";
 import { userConstructor } from "../classes";
 import { getUser } from "../helpers/fetchUser";
 import { useConfig } from "../providers";
+import { BASEURL } from "src/constants";
 
 export function useAuth(): authInterface {
   const [user, setUser] = useState<userConstructor | null>(null);
@@ -39,7 +40,7 @@ export function useAuth(): authInterface {
   };
 
   const signIn = () => {
-    const url = new URL(`http://localhost:8080/auth/${config.provider}`);
+    const url = new URL(`${BASEURL}/auth/${config.provider}`);
     url.searchParams.append("cb", config.callbackUrl);
     url.searchParams.append("id", config.clientId);
     console.log(url.toString());
