@@ -158,6 +158,7 @@ importers:
 
   apps/web:
     specifiers:
+      '@headlessui/react': ^1.7.13
       '@next/font': 13.1.6
       '@types/node': 18.14.0
       '@types/react': 18.0.28
@@ -175,10 +176,12 @@ importers:
       react-cookie: ^4.1.1
       react-dom: 18.2.0
       react-icons: ^4.7.1
+      tailwind-merge: ^1.10.0
       tailwindcss: ^3.2.7
       typescript: 4.9.5
       use-indexeddb: ^2.0.2
     dependencies:
+      '@headlessui/react': 1.7.13_biqbaboplfbrettd7655fr4n2y
       '@next/font': 13.1.6
       '@types/node': 18.14.0
       '@types/react': 18.0.28
@@ -194,6 +197,7 @@ importers:
       react-cookie: 4.1.1_react@18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-icons: 4.7.1_react@18.2.0
+      tailwind-merge: 1.10.0
       typescript: 4.9.5
       use-indexeddb: 2.0.2_react@18.2.0
     devDependencies:
@@ -3948,6 +3952,18 @@ packages:
 
   /@headlessui/react/1.7.11_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-EaDbVgcyiylhtskZZf4Qb/JiiByY7cYbd0qgZ9xm2pm2X7hKojG0P4TaQYKgPOV3vojPhd/pZyQh3nmRkkcSyw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      client-only: 0.0.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@headlessui/react/1.7.13_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-9n+EQKRtD9266xIHXdY5MfiXPDfYwl7zBM7KOx2Ae3Gdgxy8QML1FkCMjq6AsOf0l6N9uvI4HcFtuFlenaldKg==}
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16 || ^17 || ^18
@@ -19197,6 +19213,10 @@ packages:
       slice-ansi: 2.1.0
       string-width: 3.1.0
     dev: true
+
+  /tailwind-merge/1.10.0:
+    resolution: {integrity: sha512-WFnDXSS4kFTZwjKg5/oZSGzBRU/l+qcbv5NVTzLUQvJ9yovDAP05h0F2+ZFW0Lw9EcgRoc2AfURUdZvnEFrXKg==}
+    dev: false
 
   /tailwindcss/3.2.7_postcss@8.4.21:
     resolution: {integrity: sha512-B6DLqJzc21x7wntlH/GsZwEXTBttVSl1FtCzC8WP4oBc/NKef7kaax5jeihkkCEWc831/5NDJ9gRNDK6NEioQQ==}

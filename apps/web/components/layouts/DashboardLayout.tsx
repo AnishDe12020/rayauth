@@ -1,43 +1,29 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { BsWallet } from "react-icons/bs";
-import { IoSettingsOutline } from "react-icons/io5";
-import Navbar from "../dashboard/Navbar";
+import { AiOutlineProject } from "react-icons/ai";
+import { MdAccountCircle } from "react-icons/md";
+import Socials from "../common/Socials";
+import Navbar from "../walletPage/Navbar";
 
 type Props = {};
 const SideBarLinks = [
   {
-    name: "Wallet",
-    icon: <BsWallet />,
-    href: "/wallet",
+    name: "Projects",
+    icon: <AiOutlineProject />,
+    href: "/dashboard",
   },
   {
-    name: "Settings",
-    icon: <IoSettingsOutline />,
-    href: "/settings",
-  },
-  {
-    name: "Demo1",
-    icon: <IoSettingsOutline />,
-    href: "/demo1",
-  },
-  {
-    name: "Demo2",
-    icon: <IoSettingsOutline />,
-    href: "/demo2",
-  },
-  {
-    name: "Demo3",
-    icon: <IoSettingsOutline />,
-    href: "/demo3",
+    name: "Account",
+    icon: <MdAccountCircle />,
+    href: "/dashboard/account",
   },
 ];
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
   const router = useRouter();
   const currentRoute = router.pathname;
-
+  console.log(currentRoute);
   return (
     <div className="w-full h-full ">
       <div>
@@ -76,6 +62,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 ))}
               </ul>
             </div>
+            <div>
+              <Socials />
+            </div>
           </div>
           {/* Buttons */}
           <div
@@ -96,11 +85,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="#FFFFFF"
                 fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path stroke="none" d="M0 0h24v24H0z" />
                 <circle cx="6" cy="10" r="2" />
@@ -129,11 +118,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path stroke="none" d="M0 0h24v24H0z" />
                 <line x1="18" y1="6" x2="6" y2="18" />
