@@ -57,7 +57,7 @@ const useAuth = () => {
 
     const decoded = decodeJwt(jwt.toString());
 
-    setUser(decoded as IRayAuthJWT);
+    setUser(decoded as unknown as IRayAuthJWT);
 
     console.log("checking if already added");
 

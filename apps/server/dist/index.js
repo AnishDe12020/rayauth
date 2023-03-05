@@ -5,29 +5,21 @@ var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __copyProps = (to, from, except, desc) => {
-  if ((from && typeof from === "object") || typeof from === "function") {
+  if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, {
-          get: () => from[key],
-          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
-        });
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (
-  (target = mod != null ? __create(__getProtoOf(mod)) : {}),
-  __copyProps(
-    // If the importer is in node compatibility mode or this is not an ESM
-    // file that has been converted to a CommonJS file using a Babel-
-    // compatible transform (i.e. "__esModule" has not been set), then set
-    // "default" to the CommonJS "module.exports" for node compatibility.
-    isNodeMode || !mod || !mod.__esModule
-      ? __defProp(target, "default", { value: mod, enumerable: true })
-      : target,
-    mod
-  )
-);
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
 
 // src/index.ts
 var import_dotenv = __toESM(require("dotenv"));
@@ -52,6 +44,7 @@ var DB1 = process.env.DATABASE_URL || "NOTFOUND";
 var DB2 = process.env.DB_TWO || "NOTFOUND";
 var DB3 = process.env.DB_THREE || "NOTFOUND";
 var TESTP = process.env.TEST || "NOTFOUND";
+var BASE_URL = process.env.BASE_URL || "http://localhost:8080";
 
 // src/index.ts
 var import_cors = __toESM(require("cors"));
@@ -60,10 +53,10 @@ var import_cors = __toESM(require("cors"));
 var import_passport = __toESM(require("passport"));
 var import_passport_github2 = __toESM(require("passport-github2"));
 function initGithub() {
-  import_passport.default.serializeUser(function (user, done) {
+  import_passport.default.serializeUser(function(user, done) {
     done(null, user);
   });
-  import_passport.default.deserializeUser(function (user, done) {
+  import_passport.default.deserializeUser(function(user, done) {
     return done(null, user);
   });
   import_passport.default.use(
@@ -71,8 +64,8 @@ function initGithub() {
       {
         clientID: GITID,
         clientSecret: GITSECRET,
-        callbackURL: "/auth/github/callback",
-        scope: ["user:email"],
+        callbackURL: `${BASE_URL}/auth/github/callback`,
+        scope: ["user:email"]
       },
       (_, __, profile, done) => {
         done(null, profile);
@@ -88,21 +81,21 @@ var import_express = require("express");
 // lib/db.ts
 var import_client = require("@prisma/client");
 var globalForPrisma = global;
-var prisma =
-  globalForPrisma.prisma ||
-  new import_client.PrismaClient({
-    log: ["query"],
-  });
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+var prisma = globalForPrisma.prisma || new import_client.PrismaClient({
+  log: ["query"]
+});
+if (process.env.NODE_ENV !== "production")
+  globalForPrisma.prisma = prisma;
 
 // src/helpers/token.ts
 var import_jsonwebtoken = __toESM(require("jsonwebtoken"));
-function createToken(id, email) {
+function createToken(id, email, address) {
   const token = import_jsonwebtoken.default.sign(
     {
       email,
       id,
-      time: Date().toString(),
+      address,
+      time: Date().toString()
     },
     SECERET
   );
@@ -112,32 +105,29 @@ function createToken(id, email) {
 // src/helpers/email.ts
 var import_elasticemail_client_ts_axios = require("@elasticemail/elasticemail-client-ts-axios");
 var config = new import_elasticemail_client_ts_axios.Configuration({
-  apiKey: process.env.ELASTIC_EMAIL,
+  apiKey: process.env.ELASTIC_EMAIL
 });
 var emailsApi = new import_elasticemail_client_ts_axios.EmailsApi(config);
 var sendMail = (email, key) => {
-  emailsApi
-    .emailsPost({
-      Recipients: [{ Email: email }],
-      Content: {
-        Body: [
-          {
-            ContentType: "PlainText",
-            Charset: "utf-8",
-            Content: `This is your recovery key keep it safe 
- ${key}`,
-          },
-        ],
-        From: "RayAuth <contact@rayauth.com>",
-        Subject: "Your RayAuth recovery key",
-      },
-    })
-    .then((response) => {
-      console.log("email sent", response.data);
-    })
-    .catch((error) => {
-      console.error("failed to send email", error);
-    });
+  emailsApi.emailsPost({
+    Recipients: [{ Email: email }],
+    Content: {
+      Body: [
+        {
+          ContentType: "PlainText",
+          Charset: "utf-8",
+          Content: `This is your recovery key keep it safe 
+ ${key}`
+        }
+      ],
+      From: "RayAuth <contact@rayauth.com>",
+      Subject: "Your RayAuth recovery key"
+    }
+  }).then((response) => {
+    console.log("email sent", response.data);
+  }).catch((error) => {
+    console.error("failed to send email", error);
+  });
 };
 
 // src/interfaces/key.ts
@@ -145,17 +135,15 @@ var import_mongoose = __toESM(require("mongoose"));
 var Key = new import_mongoose.default.Schema({
   key: {
     type: String,
-    required: true,
+    required: true
   },
   email: {
     type: String,
     required: true,
-    unique: true,
-  },
+    unique: true
+  }
 });
-var KeyModel =
-  import_mongoose.default.models.Key ||
-  import_mongoose.default.model("Key", Key);
+var KeyModel = import_mongoose.default.models.Key || import_mongoose.default.model("Key", Key);
 
 // src/helpers/save3keys.ts
 var import_mongoose2 = require("mongoose");
@@ -190,11 +178,7 @@ async function saveKeys(keys, email) {
 var import_secret_sharing = __toESM(require("secret-sharing.js"));
 var import_hexyjs = __toESM(require("hexyjs"));
 function sliceKey(key) {
-  const shares = import_secret_sharing.default.share(
-    import_hexyjs.default.strToHex(key),
-    3,
-    2
-  );
+  const shares = import_secret_sharing.default.share(import_hexyjs.default.strToHex(key), 3, 2);
   return shares;
 }
 function combineKey(keys) {
@@ -219,13 +203,12 @@ async function setupKey(email) {
 var import_store = __toESM(require("store"));
 var handleProviderCallback = async (res, email, name, avatarUrl) => {
   var _a;
-  const callback2 =
-    (_a = import_store.default.get("data")) == null ? void 0 : _a.callback;
+  const callback2 = (_a = import_store.default.get("data")) == null ? void 0 : _a.callback;
   import_store.default.clearAll();
   const user = await prisma.user.findUnique({
     where: {
-      email,
-    },
+      email
+    }
   });
   const redirectUrl = new URL("http://localhost:3000/callback");
   if (callback2) {
@@ -233,10 +216,10 @@ var handleProviderCallback = async (res, email, name, avatarUrl) => {
   }
   if (user) {
     console.log("user already exists");
-    const token2 = createToken(user.id, user.email);
+    const token2 = createToken(user.id, user.email, user.address);
     res.cookie("jwt-rayauth", token2, {
       maxAge: 1e3 * 60 * 60 * 24 * 7,
-      secure: true,
+      secure: true
     });
     redirectUrl.searchParams.append("jwt", token2);
     res.redirect(redirectUrl.toString());
@@ -248,13 +231,13 @@ var handleProviderCallback = async (res, email, name, avatarUrl) => {
       email,
       address: publicKey,
       name,
-      avatar: avatarUrl,
-    },
+      avatar: avatarUrl
+    }
   });
-  const token = createToken(newUser.id, newUser.email);
+  const token = createToken(newUser.id, newUser.email, newUser.address);
   res.cookie("jwt-rayauth", token, {
     maxAge: 1e3 * 60 * 60 * 24 * 7,
-    secure: true,
+    secure: true
   });
   redirectUrl.searchParams.append("jwt", token);
   redirectUrl.searchParams.append("share", deviceShare2);
@@ -265,10 +248,8 @@ var handleProviderCallback = async (res, email, name, avatarUrl) => {
 var callback = (0, import_express.Router)();
 callback.get(
   "/auth/github/callback",
-  import_passport2.default.authenticate("github", {
-    failureRedirect: "/login",
-  }),
-  async function (req, res) {
+  import_passport2.default.authenticate("github", { failureRedirect: "/login" }),
+  async function(req, res) {
     const rawUser = req.user;
     handleProviderCallback(
       res,
@@ -294,10 +275,10 @@ var login_default = login;
 var import_passport4 = __toESM(require("passport"));
 var import_passport_discord = __toESM(require("passport-discord"));
 function initdiscord() {
-  import_passport4.default.serializeUser(function (user, done) {
+  import_passport4.default.serializeUser(function(user, done) {
     done(null, user);
   });
-  import_passport4.default.deserializeUser(function (user, done) {
+  import_passport4.default.deserializeUser(function(user, done) {
     return done(null, user);
   });
   import_passport4.default.use(
@@ -306,7 +287,7 @@ function initdiscord() {
         clientID: DSID,
         clientSecret: DSSECRET,
         // callbackURL: "ASA",
-        scope: ["email", "identify"],
+        scope: ["email", "identify"]
       },
       (__, _, profile, done) => {
         done(null, profile);
@@ -321,9 +302,7 @@ var import_express3 = require("express");
 var dlogin = (0, import_express3.Router)();
 dlogin.get(
   "/auth/discord",
-  import_passport5.default.authenticate("discord", {
-    scope: ["email", "identify"],
-  })
+  import_passport5.default.authenticate("discord", { scope: ["email", "identify"] })
 );
 var login_default2 = dlogin;
 
@@ -333,10 +312,8 @@ var import_express4 = require("express");
 var dcallback = (0, import_express4.Router)();
 dcallback.get(
   "/auth/discord/callback",
-  import_passport6.default.authenticate("discord", {
-    failureRedirect: "/login",
-  }),
-  async function (req, res) {
+  import_passport6.default.authenticate("discord", { failureRedirect: "/login" }),
+  async function(req, res) {
     const rawUser = req.user;
     handleProviderCallback(
       res,
@@ -350,14 +327,12 @@ var callback_default2 = dcallback;
 
 // src/auth/google.ts
 var import_passport7 = __toESM(require("passport"));
-var import_passport_google_oauth20 = __toESM(
-  require("passport-google-oauth20")
-);
+var import_passport_google_oauth20 = __toESM(require("passport-google-oauth20"));
 function initgoogle() {
-  import_passport7.default.serializeUser(function (user, done) {
+  import_passport7.default.serializeUser(function(user, done) {
     done(null, user);
   });
-  import_passport7.default.deserializeUser(function (user, done) {
+  import_passport7.default.deserializeUser(function(user, done) {
     return done(null, user);
   });
   import_passport7.default.use(
@@ -365,11 +340,11 @@ function initgoogle() {
       {
         clientID: GID,
         clientSecret: GSECRET,
-        callbackURL: `${BASE_URL}/auth/github/callback`,
+        callbackURL: `${BASE_URL}/auth/google/callback`,
         scope: [
           "https://www.googleapis.com/auth/userinfo.profile",
-          "https://www.googleapis.com/auth/userinfo.email",
-        ],
+          "https://www.googleapis.com/auth/userinfo.email"
+        ]
       },
       async (_, __, profile, done) => {
         done(null, profile);
@@ -387,8 +362,8 @@ glogin.get(
   import_passport8.default.authenticate("google", {
     scope: [
       "https://www.googleapis.com/auth/userinfo.profile",
-      "https://www.googleapis.com/auth/userinfo.email",
-    ],
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
   })
 );
 var login_default3 = glogin;
@@ -399,10 +374,8 @@ var import_express6 = require("express");
 var gcallback = (0, import_express6.Router)();
 gcallback.get(
   "/auth/google/callback",
-  import_passport9.default.authenticate("google", {
-    failureRedirect: "/login",
-  }),
-  async function (req, res) {
+  import_passport9.default.authenticate("google", { failureRedirect: "/login" }),
+  async function(req, res) {
     const rawUser = req.user;
     handleProviderCallback(
       res,
@@ -426,11 +399,12 @@ router.get("/", async (_req, res) => {
 });
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
-  if (!id) return res.status(400).json({ message: "Invalid id" });
+  if (!id)
+    return res.status(400).json({ message: "Invalid id" });
   const project = await prisma.project.findUnique({
     where: {
-      id,
-    },
+      id
+    }
   });
   return res.json({ project });
 });
@@ -447,26 +421,26 @@ router.post("/", async (req, res) => {
         slug,
         owner: {
           connect: {
-            id: ownerId,
-          },
+            id: ownerId
+          }
         },
-        address: tankKeypair.publicKey.toBase58(),
-      },
+        address: tankKeypair.publicKey.toBase58()
+      }
     });
     await prisma.clientSecret.create({
       data: {
         key: (0, import_crypto.randomUUID)(),
         project: {
           connect: {
-            id: project.id,
-          },
+            id: project.id
+          }
         },
         CreatedBy: {
           connect: {
-            id: ownerId,
-          },
-        },
-      },
+            id: ownerId
+          }
+        }
+      }
     });
     await prisma.gasTank.create({
       data: {
@@ -474,10 +448,10 @@ router.post("/", async (req, res) => {
         privateKey: import_bs582.default.encode(tankKeypair.secretKey),
         project: {
           connect: {
-            id: project.id,
-          },
-        },
-      },
+            id: project.id
+          }
+        }
+      }
     });
     return res.json({ project });
   } catch (error) {
@@ -487,52 +461,56 @@ router.post("/", async (req, res) => {
 });
 router.patch("/:id", async (req, res) => {
   const { id } = req.params;
-  if (!id) return res.status(400).json({ message: "Invalid id" });
+  if (!id)
+    return res.status(400).json({ message: "Invalid id" });
   const { name, slug } = req.body;
   if (!name || !slug) {
     return res.status(400).json({ message: "Invalid data" });
   }
   const project = await prisma.project.update({
     where: {
-      id,
+      id
     },
     data: {
       name,
-      slug,
-    },
+      slug
+    }
   });
   return res.json({ project });
 });
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  if (!id) return res.status(400).json({ message: "Invalid id" });
+  if (!id)
+    return res.status(400).json({ message: "Invalid id" });
   const project = await prisma.project.delete({
     where: {
-      id,
-    },
+      id
+    }
   });
   return res.json({ project });
 });
 router.get("/:id/client-secret", async (req, res) => {
   const { id } = req.params;
-  if (!id) return res.status(400).json({ message: "Invalid id" });
+  if (!id)
+    return res.status(400).json({ message: "Invalid id" });
   const clientSecret = await prisma.clientSecret.findUnique({
     where: {
-      projectId: id,
-    },
+      projectId: id
+    }
   });
   return res.json({ clientSecret });
 });
 router.post("/:id/rotate-client-secret", async (req, res) => {
   const { id } = req.params;
-  if (!id) return res.status(400).json({ message: "Invalid id" });
+  if (!id)
+    return res.status(400).json({ message: "Invalid id" });
   await prisma.clientSecret.update({
     where: {
-      projectId: id,
+      projectId: id
     },
     data: {
-      key: (0, import_crypto.randomUUID)(),
-    },
+      key: (0, import_crypto.randomUUID)()
+    }
   });
   return res.json({ success: true });
 });
@@ -548,17 +526,17 @@ router.post("/delegate", async (req, res) => {
         userId,
         user: {
           connect: {
-            id: userId,
-          },
+            id: userId
+          }
         },
         projectId,
         project: {
           connect: {
-            id: projectId,
-          },
+            id: projectId
+          }
         },
-        projectAddress,
-      },
+        projectAddress
+      }
     });
     return res.json({ delegate });
   } catch (error) {
@@ -573,8 +551,8 @@ router.get("/delegate/:userid", async (req, res) => {
   }
   const user = prisma.user.findUnique({
     where: {
-      id: req.params.userid,
-    },
+      id: req.params.userid
+    }
   });
   if (!user) {
     res.status(400).json({ messafe: "User not found" });
@@ -590,44 +568,37 @@ var import_bs584 = __toESM(require("bs58"));
 
 // src/helpers/validateTransaction.ts
 var import_bs583 = __toESM(require("bs58"));
-async function validateTransaction(
-  connection2,
-  transaction,
-  feePayer,
-  maxSignatures,
-  lamportsPerSignature
-) {
+async function validateTransaction(connection2, transaction, feePayer, maxSignatures, lamportsPerSignature) {
   var _a;
-  if (
-    !((_a = transaction.feePayer) == null
-      ? void 0
-      : _a.equals(feePayer.publicKey))
-  )
+  if (!((_a = transaction.feePayer) == null ? void 0 : _a.equals(feePayer.publicKey)))
     throw new Error("invalid fee payer");
-  if (!transaction.recentBlockhash) throw new Error("missing recent blockhash");
+  if (!transaction.recentBlockhash)
+    throw new Error("missing recent blockhash");
   const feeCalculator = await connection2.getFeeCalculatorForBlockhash(
     transaction.recentBlockhash
   );
-  if (!feeCalculator.value) throw new Error("blockhash not found");
+  if (!feeCalculator.value)
+    throw new Error("blockhash not found");
   if (feeCalculator.value.lamportsPerSignature > lamportsPerSignature)
     throw new Error("fee too high");
-  if (!transaction.signatures.length) throw new Error("no signatures");
+  if (!transaction.signatures.length)
+    throw new Error("no signatures");
   if (transaction.signatures.length > maxSignatures)
     throw new Error("too many signatures");
   const [primary, ...secondary] = transaction.signatures;
   if (!primary.publicKey.equals(feePayer.publicKey))
     throw new Error("invalid fee payer pubkey");
-  if (primary.signature) throw new Error("invalid fee payer signature");
+  if (primary.signature)
+    throw new Error("invalid fee payer signature");
   for (const signature of secondary) {
-    if (!signature.publicKey) throw new Error("missing public key");
-    if (!signature.signature) throw new Error("missing signature");
+    if (!signature.publicKey)
+      throw new Error("missing public key");
+    if (!signature.signature)
+      throw new Error("missing signature");
   }
   transaction.partialSign(feePayer);
   const rawTransaction = transaction.serialize();
-  return {
-    signature: import_bs583.default.encode(transaction.signature),
-    rawTransaction,
-  };
+  return { signature: import_bs583.default.encode(transaction.signature), rawTransaction };
 }
 
 // src/controllers/gasless/index.ts
@@ -642,61 +613,51 @@ var handleGasless = async (req, res) => {
   if (!clientSecret) {
     res.status(400).send({
       status: "error",
-      message: "request should contain client secret",
+      message: "request should contain client secret"
     });
     return;
   }
   const clientSecretDb = await prisma.clientSecret.findUnique({
     where: {
-      key: clientSecret,
-    },
+      key: clientSecret
+    }
   });
   if (!clientSecretDb) {
     res.status(400).send({
       status: "error",
-      message: "client secret is invalid",
+      message: "client secret is invalid"
     });
     return;
   }
   const gasTank = await prisma.gasTank.findUnique({
     where: {
-      projectId: clientSecretDb.projectId,
-    },
+      projectId: clientSecretDb.projectId
+    }
   });
   if (!gasTank) {
     res.status(400).send({
       status: "error",
-      message: "gas tank is not found",
+      message: "gas tank is not found"
     });
     return;
   }
-  const feePayer = import_web33.Keypair.fromSecretKey(
-    import_bs584.default.decode(gasTank.privateKey)
-  );
+  const feePayer = import_web33.Keypair.fromSecretKey(import_bs584.default.decode(gasTank.privateKey));
   const serialized = (_a = req.body) == null ? void 0 : _a.transaction;
   if (typeof serialized !== "string") {
-    res
-      .status(400)
-      .send({ status: "error", message: "request should contain transaction" });
+    res.status(400).send({ status: "error", message: "request should contain transaction" });
     return;
   }
   let transaction;
   try {
-    transaction = import_web33.Transaction.from(
-      import_bs584.default.decode(serialized)
-    );
+    transaction = import_web33.Transaction.from(import_bs584.default.decode(serialized));
   } catch (e) {
-    res
-      .status(400)
-      .send({ status: "error", message: "can't decode transaction" });
+    res.status(400).send({ status: "error", message: "can't decode transaction" });
     return;
   }
   console.log("transaction", transaction);
   let signature;
   try {
-    signature = (
-      await validateTransaction(connection, transaction, feePayer, 2, 5e3)
-    ).signature;
+    signature = (await validateTransaction(connection, transaction, feePayer, 2, 5e3)).signature;
   } catch (e) {
     res.status(400).send({ status: "error", message: "bad transaction" });
     return;
@@ -738,8 +699,8 @@ function setQuery() {
     }
     const project = await prisma.project.findUnique({
       where: {
-        id: id == null ? void 0 : id.toString(),
-      },
+        id: id == null ? void 0 : id.toString()
+      }
     });
     if (!project) {
       cb = "https://localhost:3000/error";
@@ -747,7 +708,7 @@ function setQuery() {
     console.log(project == null ? void 0 : project.callbackUrls);
     import_store2.default.set("data", {
       callback: cb.toString(),
-      clientId: id == null ? void 0 : id.toString(),
+      clientId: id == null ? void 0 : id.toString()
     });
     console.log(import_store2.default.get("data"));
     next();
@@ -759,10 +720,7 @@ var import_jsonwebtoken2 = __toESM(require("jsonwebtoken"));
 function userController() {
   return async (req, res) => {
     var _a;
-    const auth =
-      (_a = req.headers.authorization) == null
-        ? void 0
-        : _a.replace("Bearer ", "");
+    const auth = (_a = req.headers.authorization) == null ? void 0 : _a.replace("Bearer ", "");
     if (!auth || auth == void 0) {
       res.status(401).json("Unauthorized");
       res.end();
@@ -778,8 +736,8 @@ function userController() {
     console.log(data);
     const user = await prisma.user.findUnique({
       where: {
-        email: data.email,
-      },
+        email: data.email
+      }
     });
     if (!user) {
       res.status(404).json("No user was found through this token");
@@ -829,10 +787,7 @@ var getCombinedKey = async (email) => {
 function deviceShare() {
   return async (req, res) => {
     var _a;
-    const auth =
-      (_a = req.headers.authorization) == null
-        ? void 0
-        : _a.replace("Bearer ", "");
+    const auth = (_a = req.headers.authorization) == null ? void 0 : _a.replace("Bearer ", "");
     if (!auth || auth == void 0) {
       res.status(401).json("Unauthorized");
       res.end();
@@ -846,8 +801,8 @@ function deviceShare() {
     }
     const user = await prisma.user.findUnique({
       where: {
-        id: data.email,
-      },
+        id: data.email
+      }
     });
     if (!user) {
       res.status(404).json("No user was found through this token");
@@ -864,19 +819,14 @@ function deviceShare() {
     const construct = combineKey([key, key]);
     const newShares = sliceKey(construct);
     if (newShares[1] != key || newShares[2] != key2) {
-      res
-        .status(404)
-        .json("There was an error while recovering a new device share");
+      res.status(404).json("There was an error while recovering a new device share");
       res.end();
       return;
     }
-    res
-      .status(200)
-      .json({
-        key: newShares[0],
-        msg: "New Device key reconstructed and recovered",
-      })
-      .end();
+    res.status(200).json({
+      key: newShares[0],
+      msg: "New Device key reconstructed and recovered"
+    }).end();
   };
 }
 
@@ -885,10 +835,7 @@ var import_jsonwebtoken4 = __toESM(require("jsonwebtoken"));
 function getPrivateKey() {
   return async (req, res) => {
     var _a;
-    const auth =
-      (_a = req.headers.authorization) == null
-        ? void 0
-        : _a.replace("Bearer ", "");
+    const auth = (_a = req.headers.authorization) == null ? void 0 : _a.replace("Bearer ", "");
     if (!auth || auth == void 0) {
       res.status(401).json("Unauthorized");
       res.end();
@@ -902,8 +849,8 @@ function getPrivateKey() {
     }
     const user = await prisma.user.findUnique({
       where: {
-        id: data.email,
-      },
+        id: data.email
+      }
     });
     if (!user) {
       res.status(404).json("No user was found through this token");
@@ -918,13 +865,10 @@ function getPrivateKey() {
     }
     const key2 = await getCombinedKey(user.email);
     const construct = combineKey([key, key2]);
-    res
-      .status(200)
-      .json({
-        key: construct,
-        msg: "The private key has been combined",
-      })
-      .end();
+    res.status(200).json({
+      key: construct,
+      msg: "The private key has been combined"
+    }).end();
   };
 }
 
@@ -941,7 +885,7 @@ app.use(
     secret: "xyz",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true, maxAge: 6e5 },
+    cookie: { secure: true, maxAge: 6e5 }
   })
 );
 app.use((0, import_cookie_parser.default)());
@@ -974,14 +918,14 @@ app.post("/delete-user", async (req, res) => {
   await mongo3.disconnect();
   const user = await prisma.user.findUnique({
     where: {
-      email: emailId,
-    },
+      email: emailId
+    }
   });
   if (user) {
     await prisma.user.delete({
       where: {
-        email: emailId,
-      },
+        email: emailId
+      }
     });
   }
   res.send("User deleted");
