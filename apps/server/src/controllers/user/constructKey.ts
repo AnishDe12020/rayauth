@@ -5,6 +5,7 @@ import { prisma } from "../../../lib/db";
 import { jwtInterface } from "src/interfaces/jwt";
 import { getCombinedKey } from "../../helpers/getAuthKey";
 import { combineKey } from "../../helpers";
+
 export function getPrivateKey() {
   return async (req: Request, res: Response) => {
     const auth = req.headers.authorization?.replace("Bearer ", "");

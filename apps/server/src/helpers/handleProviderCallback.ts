@@ -4,7 +4,7 @@ import { createToken } from "./token";
 import { setupKey } from "./setupKey";
 
 import store from "store";
-import { FRONTEND_URL } from "src/constant";
+import { FRONTEND_URL } from "../constant";
 
 export const handleProviderCallback = async (
   res: Response,

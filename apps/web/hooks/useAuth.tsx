@@ -9,6 +9,7 @@ import { PublicKey } from "@solana/web3.js";
 
 const useAuth = () => {
   const [user, setUser] = useState<IRayAuthJWT>();
+  const [jwt, setJwt] = useState<string>();
   const [needsRecovery, setNeedsRecovery] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -30,6 +31,7 @@ const useAuth = () => {
       const decoded = decodeJwt(jwt.toString());
 
       setUser(decoded as unknown as IRayAuthJWT);
+      setJwt(jwt.toString());
     }
 
     setLoading(false);
@@ -114,6 +116,25 @@ const useAuth = () => {
     removeCookies("rayauth-jwt");
   };
 
+  const handleNewDeviceShare = (share: string, router: NextRouter) => {
+    setDeviceShare(share);
+
+    if (router.query.callback) {
+      const callbackUrl = new URL(router.query.callback as string);
+
+      if (!router.query.jwt) {
+        console.log("no jwt");
+        return;
+      }
+
+      callbackUrl.searchParams.append("jwt", router.query.jwt as string);
+
+      window.location.replace(callbackUrl.toString());
+    } else {
+      window.location.replace("/");
+    }
+  };
+
   return {
     signIn,
     signOut,
@@ -122,6 +143,8 @@ const useAuth = () => {
     needsRecovery,
     loading,
     publickey,
+    jwt,
+    handleNewDeviceShare,
   };
 };
 
