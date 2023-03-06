@@ -5,20 +5,28 @@ import { BiRefresh } from "react-icons/bi";
 import useAuth from "@/hooks/useAuth";
 import useCluster from "@/hooks/useCluster";
 import { Cluster } from "@/types/cluster";
+import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import { toast } from "sonner";
+import { TOKEN_PROGRAM_ID, parse } from "@solana/spl-token";
 
 type Props = {};
 
-const AccountOption = () => {
+const AccountOption = ({ publicKey }: { publicKey: PublicKey }) => {
+  const handleCopyPublicKey = () => {
+    navigator.clipboard.writeText(publicKey.toString());
+    toast.success("Copied public key to clipboard");
+  };
+
   return (
     <div className="flex flex-row items-center">
       <button className="p-1 mx-2 border rounded-full h-fit lg:p-2">
         <AiOutlineQrcode />
       </button>
-      <button className="block p-1 px-2 mx-2 text-xs truncate border rounded-full w-28 lg:p-2">
-        34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM
-      </button>
-      <button className="flex flex-row items-center p-1 px-2 mx-2 text-xs border rounded-full lg:p-2">
-        <AiOutlineScan className="mx-2 text-sm" /> scan and pay
+      <button
+        className="block p-1 px-2 mx-2 text-xs truncate border rounded-full w-28 lg:p-2"
+        onClick={handleCopyPublicKey}
+      >
+        {publicKey.toString()}
       </button>
     </div>
   );
@@ -33,13 +41,33 @@ const Wallet = (props: Props) => {
       if (!publickey) return;
 
       const solBalance = await connection.getBalance(publickey);
-      console.log(solBalance);
+      console.log(solBalance / LAMPORTS_PER_SOL);
+
+      // get all token accoutns owned by the wallet
+      const tokenAccounts = await connection.getTokenAccountsByOwner(
+        publickey,
+        { programId: TOKEN_PROGRAM_ID }
+      );
+
+      console.log(tokenAccounts);
+
+      // get the token account metadata and balance for each
+
+      const tokenAccountData = await Promise.all(
+        tokenAccounts.value.map(async (tokenAccount) => {
+          return {
+            mint: tokenAcc,
+          };
+        })
+      );
+
+      console.log(tokenAccountData);
     };
 
     getWalletData();
   });
 
-  return (
+  return publickey ? (
     <div className="block max-w-2xl p-6 mx-auto my-1 border border-transparent rounded-lg shadow md:my-6 font-ksans">
       <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] lg:left-[530px] top-[158px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
 
@@ -52,7 +80,7 @@ const Wallet = (props: Props) => {
             </h3>
           </div>
           <div className="hidden lg:block">
-            <AccountOption />
+            <AccountOption publicKey={publickey} />
           </div>
         </div>
         {/* Body */}
@@ -96,7 +124,7 @@ const Wallet = (props: Props) => {
           </div>
         </div>
         <div className="flex justify-center my-4 lg:hidden">
-          <AccountOption />
+          <AccountOption publicKey={publickey} />
         </div>
         {/* Footer */}
         <div className="py-4">
@@ -152,6 +180,8 @@ const Wallet = (props: Props) => {
         </div>
       </div>
     </div>
+  ) : (
+    <p>login first lol</p>
   );
 };
 

@@ -162,6 +162,7 @@ importers:
     specifiers:
       '@hookform/resolvers': ^2.9.11
       '@next/font': 13.1.6
+      '@solana/spl-token': ^0.3.7
       '@solana/web3.js': ^1.73.0
       '@types/node': 18.14.0
       '@types/react': 18.0.28
@@ -182,6 +183,7 @@ importers:
       react-dom: 18.2.0
       react-hook-form: ^7.43.4
       react-icons: ^4.7.1
+      sonner: ^0.1.6
       tailwindcss: ^3.2.7
       typescript: 4.9.5
       use-indexeddb: ^2.0.2
@@ -189,6 +191,7 @@ importers:
     dependencies:
       '@hookform/resolvers': 2.9.11_react-hook-form@7.43.4
       '@next/font': 13.1.6
+      '@solana/spl-token': 0.3.7_@solana+web3.js@1.73.2
       '@solana/web3.js': 1.73.2
       '@types/node': 18.14.0
       '@types/react': 18.0.28
@@ -207,6 +210,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       react-hook-form: 7.43.4_react@18.2.0
       react-icons: 4.7.1_react@18.2.0
+      sonner: 0.1.6_react@18.2.0
       typescript: 4.9.5
       use-indexeddb: 2.0.2_react@18.2.0
       yup: 1.0.2
@@ -4993,6 +4997,23 @@ packages:
     dependencies:
       '@solana/buffer-layout': 4.0.1
       '@solana/buffer-layout-utils': 0.2.0
+      buffer: 6.0.3
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@solana/spl-token/0.3.7_@solana+web3.js@1.73.2:
+    resolution: {integrity: sha512-bKGxWTtIw6VDdCBngjtsGlKGLSmiu/8ghSt/IOYJV24BsymRbgq7r12GToeetpxmPaZYLddKwAz7+EwprLfkfg==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@solana/web3.js': ^1.47.4
+    dependencies:
+      '@solana/buffer-layout': 4.0.1
+      '@solana/buffer-layout-utils': 0.2.0
+      '@solana/web3.js': 1.73.2
       buffer: 6.0.3
     transitivePeerDependencies:
       - bufferutil
@@ -18576,6 +18597,14 @@ packages:
     dependencies:
       ip: 2.0.0
       smart-buffer: 4.2.0
+    dev: false
+
+  /sonner/0.1.6_react@18.2.0:
+    resolution: {integrity: sha512-nLoVOKCcSusA7VY/nlrttZmOdNbPrE3v8C+t3Ac6z/bW6G0ReabXqhPLqjIc1mFcI7twwzpKb5thzF+qak29Kw==}
+    peerDependencies:
+      react: ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /sort-keys/1.1.2:
