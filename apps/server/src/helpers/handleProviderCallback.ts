@@ -21,7 +21,7 @@ export const handleProviderCallback = async (
     },
   });
 
-  const redirectUrl = new URL(`${FRONTEND_URL}/callbac`);
+  const redirectUrl = new URL(`${FRONTEND_URL}/callback`);
 
   if (callback) {
     redirectUrl.searchParams.append("callback", callback);
