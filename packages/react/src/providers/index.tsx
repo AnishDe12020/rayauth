@@ -1,6 +1,6 @@
 import { createContext } from "../helpers/context";
 import { config } from "../interfaces";
-
+import React from "react";
 const [RayAuthConfigProvider, useConfig] = createContext<config>();
 
 export { useConfig };

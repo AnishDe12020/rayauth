@@ -7,20 +7,20 @@ import { useConfig } from "../providers";
 import { BASEURL } from "../constants";
 
 export function useAuth(): authInterface {
+  const config = useConfig();
+  const cookieName = config.cookieName
   const [user, setUser] = useState<userConstructor | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [cookies, _, removeCookie] = useCookies(["jwt-rayauth"]);
-
-  const config = useConfig();
-
+  const [cookies, setCookie, removeCookie] = useCookies([cookieName]);
   useEffect(() => {
     const fetchUser = async () => {
+      
       setIsLoading(true);
-      if (!cookies["jwt-rayauth"]) {
+      if (!cookies[cookieName]) {
         setIsLoading(false);
         return;
       }
-      const user = await getUser(cookies["jwt-rayauth"]);
+      const user = await getUser(cookies[cookieName]);
       setUser(user);
       setIsLoading(false);
     };
@@ -29,14 +29,18 @@ export function useAuth(): authInterface {
 
   const handleCallback = () => {
     console.log("RUNNING CALLBACK");
-    const [cookies, setCookie, removeCookie] = useCookies(["jwt-rayauth"]);
+   
     const urlParams = new URLSearchParams(window.location.search);
-    const jwt = urlParams.get("jwt");
-    if (!jwt) return;
-    if (cookies["jwt-rayauth"]) {
-      removeCookie("jwt-rayauth");
-      setCookie("jwt-rayauth", jwt);
-    }
+      const jwt = urlParams.get("jwt");
+      if (cookies[cookieName]) {
+        console.log("exists", cookies[cookieName])
+         removeCookie(cookieName);
+         console.log(setCookie(cookieName, jwt))
+        }
+      if (jwt && !cookies[cookieName]){
+       console.log(setCookie(cookieName, jwt.toString()))
+       } 
+    
   };
 
   const signIn = () => {
@@ -48,7 +52,7 @@ export function useAuth(): authInterface {
   };
 
   const signOut = () => {
-    removeCookie("jwt-rayauth");
+    removeCookie(cookieName);
   };
 
   return { signIn, signOut, user, isLoading, handleCallback };
