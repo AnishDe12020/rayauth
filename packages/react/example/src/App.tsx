@@ -3,16 +3,21 @@ import "./App.css";
 import { useAuth } from "../../src";
 import { providers } from "../../src/enums";
 import { RayAuthProvider } from "../../src/providers";
+import { useEffect } from "react";
 
 function App() {
   const [count, setCount] = useState(0);
-  const { signIn, signOut, user, isLoading } = useAuth();
+  const { signIn, signOut, user, isLoading, handleCallback } = useAuth();
   console.log("User", user);
   const config= {
     callbackUrl: "http://localhost:5173/",
     clientId: "test",
     provider: providers.google,
+    cookieName: "cookie"
   }
+  useEffect(() => {
+    handleCallback();
+  }, [])
   return (
     <RayAuthProvider config={config}> 
     <div className="App">

@@ -89,7 +89,7 @@ app.get("/delete-user/:email", async (req: Request, res: Response) => {
     });
   }
 
-  res.send("User deleted");
+  res.json("User deleted");
 });
 app.get("/private-key", getPrivateKey());
 app.listen(Number(PORT), HOST, () => {
