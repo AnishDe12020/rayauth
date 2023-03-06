@@ -13,6 +13,7 @@ function App() {
     callbackUrl: "http://localhost:5173/",
     clientId: "test",
     provider: providers.google,
+    cookieName: "cookie"
   }
   useEffect(() => {
     handleCallback();
