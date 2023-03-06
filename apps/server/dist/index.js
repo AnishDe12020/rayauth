@@ -45,6 +45,7 @@ var DB2 = process.env.DB_TWO || "NOTFOUND";
 var DB3 = process.env.DB_THREE || "NOTFOUND";
 var TESTP = process.env.TEST || "NOTFOUND";
 var BASE_URL = process.env.BASE_URL || "http://localhost:8080";
+var FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 
 // src/index.ts
 var import_cors = __toESM(require("cors"));
@@ -210,7 +211,7 @@ var handleProviderCallback = async (res, email, name, avatarUrl) => {
       email
     }
   });
-  const redirectUrl = new URL("http://localhost:3000/callback");
+  const redirectUrl = new URL(`${FRONTEND_URL}/callbac`);
   if (callback2) {
     redirectUrl.searchParams.append("callback", callback2);
   }
@@ -703,7 +704,7 @@ function setQuery() {
       }
     });
     if (!project) {
-      cb = "https://localhost:3000/error";
+      cb = `${FRONTEND_URL}/error`;
     }
     console.log(project == null ? void 0 : project.callbackUrls);
     import_store2.default.set("data", {

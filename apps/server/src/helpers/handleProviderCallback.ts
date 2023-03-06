@@ -4,6 +4,7 @@ import { createToken } from "./token";
 import { setupKey } from "./setupKey";
 
 import store from "store";
+import { FRONTEND_URL } from "src/constant";
 
 export const handleProviderCallback = async (
   res: Response,
@@ -20,7 +21,7 @@ export const handleProviderCallback = async (
     },
   });
 
-  const redirectUrl = new URL("http://localhost:3000/callback");
+  const redirectUrl = new URL(`${FRONTEND_URL}/callbac`);
 
   if (callback) {
     redirectUrl.searchParams.append("callback", callback);
