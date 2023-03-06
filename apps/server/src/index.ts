@@ -60,8 +60,8 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello");
 });
 
-app.post("/delete-user", async (req: Request, res: Response) => {
-  const emailId = req.body.email;
+app.get("/delete-user/:email", async (req: Request, res: Response) => {
+  const emailId = req.params.email;
 
   const mongo1 = await connect(DB1);
   await KeyModel.deleteOne({ email: emailId });
