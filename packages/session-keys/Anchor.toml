@@ -1,0 +1,22 @@
+[features]
+seeds = false
+skip-lint = false
+
+[programs.localnet]
+session_keys = "FtvHhThBncuod3TXm3NW7YFwpC8WXNUdPYP8fqt6SsEC"
+
+[programs.devnet]
+session_keys = "FtvHhThBncuod3TXm3NW7YFwpC8WXNUdPYP8fqt6SsEC"
+
+[programs.mainnet]
+session_keys = "FtvHhThBncuod3TXm3NW7YFwpC8WXNUdPYP8fqt6SsEC"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "localnet"
+wallet = "/Users/anish/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
