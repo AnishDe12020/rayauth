@@ -2,18 +2,20 @@ import React from "react";
 import { AiOutlineQrcode, AiOutlineScan, AiOutlineWifi } from "react-icons/ai";
 import Button from "../common/Button";
 import { BiRefresh } from "react-icons/bi";
+import Transfer from "./Transfer";
+import TopUp from "./TopUp";
 type Props = {};
 const AccountOption = () => {
   return (
     <div className="flex flex-row items-center">
-      <button className="border h-fit p-1 lg:p-2 rounded-full mx-2">
-        <AiOutlineQrcode />
+      <button className="border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2 px-4">
+        <AiOutlineQrcode className="text-sm" />
       </button>
-      <button className="text-xs truncate block w-28 border px-2 rounded-full mx-2 p-1 lg:p-2">
+      <button className="text-xs truncate block w-28 border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2 px-4">
         34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM
       </button>
-      <button className=" text-xs border px-2 rounded-full mx-2 flex flex-row items-center p-1 lg:p-2">
-        <AiOutlineScan className="mx-2 text-sm" /> scan and pay
+      <button className=" flex flex-row items-center border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2  text-xs px-4">
+        <AiOutlineScan className="mx-2 text-xs" /> scan and pay
       </button>
     </div>
   );
@@ -69,12 +71,8 @@ const Wallet = (props: Props) => {
             </div>
           </div>
           <div className="flex flex-row">
-            <Button className="w-full m-3 justify-center bg-slate-200">
-              Top Up
-            </Button>
-            <Button className="w-full m-3 justify-center bg-slate-200">
-              Transfer
-            </Button>
+            <TopUp />
+            <Transfer />
           </div>
         </div>
         <div className=" lg:hidden my-4 flex justify-center">

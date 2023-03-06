@@ -37,7 +37,7 @@ const Navbar = () => {
                 className="hover:text-slate-200 hover:border-b-1 px-8   rounded-md text-base font-semibold"
               >
                 <button className="rounded-2xl text-black bg-white px-3 py-1 hover:bg-slate-200">
-                  Get Started
+                  <Link href={"/wallet"}>Get Started</Link>
                 </button>
               </Link>
             </div>

@@ -45,7 +45,7 @@ const About = (props: Props) => {
           );
         })}
       </div>
-      <div data-aos="fade-up">
+      <div>
         <h3
           style={{
             background: "linear-gradient(90deg, #45A0F5 0%, #26E3C2 100%)",

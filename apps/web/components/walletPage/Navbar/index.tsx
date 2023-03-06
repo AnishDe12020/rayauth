@@ -1,10 +1,12 @@
+import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { Fragment } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsWallet2 } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
-
+import { CiCircleChevDown } from "react-icons/ci";
+import ProfileButton from "./ProfileButton";
 type Props = {};
 
 const Links = [
@@ -32,7 +34,9 @@ const Navbar = (props: Props) => {
   return (
     <div className="flex flex-row justify-between py-5 md:py-0 text-white w-full px-4 items-center border-b border-gray-400">
       <div>
-        <h2 className="font-ksans text-2xl font-medium">RayAuth</h2>
+        <Link href={"/"}>
+          <h2 className="font-ksans text-2xl font-medium">RayAuth</h2>
+        </Link>
       </div>
       <div className="z-20 flex flex-row flex-1 justify-center fixed bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-0 md:static md:translate-x-0 md:translate-y-0 bg-gray-900 lg:bg-transparent w-full">
         {Links.map((link, key) => {
@@ -58,7 +62,7 @@ const Navbar = (props: Props) => {
         })}
       </div>
       <div className="font-ksans font-normal">
-        <h3>Sagar Gajare</h3>
+        <ProfileButton />
       </div>
     </div>
   );
