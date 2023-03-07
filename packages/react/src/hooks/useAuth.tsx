@@ -6,9 +6,10 @@ import { getUser } from "../helpers/fetchUser";
 import { useConfig } from "../providers";
 import { BASEURL } from "../constants";
 
-export function useAuth(): authInterface {
+export function useAuth(cookieName: string): authInterface {
   const config = useConfig();
-  const cookieName = config.cookieName
+  
+  console.log("cookieName", cookieName)
   const [user, setUser] = useState<userConstructor | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies([cookieName]);

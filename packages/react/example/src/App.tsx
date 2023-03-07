@@ -4,10 +4,11 @@ import { useAuth } from "../../src";
 import { providers } from "../../src/enums";
 import { RayAuthProvider } from "../../src/providers";
 import { useEffect } from "react";
-
+import {UserComponent} from "../../src";
+import "../../src/tailwind.css"
 function App() {
   const [count, setCount] = useState(0);
-  const { signIn, signOut, user, isLoading, handleCallback } = useAuth();
+  const { signIn, signOut, user, isLoading, handleCallback } = useAuth("help");
   console.log("User", user);
   const config= {
     callbackUrl: "http://localhost:5173/",
@@ -26,6 +27,7 @@ function App() {
       <div> {user?.address} </div>
       <div>{String(isLoading)} </div>
     </div>
+    <UserComponent/>
     </RayAuthProvider>
   );
 }

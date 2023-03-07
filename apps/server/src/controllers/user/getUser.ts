@@ -12,7 +12,7 @@ export function userController() {
       res.end();
       return;
     }
-    console.log(auth);
+    console.log("auth", auth);
     var data = jwt.verify(auth || "", SECERET) as jwtInterface;
     if (!data) {
       res.status(401).json("Unauthorized");
