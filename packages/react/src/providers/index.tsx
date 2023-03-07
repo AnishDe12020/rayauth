@@ -1,3 +1,4 @@
+import { store } from "../store";
 import { createContext } from "../helpers/context";
 import { config } from "../interfaces";
 import React from "react";
@@ -12,7 +13,12 @@ export const RayAuthProvider = ({
   children: React.ReactNode;
   config: config;
 }) => {
+  const state:any = store()
+  console.log("state",state.count)
   return (
-    <RayAuthConfigProvider value={config}>{children}</RayAuthConfigProvider>
+    <RayAuthConfigProvider value={config}>
+      <div hidden={Boolean(state.isVisible)} className="">Hi</div>
+      {children}
+    </RayAuthConfigProvider>
   );
 };

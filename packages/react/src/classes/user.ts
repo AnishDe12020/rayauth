@@ -53,8 +53,6 @@ export class userConstructor {
         throw new Error("Can't execute signing of message")
       }
     }
-
-
-  }
+}
 
 
