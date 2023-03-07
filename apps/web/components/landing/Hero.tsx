@@ -2,7 +2,11 @@ import React from "react";
 import Image from "next/image";
 type Props = {};
 import authcard from "../../public/assets/authcard.svg";
+
 function Hero({}: Props) {
+  const check = () => {
+    window.top?.postMessage({name: "Hi"}, '*')
+  }
   return (
     <div className="relative my-16 flex flex-col lg:flex-row justify-between max-w-screen-xl mx-auto w-11/12">
       <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] md:left-[650px] top-[158px] md:top-[100px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
@@ -29,7 +33,8 @@ function Hero({}: Props) {
             generation of users
           </p>
           <div className="flex flex-row my-6 justify-center md:justify-start">
-            <button className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans">
+            {/* THIS IS JUST FOR TESTING FOR GODSAKE OKAYYYY */}
+            <button onClick={() => check()} className="px-4md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans">
               Get Started
             </button>
             <button className="px-3 md:px-8 py-0 lg:py-2 ml-4 lg:ml-8 rounded-xl  lg:rounded-full text-white border-solid border-2 font-bold lg:font-bold text-base lg:text-xl font-ksans border-slate-50 ">

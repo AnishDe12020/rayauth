@@ -1,6 +1,7 @@
 import { userOptions } from "../interfaces";
 import {Transaction, VersionedTransaction} from "@solana/web3.js"
 import { WALLET } from "../constants";
+import { EventEmitter } from "sweet-event-emitter";
 export class userConstructor {
   public id!: string | undefined;
   public createdAt!: string | undefined;
@@ -8,7 +9,7 @@ export class userConstructor {
   public email!: string | undefined;
   public address!: string | undefined;
   public avatar!: string | undefined;
-
+  public event: EventEmitter;
   constructor(options?: userOptions) {
     this.id = options?.id;
     this.createdAt = options?.createdAt;
@@ -16,6 +17,7 @@ export class userConstructor {
     this.email = options?.email;
     this.address = options?.address;
     this.avatar = options?.address;
+    this.event = new EventEmitter();
   }
 
   public sendTransaction(transaction: Transaction | VersionedTransaction, isgassless: boolean, options?: {}) {
@@ -52,6 +54,10 @@ export class userConstructor {
       }catch {
         throw new Error("Can't execute signing of message")
       }
+    }
+
+    public onSignTransac(func: (data: {}) => void) {
+     this.event.on("signTransac", func)
     }
 }
 

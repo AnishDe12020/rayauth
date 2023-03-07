@@ -1,20 +1,18 @@
-import { useState } from "react";
 import "./App.css";
 import { useAuth } from "../../src";
-import { providers } from "../../src/enums";
 import { useEffect } from "react";
-import {UserComponent} from "../../src";
 function App() {
-  const [count, setCount] = useState(0);
   const { signIn, signOut, user, isLoading, handleCallback } = useAuth("help");
   console.log("User", user);
-  const config= {
-    callbackUrl: "http://localhost:5173/",
-    clientId: "test",
-    provider: providers.google,
-    cookieName: "cookie"
-  }
+  user?.onSignTransac((data:{}) => {
+    console.log(data)
+  })
   useEffect(() => {
+    window.onmessage = function(e) {
+      if (e.data == 'Hi') {
+          alert('It works!');
+      }
+  };
     handleCallback();
   }, [])
   return (
@@ -23,7 +21,6 @@ function App() {
       <button onClick={() => signOut()}> SignOut </button>
       <div> {user?.address} </div>
       <div>{String(isLoading)} </div>
-      <UserComponent/>
     </div>
   );
 }
