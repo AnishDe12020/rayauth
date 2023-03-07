@@ -27,7 +27,7 @@ pub mod session_keys {
 
         let clock = Clock::get()?;
 
-        let expires_at = expires_at.unwrap_or(Clock::get()?.unix_timestamp + 60 * 60 * 1); // 1 hour
+        let expires_at = expires_at.unwrap_or(clock.unix_timestamp + 60 * 60 * 1); // 1 hour
 
         require!(
             expires_at > clock.unix_timestamp,
@@ -68,6 +68,11 @@ pub mod session_keys {
         let mut session_key_pda_data = session_key_pda_account_info.data.borrow_mut();
 
         session_key_pda_data.fill(0);
+
+        emit!(SessionKeyRevoked {
+            user: *ctx.accounts.user.key,
+            session_key: session_key_pda.session_key,
+        });
 
         msg!("Session key revoked");
 
