@@ -20,7 +20,7 @@ export default function Transfer() {
         type="button"
         onClick={openModal}
       >
-        Transfer
+        Send
       </Button>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -53,7 +53,7 @@ export default function Transfer() {
                     as="h3"
                     className="text-lg font-medium leading-6 text-white px-4"
                   >
-                    Transfer
+                    Send
                   </Dialog.Title>
                   <div className="m-2 ml-0 flex flex-row w-full">
                     <input

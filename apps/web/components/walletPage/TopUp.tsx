@@ -24,11 +24,11 @@ export default function TopUp({
   return (
     <>
       <Button
-        className="w-full m-3 justify-center bg-slate-200"
+        className="w-full m-3 justify-center bg-transparent border border-slate-400 text-slate-100 active:bg-transparent hover:bg-slate-800 hover:text-white"
         type="button"
         onClick={openModal}
       >
-        TopUp
+        Receive
       </Button>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -61,7 +61,7 @@ export default function TopUp({
                     as="h3"
                     className="text-xl font-medium leading-6 text-white px-4"
                   >
-                    TopUp
+                    Receive
                   </Dialog.Title>
                   <div className="m-2 ml-0 flex flex-row items-center justify-center w-full">
                     <div className="p-1 bg-gray-700 rounded-lg border-slate-400">

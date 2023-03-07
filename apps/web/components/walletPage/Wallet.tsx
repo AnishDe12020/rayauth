@@ -4,17 +4,23 @@ import Button from "../common/Button";
 import { BiRefresh } from "react-icons/bi";
 import Transfer from "./Transfer";
 import TopUp from "./TopUp";
+import Token from "./Token";
 type Props = {};
 const AccountOption = () => {
   return (
-    <div className="flex flex-row items-center">
-      <button className="border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2 px-4">
-        <AiOutlineQrcode className="text-sm" />
-      </button>
-      <button className="text-xs truncate block w-28 border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2 px-4">
-        34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM
-      </button>
-      <button className=" flex flex-row items-center border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2  text-xs px-4">
+    <div>
+      <div className="flex flex-row items-center">
+        <button className="md:px-6 border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2 px-4">
+          <AiOutlineQrcode className="text-sm" />
+        </button>
+        <button className="text-xs truncate block w-28 border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2 px-4">
+          34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM
+        </button>
+        <button className="hidden md:flex  flex-row items-center border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2  text-xs px-4">
+          <AiOutlineScan className="mx-2 text-xs" /> scan and pay
+        </button>
+      </div>
+      <button className="md:hidden mt-3 w-fit mx-auto flex  flex-row items-center border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl   text-xs px-4">
         <AiOutlineScan className="mx-2 text-xs" /> scan and pay
       </button>
     </div>
@@ -27,20 +33,19 @@ const Wallet = (props: Props) => {
 
       <div className="flex flex-col text-white ">
         {/* Header */}
-        <div className="flex flex-row justify-between w-full py-6 ">
+        <div className="flex flex-row justify-center w-full py-6 ">
           <div>
-            <h3 className="font-ksans text-xl lg:text-3xl font-medium">
+            <h3 className="font-ksans text-center md:text-left text-xl lg:text-2xl font-medium">
               Account Balance
             </h3>
-          </div>
-          <div className="hidden lg:block">
-            <AccountOption />
           </div>
         </div>
         {/* Body */}
         <div className="border border-transparent rounded-lg shadow bg-slate-900 p-6">
           <div className="flex flex-row justify-between items-center">
-            <div className="font-ksans text-lg font-semibold">TOTAL VALUE</div>
+            <div className="font-ksans text-base font-semibold">
+              TOTAL ASSETS VALUE
+            </div>
             <div>
               <span className="text-sm text-gray-400 font-medium flex flex-row items-center">
                 <span className="mx-2">
@@ -50,9 +55,9 @@ const Wallet = (props: Props) => {
               </span>
             </div>
           </div>
-          <div className="flex flex-row justify-between items-end py-6">
+          <div className="flex flex-row justify-center items-end py-6">
             <div className="flex flex-row items-end">
-              <span className="text-3xl font-bold text-gray-400">12</span>
+              <span className="text-6xl font-bold text-gray-400">12</span>
 
               <select
                 id="currency"
@@ -64,40 +69,25 @@ const Wallet = (props: Props) => {
                 <option value="GBP">GBP</option>
               </select>
             </div>
-            <div>
-              <span className="text-xs font-semibold text-gray-400">
-                1 SOL = 22.85 USD
-              </span>
-            </div>
           </div>
-          <div className="flex flex-row">
+          <div className="flex flex-col max-w-lg mx-auto">
             <TopUp />
             <Transfer />
           </div>
+          <div className="flex items-center justify-center mt-3">
+            <AccountOption />
+          </div>
         </div>
-        <div className=" lg:hidden my-4 flex justify-center">
-          <AccountOption />
-        </div>
+
         {/* Footer */}
         <div className="py-4">
           <div className="my-4">
             <h2 className="font-medium">Tokens</h2>
           </div>
-          <div className="flex flex-col border border-transparent rounded-t-lg shadow bg-slate-900 p-3">
-            <div className="my-2">
-              <div className="flex flex-row justify-between">
-                <h3 className="text-sm font-bold">Solana</h3>
-                <h3 className="text-sm font-medium">~ 0 SOL</h3>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col border border-transparent rounded-b-lg shadow bg-slate-800 p-3">
-            <div className="my-2 ">
-              <div className="flex flex-row justify-between">
-                <h3 className="text-xs">1 SOL ≈ 22.85 USD</h3>
-                <h3 className="text-xs font-medium">~0.00 USD</h3>
-              </div>
-            </div>
+          <div>
+            {[0, 1, 2, 3, 4].map((token, key) => {
+              return <Token key={key} />;
+            })}
           </div>
         </div>
         {/* Below Token Import section */}

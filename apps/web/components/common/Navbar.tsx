@@ -33,11 +33,14 @@ const Navbar = () => {
                 DOCS
               </Link>
               <Link
-                href="/contact"
-                className="hover:text-slate-200 hover:border-b-1 px-8   rounded-md text-base font-semibold"
+                href="/"
+                className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base font-semibold"
               >
+                CONTACT
+              </Link>
+              <Link href={"/wallet"}>
                 <button className="rounded-2xl text-black bg-white px-3 py-1 hover:bg-slate-200">
-                  <Link href={"/wallet"}>Get Started</Link>
+                  Get Started
                 </button>
               </Link>
             </div>
