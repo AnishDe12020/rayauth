@@ -26,20 +26,18 @@ describe("session-keys", () => {
 
     const timestamp_after_1_hour = Math.floor(Date.now() / 1000) + 3600;
 
-    const tx = await program.methods
-      .addSessionKey(
-        sessionKeypair.publicKey,
-        new anchor.BN(timestamp_after_1_hour)
-      )
+    const addTx = await program.methods
+      .addSessionKey(new anchor.BN(timestamp_after_1_hour))
       .accounts({
         payer: userWallet.publicKey,
         sessionKeyPda: sessionKeyPda,
         user: userKeypair.publicKey,
+        sessionKey: sessionKeypair.publicKey,
       })
-      .signers([userKeypair])
+      .signers([userKeypair, sessionKeypair])
       .rpc();
 
-    console.log("tx", tx);
+    console.log("addTx: ", addTx);
 
     const sessionKeyAccount = await program.account.sessionKey.fetch(
       sessionKeyPda
@@ -54,5 +52,29 @@ describe("session-keys", () => {
     expect(sessionKeyAccount.expiresAt.toNumber()).to.equal(
       timestamp_after_1_hour
     );
+  });
+
+  it("can revoke a session key", async () => {
+    const [sessionKeyPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [sessionKeypair.publicKey.toBuffer()],
+      program.programId
+    );
+
+    const revokeTx = await program.methods
+      .revokeSessionKey()
+      .accounts({
+        sessionKeyPda: sessionKeyPda,
+        user: userKeypair.publicKey,
+      })
+      .rpc();
+
+    console.log("revokeTx: ", revokeTx);
+
+    const sessionKeyAccount = await program.account.sessionKey
+      .fetch(sessionKeyPda)
+      .catch((err) => {
+        expect(err).to.not.be.undefined;
+        expect(err.message).to.contain("Account does not exist");
+      });
   });
 });
