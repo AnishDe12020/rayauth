@@ -10,5 +10,5 @@ name = "rayauth"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-solana-program = "1.15.2"
+solana-program = "*"
 borsh = "0.10.2"
