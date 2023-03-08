@@ -11,8 +11,8 @@ export class userConstructor {
   public email!: string | undefined;
   public address!: string | undefined;
   public avatar!: string | undefined;
-  public event: EventEmitter;
-  private data: any;
+  public event: EventEmitter 
+  private state: any;
 
   constructor(options?: userOptions) {
     this.id = options?.id;
@@ -22,7 +22,6 @@ export class userConstructor {
     this.address = options?.address;
     this.avatar = options?.address;
     this.event = new EventEmitter();
-    this.data = store();
   }
 
   public sendTransaction(
@@ -38,7 +37,7 @@ export class userConstructor {
         options?.toString() || String({ data: "empty" })
       );
       url.searchParams.append("isgasless", String(isgassless));
-      this.toggleIframe(url.toString(), true);
+      
     } catch {
       throw new Error("Can't execute send transaction");
     }
@@ -48,7 +47,7 @@ export class userConstructor {
     try {
       const url = new URL(`${WALLET}/sign-transaction`);
       url.searchParams.append("txn", transaction.serialize().toString());
-      this.toggleIframe(url.toString(), true);
+      
     } catch {
       throw new Error("Can't execute send transaction");
     }
@@ -64,7 +63,7 @@ export class userConstructor {
         transactions.map((tx) => tx.serialize().toString()).toString()
       );
 
-      this.toggleIframe(url.toString(), true);
+      
     } catch {
       throw new Error("Can't execute signing of all transactions");
     }
@@ -76,14 +75,18 @@ export class userConstructor {
       url.searchParams.append("msg", message);
       url.searchParams.append("address", this.address || "NOT-FOUND");
       url.searchParams.append("isgasless", String(isgasless));
-      this.toggleIframe(url.toString(), true);
+      
     } catch {
       throw new Error("Can't execute signing of message");
     }
   }
+  
+  public syncState(state: unknown) {
+    this.state = state
+  }
 
   private toggleIframe(src: string, isVisible: boolean) {
-    this.data?.setSrc(src);
-    this.data.setVisable(isVisible);
+    this.state?.setSrc(src);
+    this.state.setVisable(isVisible);
   }
 }

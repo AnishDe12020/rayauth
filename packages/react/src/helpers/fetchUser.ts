@@ -8,16 +8,17 @@ export async function getUser(jwt: string): Promise<userConstructor> {
       Authorization: `Bearer ${jwt}`,
     },
   });
+  console.log(data.data)
 
   const returnData = new userConstructor({
     id: data.data.id,
-    createdAt: data.data.createdAt,
+    createdAt: data.data.createdAt, 
     updatedAt: data.data.updatedAt,
     email: data.data.email,
     address: data.data.address,
     avatar: data.data.avatar,
   });
-
+console.log("constructor", returnData)
   return returnData;
 }
 

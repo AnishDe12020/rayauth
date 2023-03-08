@@ -2,11 +2,8 @@ import "./App.css";
 import { useAuth } from "../../src";
 import { useEffect } from "react";
 function App() {
-  const { signIn, signOut, user, isLoading, handleCallback, walletListener } = useAuth("help");
+  const { signIn, signOut, user, isLoading, handleCallback, walletListener } = useAuth("cookie");
   console.log("User", user);
-  walletListener.onSignTransac((data:{}) => {
-    console.log("data", data)
-  })
   useEffect(() => {
     handleCallback();
   }, [])
@@ -16,6 +13,10 @@ function App() {
       <button onClick={() => signOut()}> SignOut </button>
       <div> {user?.address} </div>
       <div>{String(isLoading)} </div>
+
+      <button >
+         SignTxn test
+      </button >
     </div>
   );
 }

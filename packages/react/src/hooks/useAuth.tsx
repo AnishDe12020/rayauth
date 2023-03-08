@@ -6,23 +6,32 @@ import { getUser } from "../helpers/fetchUser";
 import { useConfig } from "../providers";
 import { BASEURL } from "../constants";
 import { walletListener } from "../classes/eventListener";
+import { store } from "../store";
 
-export function useAuth(cookieName: string = "rayauth-jwt"): authInterface {
+export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
   const config = useConfig();
-  console.log("cookieName", cookieName);
+  const syncstore = store()
   const [user, setUser] = useState<userConstructor | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies([cookieName]);
   useEffect(() => {
     const fetchUser = async () => {
+      console.log("CHAL RHA")
       setIsLoading(true);
       if (!cookies[cookieName]) {
         setIsLoading(false);
         return;
       }
+      console.log("YAHA BHI CHAL RHA")
+
       const user = await getUser(cookies[cookieName]);
+      console.log("USER CHAL RHA")
+
       setUser(user);
+      user.syncState(syncstore)
       setIsLoading(false);
+      console.log("PURA CHAL RHA")
+
     };
     fetchUser();
   }, [cookies]);
@@ -32,7 +41,7 @@ export function useAuth(cookieName: string = "rayauth-jwt"): authInterface {
 
     const urlParams = new URLSearchParams(window.location.search);
     const jwt = urlParams.get("jwt");
-    if (cookies[cookieName]) {
+    if (jwt && cookies[cookieName]) {
       console.log("exists", cookies[cookieName]);
       removeCookie(cookieName);
       console.log(setCookie(cookieName, jwt));
