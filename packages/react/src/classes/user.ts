@@ -56,9 +56,7 @@ export class userConstructor {
       }
     }
 
-    public onSignTransac(func: (data: {}) => void) {
-     this.event.on("signTransac", func)
-    }
+   
 }
 
 

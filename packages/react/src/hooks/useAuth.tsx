@@ -5,6 +5,7 @@ import { userConstructor } from "../classes";
 import { getUser } from "../helpers/fetchUser";
 import { useConfig } from "../providers";
 import { BASEURL } from "../constants";
+import { WalletListener } from "../classes/eventListener";
 export function useAuth(cookieName: string): authInterface {
   
   const config = useConfig();
@@ -12,9 +13,10 @@ export function useAuth(cookieName: string): authInterface {
   const [user, setUser] = useState<userConstructor | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies([cookieName]);
+  const walletListener = new WalletListener()
+  const event = walletListener.eventEmitter()
   useEffect(() => {
     const fetchUser = async () => {
-      
       setIsLoading(true);
       if (!cookies[cookieName]) {
         setIsLoading(false);
@@ -26,7 +28,7 @@ export function useAuth(cookieName: string): authInterface {
     };
     fetchUser();
   }, [cookies]);
-  const event = user?.event
+  
   const handleCallback = () => {
     console.log("RUNNING CALLBACK");
    
@@ -57,11 +59,13 @@ export function useAuth(cookieName: string): authInterface {
   
   const handleWallet = () => {
     window.onmessage = function(e) {
+      console.log(e.data)
       if (e.data.type == 'signtransac') {
-        event?.emit("signTransac", {name: "Hi"})
+        console.log(true)
+        event.emit("signTransac", e.data)
       }
   }; 
 }
 
-  return { signIn, signOut, user, isLoading, handleCallback, handleWallet };
+  return { signIn, signOut, user, isLoading, handleCallback, handleWallet, walletListener };
 }
