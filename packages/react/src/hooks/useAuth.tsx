@@ -5,17 +5,16 @@ import { userConstructor } from "../classes";
 import { getUser } from "../helpers/fetchUser";
 import { useConfig } from "../providers";
 import { BASEURL } from "../constants";
-
+import { walletListener } from "../classes/eventListener";
 export function useAuth(cookieName: string): authInterface {
-  const config = useConfig();
   
+  const config = useConfig();
   console.log("cookieName", cookieName)
   const [user, setUser] = useState<userConstructor | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies([cookieName]);
   useEffect(() => {
     const fetchUser = async () => {
-      
       setIsLoading(true);
       if (!cookies[cookieName]) {
         setIsLoading(false);
@@ -27,7 +26,7 @@ export function useAuth(cookieName: string): authInterface {
     };
     fetchUser();
   }, [cookies]);
-
+  
   const handleCallback = () => {
     console.log("RUNNING CALLBACK");
    
@@ -55,6 +54,7 @@ export function useAuth(cookieName: string): authInterface {
   const signOut = () => {
     removeCookie(cookieName);
   };
+  
 
-  return { signIn, signOut, user, isLoading, handleCallback };
+  return { signIn, signOut, user, isLoading, handleCallback, walletListener };
 }

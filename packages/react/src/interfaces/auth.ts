@@ -1,3 +1,4 @@
+import { WalletListener } from "../classes/eventListener";
 import { userConstructor } from "../classes";
 
 export interface authInterface {
@@ -6,4 +7,5 @@ export interface authInterface {
   handleCallback: () => void;
   user: userConstructor | null;
   isLoading: boolean;
+  walletListener: WalletListener
 }
