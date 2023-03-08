@@ -2,13 +2,12 @@ import "./App.css";
 import { useAuth } from "../../src";
 import { useEffect } from "react";
 function App() {
-  const { signIn, signOut, user, isLoading, handleCallback, handleWallet,walletListener } = useAuth("help");
+  const { signIn, signOut, user, isLoading, handleCallback, walletListener } = useAuth("help");
   console.log("User", user);
   walletListener.onSignTransac((data:{}) => {
     console.log("data", data)
   })
   useEffect(() => {
-    handleWallet();
     handleCallback();
   }, [])
   return (

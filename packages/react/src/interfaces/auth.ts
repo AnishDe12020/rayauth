@@ -7,6 +7,5 @@ export interface authInterface {
   handleCallback: () => void;
   user: userConstructor | null;
   isLoading: boolean;
-  handleWallet: () => void
   walletListener: WalletListener
 }

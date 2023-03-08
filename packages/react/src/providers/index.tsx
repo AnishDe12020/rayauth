@@ -1,7 +1,8 @@
 import { store } from "../store";
 import { createContext } from "../helpers/context";
 import { config } from "../interfaces";
-import React from "react";
+import React, { useEffect } from "react";
+import { handleWallet } from "../helpers/handleWallet";
 const [RayAuthConfigProvider, useConfig] = createContext<config>();
 export { useConfig };
 
@@ -14,6 +15,9 @@ export const RayAuthProvider = ({
 }) => {
   const state:any = store()
   console.log("state",state.count)
+  useEffect(() => {
+    handleWallet();
+  }, [])
   return (
     <RayAuthConfigProvider value={config}>
       <div hidden={Boolean(state.isVisible)} className="">

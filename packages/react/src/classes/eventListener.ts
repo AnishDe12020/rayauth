@@ -18,3 +18,5 @@ export class WalletListener {
         this.event.on("signTransac", func)
     }
 }
+
+export const walletListener:WalletListener = new WalletListener()
