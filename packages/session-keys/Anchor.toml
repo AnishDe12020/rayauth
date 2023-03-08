@@ -17,7 +17,8 @@ rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+# cluster = "localnet"
+cluster = "devnet"
 wallet = "/Users/anish/.config/solana/id.json"
 
 [scripts]

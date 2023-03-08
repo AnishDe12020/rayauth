@@ -252,6 +252,7 @@ importers:
     specifiers:
       '@babel/core': ^7.2.2
       '@babel/runtime': ^7.3.1
+      '@project-serum/anchor': ^0.26.0
       '@rollup/plugin-babel': ^5.2.0
       '@rollup/plugin-commonjs': ^15.0.0
       '@rollup/plugin-node-resolve': ^9.0.0
@@ -278,6 +279,7 @@ importers:
       typescript: ^3.2.4
       zustand: ^4.3.6
     dependencies:
+      '@project-serum/anchor': 0.26.0
       '@solana/web3.js': 1.73.2
       axios: 1.3.4
       jotai: 2.0.2_react@16.14.0
@@ -3705,6 +3707,17 @@ packages:
       chalk: 4.1.2
     dev: true
 
+  /@coral-xyz/borsh/0.26.0_@solana+web3.js@1.73.2:
+    resolution: {integrity: sha512-uCZ0xus0CszQPHYfWAqKS5swS1UxvePu83oOF+TWpUkedsNlg6p2p4azxZNSSqwXb9uXMFgxhuMBX9r3Xoi0vQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      '@solana/web3.js': ^1.68.0
+    dependencies:
+      '@solana/web3.js': 1.73.2
+      bn.js: 5.2.1
+      buffer-layout: 1.2.2
+    dev: false
+
   /@cspotcode/source-map-support/0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
@@ -4797,6 +4810,32 @@ packages:
       buffer-layout: 1.2.2
       camelcase: 5.3.1
       cross-fetch: 3.1.5_encoding@0.1.13
+      crypto-hash: 1.3.0
+      eventemitter3: 4.0.7
+      js-sha256: 0.9.0
+      pako: 2.1.0
+      snake-case: 3.0.4
+      superstruct: 0.15.5
+      toml: 3.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@project-serum/anchor/0.26.0:
+    resolution: {integrity: sha512-Nq+COIjE1135T7qfnOHEn7E0q39bQTgXLFk837/rgFe6Hkew9WML7eHsS+lSYD2p3OJaTiUOHTAq1lHy36oIqQ==}
+    engines: {node: '>=11'}
+    dependencies:
+      '@coral-xyz/borsh': 0.26.0_@solana+web3.js@1.73.2
+      '@solana/web3.js': 1.73.2
+      base64-js: 1.5.1
+      bn.js: 5.2.1
+      bs58: 4.0.1
+      buffer-layout: 1.2.2
+      camelcase: 6.3.0
+      cross-fetch: 3.1.5
       crypto-hash: 1.3.0
       eventemitter3: 4.0.7
       js-sha256: 0.9.0
@@ -7445,7 +7484,6 @@ packages:
   /camelcase/6.3.0:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
-    dev: true
 
   /caniuse-api/3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
