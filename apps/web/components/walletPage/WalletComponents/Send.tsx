@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import Button from "../common/Button";
+import Button from "../../common/Button";
 
 export default function Transfer() {
   let [isOpen, setIsOpen] = useState(false);

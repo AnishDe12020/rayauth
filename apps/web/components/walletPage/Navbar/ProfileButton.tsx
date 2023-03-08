@@ -4,8 +4,12 @@ import { Fragment } from "react";
 import Button from "@/components/common/Button";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { FiCopy } from "react-icons/fi";
-
-export default function Example() {
+type Props = {
+  address?: string;
+};
+export default function ProfileButton({
+  address = "34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM",
+}: Props) {
   return (
     <div className=" max-w-sm px-4">
       <Popover className="relative">
@@ -44,13 +48,18 @@ export default function Example() {
                   </div>
                   <div className="flex w-full items-center m-4">
                     <div className="mx-2">
-                      <button className="p-1 border rounded-full">
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(address);
+                        }}
+                        className="p-1 border rounded-full"
+                      >
                         <FiCopy className="text-sm" />
                       </button>
                     </div>
                     <div className="mx-2">
                       <h4 className=" text-gray-300 text-xs truncate block w-50">
-                        34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM
+                        {address}
                       </h4>
                     </div>
                   </div>

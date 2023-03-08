@@ -1,31 +1,12 @@
 import React from "react";
-import { AiOutlineQrcode, AiOutlineScan, AiOutlineWifi } from "react-icons/ai";
-import Button from "../common/Button";
+import { AiOutlineWifi } from "react-icons/ai";
 import { BiRefresh } from "react-icons/bi";
-import Transfer from "./Transfer";
-import TopUp from "./TopUp";
-import Token from "./Token";
+import Transfer from "./WalletComponents/Send";
+import TopUp from "./WalletComponents/Receive";
+import Token from "./WalletComponents/Token";
+import AccountOption from "./WalletComponents/AccountOption";
 type Props = {};
-const AccountOption = () => {
-  return (
-    <div>
-      <div className="flex flex-row items-center">
-        <button className="md:px-6 border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2 px-4">
-          <AiOutlineQrcode className="text-sm" />
-        </button>
-        <button className="text-xs truncate block w-28 border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2 px-4">
-          34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM
-        </button>
-        <button className="hidden md:flex  flex-row items-center border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl mx-2  text-xs px-4">
-          <AiOutlineScan className="mx-2 text-xs" /> scan and pay
-        </button>
-      </div>
-      <button className="md:hidden mt-3 w-fit mx-auto flex  flex-row items-center border border-transparent  h-fit py-1 lg:py-1 bg-gray-800 rounded-l-xl rounded-r-xl   text-xs px-4">
-        <AiOutlineScan className="mx-2 text-xs" /> scan and pay
-      </button>
-    </div>
-  );
-};
+
 const Wallet = (props: Props) => {
   return (
     <div className="my-1 md:my-6 block max-w-2xl p-6  border border-transparent rounded-lg shadow  mx-auto font-ksans">
