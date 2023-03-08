@@ -87,7 +87,7 @@ export function getSessionKey() {
   }
   
 
-function updateSessionKey() {
+export function updateSessionKey() {
     return async (req: Request, res: Response) => {
         const auth = req.headers.authorization?.replace("Bearer ", "");
   

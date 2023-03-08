@@ -23,6 +23,8 @@ import { connect } from "mongoose";
 import { KeyModel } from "./interfaces/key";
 import { deviceShare } from "./controllers/user/deviceKey";
 import { getPrivateKey } from "./controllers/user/constructKey";
+import { getSessionKey } from "./controllers/keys";
+import { createSessionKey,updateSessionKey } from "./controllers/keys";
 const app: Express = express();
 
 initGithub();
@@ -51,6 +53,9 @@ app.use(glogin);
 app.use(gcallback);
 
 app.get("/user", userController());
+app.get("/user/session-key", getSessionKey())
+app.post("user/session-key", createSessionKey())
+app.patch("/user/session-key/revoke", updateSessionKey())
 app.use("/projects", proejcts);
 app.use("/gasless", gasless);
 app.post("/user/device-share", deviceShare());
