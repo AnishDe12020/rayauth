@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("FtvHhThBncuod3TXm3NW7YFwpC8WXNUdPYP8fqt6SsEC");
+declare_id!("QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s");
 
 #[event]
 pub struct SessionKeyAdded {
@@ -16,7 +16,7 @@ pub struct SessionKeyRevoked {
 }
 
 #[program]
-pub mod session_keys {
+pub mod rayauth_session {
 
     use super::*;
 
@@ -88,7 +88,7 @@ pub struct AddSessionKey<'info> {
     pub session_key: Signer<'info>,
     #[account(
         init,
-        seeds = [session_key.key.as_ref()],
+        seeds = [SessionKey::SEED_PREFIX.as_ref(), session_key.key.as_ref()],
         bump,
         payer = payer,
         space = SessionKey::SPACE,
@@ -101,7 +101,7 @@ pub struct AddSessionKey<'info> {
 pub struct RevokeSessionKey<'info> {
     #[account(
         mut,
-        seeds = [session_key_pda.session_key.as_ref()],
+        seeds = [SessionKey::SEED_PREFIX.as_ref(), session_key_pda.session_key.as_ref()],
         bump,
         has_one = user,
         close = user,
@@ -120,10 +120,16 @@ pub struct SessionKey {
 }
 
 impl SessionKey {
-    const SPACE: usize = 8 // discriminator
+    pub const SPACE: usize = 8 // discriminator
     + 32 // user
     + 32 // session_key
     + 8; // expires_at
+    pub const SEED_PREFIX: &'static str = "session_key";
+
+    pub fn is_valid(&self) -> Result<bool> {
+        let now = Clock::get()?.unix_timestamp;
+        Ok(now < self.expires_at)
+    }
 }
 
 #[error_code]

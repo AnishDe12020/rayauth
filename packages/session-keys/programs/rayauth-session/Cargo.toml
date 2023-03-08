@@ -1,12 +1,12 @@
 [package]
-name = "session-keys-test-program"
+name = "rayauth-session"
 version = "0.1.0"
-description = "Created with Anchor"
+description = "RayAuth Session keys program crate, uses Anchor"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "session_keys_test_program"
+name = "rayauth_session"
 
 [features]
 no-entrypoint = []
@@ -17,4 +17,3 @@ default = []
 
 [dependencies]
 anchor-lang = "0.25.0"
-rayauth = { path = "../../../../rayauth" }

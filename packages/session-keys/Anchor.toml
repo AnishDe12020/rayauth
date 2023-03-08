@@ -3,13 +3,15 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-session_keys = "FtvHhThBncuod3TXm3NW7YFwpC8WXNUdPYP8fqt6SsEC"
+rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"
+dummy_program = "GCzDXYdEaz3RQ92Ghg7MPLD9mc3h6JgSzMurMsFjTJ3W"
 
 [programs.devnet]
-session_keys = "FtvHhThBncuod3TXm3NW7YFwpC8WXNUdPYP8fqt6SsEC"
+rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"
+dummy_program = "GCzDXYdEaz3RQ92Ghg7MPLD9mc3h6JgSzMurMsFjTJ3W"
 
 [programs.mainnet]
-session_keys = "FtvHhThBncuod3TXm3NW7YFwpC8WXNUdPYP8fqt6SsEC"
+rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"
 
 [registry]
 url = "https://api.apr.dev"

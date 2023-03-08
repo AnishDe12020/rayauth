@@ -1,10 +1,8 @@
 use anchor_lang::prelude::*;
+use rayauth_session::program::RayauthSession;
+use rayauth_session::SessionKey;
 
-extern crate rayauth;
-
-use rayauth::is_session_key_valid;
-
-declare_id!("6Xf5XGsg8trkvZnNenGpusQJudfTPY77Girr6TVDkqMs");
+declare_id!("GCzDXYdEaz3RQ92Ghg7MPLD9mc3h6JgSzMurMsFjTJ3W");
 
 #[program]
 pub mod dummy_program {
@@ -12,17 +10,6 @@ pub mod dummy_program {
 
     pub fn execute_dummy_instruction(ctx: Context<DummyInstruction>, data: u8) -> Result<()> {
         let owner = &ctx.accounts.owner;
-        let signer_pda = &ctx.accounts.signer_pda;
-
-        let clock = Clock::get()?;
-
-        let is_valid = is_session_key_valid(signer_pda, clock, owner.key());
-
-        if !is_valid {
-            return Err(ErrorCode::InvalidSessionKey.into());
-        }
-
-        msg!("Is owner a signer? {}", owner.is_signer);
 
         ctx.accounts.pda.data = data;
         ctx.accounts.pda.owner = owner.key();
@@ -33,16 +20,20 @@ pub mod dummy_program {
 
 #[derive(Accounts)]
 pub struct DummyInstruction<'info> {
-    /// CHECK: not writing
-    pub owner: Signer<'info>,
     #[account(mut)]
     pub payer: Signer<'info>,
-    pub signer_pda: AccountInfo<'info>,
+    #[account(
+        seeds = [SessionKey::SEED_PREFIX.as_ref(), owner.session_key.as_ref()],
+        seeds::program = RayauthSession::id(),
+        bump,
+        constraint = owner.is_valid()? == true,
+    )]
+    pub owner: Account<'info, SessionKey>,
     #[account(
         init,
         payer = payer,
         space = 48,
-        seeds = [b"dummy".as_ref(), owner.key.as_ref()],
+        seeds = [b"dummy".as_ref(), owner.user.as_ref()],
         bump,
     )]
     pub pda: Account<'info, DummyPda>,

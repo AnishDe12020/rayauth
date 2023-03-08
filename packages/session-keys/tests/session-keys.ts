@@ -3,7 +3,8 @@ import { Program } from "@project-serum/anchor";
 import { expect } from "chai";
 import lumina from "@lumina-dev/test";
 
-import { SessionKeys } from "../target/types/session_keys";
+import { RayauthSession } from "../target/types/rayauth_session";
+import { DummyProgram } from "../target/types/dummy_program";
 
 lumina();
 
@@ -11,7 +12,8 @@ describe("session-keys", () => {
   // Configure the client to use the local cluster.
   anchor.setProvider(anchor.AnchorProvider.env());
 
-  const program = anchor.workspace.SessionKeys as Program<SessionKeys>;
+  const program = anchor.workspace.RayauthSession as Program<RayauthSession>;
+  const testProgram = anchor.workspace.DummyProgram as Program<DummyProgram>;
   const userWallet = anchor.workspace.SessionKeys.provider.wallet;
 
   const userKeypair = anchor.web3.Keypair.generate();
@@ -20,7 +22,7 @@ describe("session-keys", () => {
 
   it("creates session key pda", async () => {
     const [sessionKeyPda] = await anchor.web3.PublicKey.findProgramAddress(
-      [sessionKeypair.publicKey.toBuffer()],
+      [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
       program.programId
     );
 
@@ -54,9 +56,32 @@ describe("session-keys", () => {
     );
   });
 
+  it("can call dummy program with session key", async () => {
+    const [sessionKeyPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
+      program.programId
+    );
+
+    const [dummyPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("dummy"), userKeypair.publicKey.toBuffer()],
+      testProgram.programId
+    );
+
+    const dummyTx = await testProgram.methods
+      .executeDummyInstruction(1)
+      .accounts({
+        owner: sessionKeyPda,
+        payer: userWallet.publicKey,
+        pda: dummyPda,
+      })
+      .rpc();
+
+    console.log("dummyTx: ", dummyTx);
+  });
+
   it("can revoke a session key", async () => {
     const [sessionKeyPda] = await anchor.web3.PublicKey.findProgramAddress(
-      [sessionKeypair.publicKey.toBuffer()],
+      [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
       program.programId
     );
 

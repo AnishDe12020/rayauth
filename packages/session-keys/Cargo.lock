@@ -524,6 +524,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "dummy-program"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "rayauth-session",
+]
+
+[[package]]
 name = "either"
 version = "1.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -938,6 +946,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "rayauth-session"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+]
+
+[[package]]
 name = "rayon"
 version = "1.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1056,13 +1071,6 @@ dependencies = [
  "itoa",
  "ryu",
  "serde",
-]
-
-[[package]]
-name = "session-keys"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
 ]
 
 [[package]]
