@@ -3,7 +3,7 @@ import { useAuth } from "../../src";
 import { useEffect } from "react";
 function App() {
   const { signIn, signOut, user, isLoading, handleCallback, walletListener } = useAuth("cookie");
-  console.log("User", user);
+  console.log("User", user?.state);
   useEffect(() => {
     handleCallback();
   }, [])
@@ -14,7 +14,13 @@ function App() {
       <div> {user?.address} </div>
       <div>{String(isLoading)} </div>
 
-      <button >
+      <button onClick={() => {
+        const chalja = async () => {
+        const result = await user?.testSign("Hello")
+        console.log("result", result)
+        }
+        chalja()
+      }}>
          SignTxn test
       </button >
     </div>

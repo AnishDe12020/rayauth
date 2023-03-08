@@ -16,11 +16,11 @@ export const RayAuthProvider = ({
   const state:any = store()
   console.log("state",state.count)
   useEffect(() => {
-    handleWallet();
+    handleWallet(state);
   }, [])
   return (
     <RayAuthConfigProvider value={config}>
-      <div hidden={Boolean(state.isVisible)} className="">
+      <div hidden={Boolean(state.isHidden)} className="">
        <iframe height={650} width={400} src={state.src}></iframe>
       </div>
       {children}

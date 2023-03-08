@@ -2,9 +2,11 @@ import { create } from 'zustand'
 
 const store = create(set => ({
   count: 1,
-  isVisible: false,
+  isHidden: true,
   src: "http://localhost:3000/",
-  setVisable: (value: boolean) => set((state: { isVisible: boolean }) => ({ isVisible: value  })),
+  txnData: {},
+  setTxnData: (value: {}) => set((state: {txnData: {}}) => ({txnData: value})),
+  setVisable: (value: boolean) => set((state: { isHidden: boolean }) => ({ isHidden: !value  })),
   setSrc: (value: string) => set((state: {src: string}) => ({src: value}))
 }))
 

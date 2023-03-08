@@ -5,7 +5,7 @@ import authcard from "../../public/assets/authcard.svg";
 
 function Hero({}: Props) {
   const check = () => {
-    window.top?.postMessage({type: "signtransac", help: "Help"}, '*')
+    window.top?.postMessage({type: "txnData", help: "chal jao"}, '*')
   }
   return (
     <div className="relative my-16 flex flex-col lg:flex-row justify-between max-w-screen-xl mx-auto w-11/12">
