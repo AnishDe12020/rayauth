@@ -3,14 +3,13 @@ import { Fragment, useState } from "react";
 import Button from "../common/Button";
 import { IoCopyOutline } from "react-icons/io5";
 import QRCode from "react-qr-code";
+import { toast } from "sonner";
 
 interface Props {
-  address?: string;
+  publicKey: string;
 }
 
-export default function TopUp({
-  address = "2Mosti3c3vpH8MZvnur6y1B4x2r9iZXW373LoY4yN72X",
-}: Props) {
+export default function TopUp({ publicKey }: Props) {
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -21,10 +20,15 @@ export default function TopUp({
     setIsOpen(true);
   }
 
+  const handleCopyPublicKey = () => {
+    navigator.clipboard.writeText(publicKey.toString());
+    toast.success("Copied public key to clipboard");
+  };
+
   return (
     <>
       <Button
-        className="w-full m-3 justify-center bg-slate-200"
+        className="justify-center w-full m-3 bg-slate-200"
         type="button"
         onClick={openModal}
       >
@@ -46,7 +50,7 @@ export default function TopUp({
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -56,32 +60,35 @@ export default function TopUp({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-2xl p-6 overflow-hidden text-left align-middle transition-all transform bg-gray-800 shadow-xl rounded-2xl">
                   <Dialog.Title
                     as="h3"
-                    className="text-xl font-medium leading-6 text-white px-4"
+                    className="px-4 text-xl font-medium leading-6 text-white"
                   >
                     TopUp
                   </Dialog.Title>
-                  <div className="m-2 ml-0 flex flex-row items-center justify-center w-full">
+                  <div className="flex flex-row items-center justify-center w-full m-2 ml-0">
                     <div className="p-1 bg-gray-700 rounded-lg border-slate-400">
-                      <QRCode size={150} value={address} />
+                      <QRCode size={150} value={publicKey} />
                     </div>
                   </div>
                   <div className="m-2 ml-0">
                     <div className="flex flex-row ">
                       <input
                         type="text"
-                        value={address}
+                        value={publicKey}
                         className="text-white m-2 my-2 border bg-slate-900 border-slate-600 text-sm rounded-md focus:ring-slate-700 focus:border-slate-700 block w-full p-2.5 "
                       />
-                      <Button className="p-2 py-0 my-3 w-14 justify-center">
+                      <Button
+                        className="justify-center p-2 py-0 my-3 w-14"
+                        onClick={handleCopyPublicKey}
+                      >
                         <IoCopyOutline />
                       </Button>
                     </div>
                   </div>
 
-                  <div className="m-2 mt-4 w-full flex flex-row justify-end">
+                  <div className="flex flex-row justify-end w-full m-2 mt-4">
                     <button
                       onClick={() => closeModal()}
                       className="w-[200px] bg-gray-700 border border-gray-900 p-2 rounded-lg text-white hover:bg-gray-800"
