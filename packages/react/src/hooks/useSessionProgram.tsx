@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useAuth } from "./useAuth";
 
 import { IDL, RayauthSession } from "../types/rayauth_session";
-import { useTxns } from "./useTxn";
+
 
 export const SESSION_PROGRAM_ID = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s";
 
@@ -12,14 +12,14 @@ const useProgram = () => {
   const connection = useMemo(() => new Connection(clusterApiUrl("devnet")), []);
 
   const { user } = useAuth();
-  const {signTransaction, signAllTransactions} = useTxns(user as any)
+
   const anchorWallet = useMemo(() => {
     if (!user?.address) return;
 
     return {
       publicKey: new PublicKey(user.address),
-      signTransaction: signTransaction,
-      signAllTransactions: signAllTransactions,
+      signTransaction: user.signTransaction,
+      signAllTransactions: user.signAllTransactions,
     };
   }, [user]);
 
