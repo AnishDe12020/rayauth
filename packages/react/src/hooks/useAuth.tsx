@@ -65,3 +65,5 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
 
   return { signIn, signOut, user, isLoading, handleCallback, walletListener };
 }
+
+

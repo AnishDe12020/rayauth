@@ -1,8 +1,9 @@
 import "./App.css";
-import { useAuth } from "../../src";
+import { useAuth, useTxns } from "../../src";
 import { useEffect } from "react";
 function App() {
   const { signIn, signOut, user, isLoading, handleCallback, walletListener } = useAuth("cookie");
+  const {signTxn} = useTxns(user as any)
   console.log("User", user?.state);
   useEffect(() => {
     handleCallback();
@@ -16,7 +17,7 @@ function App() {
 
       <button onClick={() => {
         const chalja = async () => {
-        const result = await user?.testSign("Hello")
+        const result =  signTxn(null, "Hello")
         console.log("result", result)
         }
         chalja()
