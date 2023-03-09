@@ -39,10 +39,10 @@ export default function ProfileButton({
               <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-[90%] transform px-4 sm:px-0 lg:max-w-md bg-gray-900 rounded-md ">
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 p-3">
                   <div className="flex w-full items-center m-4">
-                    <div className="mx-2">
+                    <div className="mx-2 text-white">
                       <AiOutlineUserAdd className="text-2xl" />
                     </div>
-                    <div className="mx-2">
+                    <div className="mx-2 text-white">
                       <h4 className="">Sagar Gajare{"'"}s Account</h4>
                     </div>
                   </div>
@@ -52,7 +52,7 @@ export default function ProfileButton({
                         onClick={() => {
                           navigator.clipboard.writeText(address);
                         }}
-                        className="p-1 border rounded-full"
+                        className="p-1 border rounded-full text-white"
                       >
                         <FiCopy className="text-sm" />
                       </button>

@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsWallet2 } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
-import { CiCircleChevDown } from "react-icons/ci";
+import { CiLogin } from "react-icons/ci";
 import ProfileButton from "./ProfileButton";
 type Props = {};
 
@@ -25,6 +25,11 @@ const Links = [
     name: "Settings",
     href: "/settings",
     icon: <IoSettingsOutline />,
+  },
+  {
+    name: "Sessions",
+    href: "/sessions",
+    icon: <CiLogin />,
   },
 ];
 
