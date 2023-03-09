@@ -6,9 +6,12 @@ import { DB1, DB2, DB3, HOST, PORT } from "./constant";
 import cors from "cors";
 import { initGithub } from "./auth/github";
 import callback from "./controllers/github/callback";
+import * as secrets from 'secrets.js-grempe';
 import login from "./controllers/github/login";
 import { initdiscord } from "./auth/discord";
 import dlogin from "./controllers/discord/login";
+import arr from "hex-array"
+import { Keypair } from "@solana/web3.js";
 import dcallback from "./controllers/discord/callback";
 import { initgoogle } from "./auth/google";
 import glogin from "./controllers/google/login";
@@ -64,7 +67,26 @@ app.get("/", (req: Request, res: Response) => {
   console.log("req sent");
   res.send("Hello");
 });
+app.get("/key", (req, res) => {
 
+ const key = Keypair.generate()
+ const hex = arr.toString(key.secretKey)
+ const share = secrets.share(hex, 3, 2)
+ console.log(share)
+
+ const combine = secrets.combine([share[0], share[1]])
+ const newkey = arr.fromString(combine)
+ console.log("old",key.secretKey)
+
+
+ console.log("new", newkey)
+ const secret = Keypair.fromSecretKey(newkey)
+ console.log(secret)
+  console.log(req.url)
+  res.send(
+  "ok"
+  )
+})
 app.get("/delete-user/:email", async (req: Request, res: Response) => {
   const emailId = req.params.email;
 
