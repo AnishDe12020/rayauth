@@ -5,6 +5,7 @@ import lumina from "@lumina-dev/test";
 
 import { RayauthSession } from "../target/types/rayauth_session";
 import { DummyProgram } from "../target/types/dummy_program";
+import { bs58 } from "@project-serum/anchor/dist/cjs/utils/bytes";
 
 lumina();
 
@@ -14,11 +15,13 @@ describe("session-keys", () => {
 
   const program = anchor.workspace.RayauthSession as Program<RayauthSession>;
   const testProgram = anchor.workspace.DummyProgram as Program<DummyProgram>;
-  const userWallet = anchor.workspace.SessionKeys.provider.wallet;
+  const userWallet = anchor.workspace.RayauthSession.provider.wallet;
 
   const userKeypair = anchor.web3.Keypair.generate();
 
   const sessionKeypair = anchor.web3.Keypair.generate();
+
+  const connection = anchor.getProvider().connection;
 
   it("creates session key pda", async () => {
     const [sessionKeyPda] = await anchor.web3.PublicKey.findProgramAddress(
@@ -36,10 +39,28 @@ describe("session-keys", () => {
         user: userKeypair.publicKey,
         sessionKey: sessionKeypair.publicKey,
       })
-      .signers([userKeypair, sessionKeypair])
-      .rpc();
+      .signers([userKeypair, sessionKeypair, userWallet])
+      .transaction();
 
-    console.log("addTx: ", addTx);
+    let blockhash = (await connection.getLatestBlockhash("finalized"))
+      .blockhash;
+
+    addTx.recentBlockhash = blockhash;
+    addTx.feePayer = userWallet.publicKey;
+
+    const serialized = bs58.encode(
+      addTx.serialize({ requireAllSignatures: false })
+    );
+
+    console.log("addTx: ", serialized);
+
+    const tx = anchor.web3.Transaction.from(bs58.decode(serialized));
+
+    tx.sign(userKeypair, sessionKeypair, userWallet);
+
+    const txid = await connection.sendRawTransaction(tx.serialize());
+
+    await connection.confirmTransaction(txid);
 
     const sessionKeyAccount = await program.account.sessionKey.fetch(
       sessionKeyPda

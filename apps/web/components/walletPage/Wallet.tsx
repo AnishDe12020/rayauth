@@ -119,7 +119,7 @@ const Wallet = (props: Props) => {
   console.log("splAccounts", splAccounts);
 
   return publickey ? (
-    <div className="block max-w-2xl p-6 mx-auto my-1 border border-transparent rounded-lg shadow md:my-6 font-ksans">
+    <div className="block max-w-2xl p-6 mx-auto my-1 font-sans border border-transparent rounded-lg shadow md:my-6">
       <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] lg:left-[530px] top-[158px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
 
       <div className="flex flex-col text-white ">

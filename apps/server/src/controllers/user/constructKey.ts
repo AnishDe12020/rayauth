@@ -4,7 +4,6 @@ import { Request, Response } from "express";
 import { prisma } from "../../../lib/db";
 import { jwtInterface } from "src/interfaces/jwt";
 import { getCombinedKey } from "../../helpers/getAuthKey";
-import { combineKey } from "../../helpers";
 
 export function getPrivateKey() {
   return async (req: Request, res: Response) => {
@@ -23,7 +22,7 @@ export function getPrivateKey() {
     }
     const user = await prisma.user.findUnique({
       where: {
-        id: data.email,
+        email: data.email,
       },
     });
     if (!user) {
@@ -31,18 +30,12 @@ export function getPrivateKey() {
       res.end();
       return;
     }
-    const key = req.body.key;
-    if (!key) {
-      res.status(404).json("No key provided for the private key combination");
-      res.end();
-      return;
-    }
-    const key2 = await getCombinedKey(user.email);
-    const construct = combineKey([key, key2]);
+
+    const socialKey = await getCombinedKey(user.email);
     res
       .status(200)
       .json({
-        key: construct,
+        key: socialKey,
         msg: "The private key has been combined",
       })
       .end();
