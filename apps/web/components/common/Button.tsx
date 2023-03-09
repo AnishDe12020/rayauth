@@ -1,25 +1,29 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface ButtonProps {
   type?: "submit" | "button" | "reset" | undefined;
   className?: string;
   processing?: boolean;
   children?: React.ReactNode;
+  onClick?: () => void;
 }
 export default function Button({
   type = "submit",
   className = "",
   processing = false,
   children,
+  onClick = () => {},
 }: ButtonProps) {
   return (
     <button
       type={type}
-      className={
+      onClick={onClick}
+      className={twMerge(
         `inline-flex items-center px-4 py-2 bg-white border border-transparent rounded-md font-semibold text-xs text-black uppercase tracking-widest active:bg-slate-100 ease-in-out duration-150 hover:opacity-80 hover:bg-black hover:border-slate-200 hover:text-white transition duration-150 ${
           processing && "opacity-25"
-        } ` + className
-      }
+        } ${className}`
+      )}
       disabled={processing}
     >
       {processing && (

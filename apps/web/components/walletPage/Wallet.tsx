@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineQrcode, AiOutlineScan, AiOutlineWifi } from "react-icons/ai";
 import Button from "../common/Button";
 import { BiRefresh } from "react-icons/bi";
+import Transfer from "./Transfer";
+import TopUp from "./TopUp";
 import useAuth from "@/hooks/useAuth";
 import useCluster from "@/hooks/useCluster";
 import { Cluster } from "@/types/cluster";
@@ -158,12 +160,8 @@ const Wallet = (props: Props) => {
             </div>
           </div>
           <div className="flex flex-row">
-            <Button className="justify-center w-full m-3 bg-slate-200">
-              Top Up
-            </Button>
-            <Button className="justify-center w-full m-3 bg-slate-200">
-              Transfer
-            </Button>
+            <TopUp />
+            <Transfer />
           </div>
         </div>
         <div className="flex justify-center my-4 lg:hidden">

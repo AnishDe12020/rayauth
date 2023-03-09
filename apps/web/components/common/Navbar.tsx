@@ -7,7 +7,7 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="bg-transparent py-6 max-w-screen-xl mx-auto">
+    <nav className="bg-transparent py-3 md:py-4 max-w-screen-xl mx-auto sticky top-0 z-30 w-full backdrop-filter backdrop-blur-lg">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-12">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
@@ -22,22 +22,22 @@ const Navbar = () => {
             <div className="ml-10 flex items-baseline space-x-4">
               <Link
                 href="/"
-                className="hover:text-slate-50 px-10  text-white rounded-md text-lg font-semibold"
+                className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base font-semibold"
               >
                 MEMO
               </Link>
               <Link
                 href="/"
-                className="hover:text-slate-50 px-10  text-white rounded-md text-lg font-semibold"
+                className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base font-semibold"
               >
                 DOCS
               </Link>
               <Link
                 href="/contact"
-                className="hover:text-slate-50 px-8   rounded-md text-lg font-semibold"
+                className="hover:text-slate-200 hover:border-b-1 px-8   rounded-md text-base font-semibold"
               >
-                <button className="rounded-2xl text-black bg-white px-3 py-1">
-                  Get Started
+                <button className="rounded-2xl text-black bg-white px-3 py-1 hover:bg-slate-200">
+                  <Link href={"/wallet"}>Get Started</Link>
                 </button>
               </Link>
             </div>
@@ -83,21 +83,21 @@ const Navbar = () => {
         <div className="flex flex-col items-baseline space-x-4 text-center w-full ">
           <Link
             href="/"
-            className="hover:text-slate-50 px-10  text-white rounded-md text-base my-4 font-semibold w-full"
+            className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base my-4 font-semibold w-full"
           >
             MEMO
           </Link>
           <Link
             href="/"
-            className="hover:text-slate-50 px-10  text-white rounded-md text-base my-4 font-semibold w-full"
+            className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base my-4 font-semibold w-full"
           >
             DOCS
           </Link>
           <Link
             href="/contact"
-            className="hover:text-slate-50 px-10   rounded-md text-lg my-4 font-semibold w-full"
+            className="hover:text-slate-200 hover:border-b-1 px-10   rounded-md text-lg my-4 font-semibold w-full"
           >
-            <button className="rounded-2xl text-black bg-white px-4 py-2">
+            <button className="rounded-2xl text-black bg-white px-4 py-2 hover:bg-slate-800">
               Get Started
             </button>
           </Link>

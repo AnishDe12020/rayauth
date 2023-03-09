@@ -1,7 +1,7 @@
 // Reusable input component with label and error message in tailwindcss typescript react
 
 import React from "react";
-
+import { twMerge } from "tailwind-merge";
 type Props = {
   label: string;
   error?: string;
@@ -22,7 +22,9 @@ const Input = (props: Props) => {
         placeholder={props.placeholder}
         value={props.value}
         onChange={props.onChange}
-        className={`bg-primary border rounded-lg px-3 py-2 mb-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-transparent ${props.className}`}
+        className={twMerge(
+          `bg-primary border rounded-lg px-3 py-2 mb-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-transparent ${props.className}`
+        )}
       />
       {props.error && (
         <p className="text-red-500 text-sm italic pl-2">{props.error}</p>

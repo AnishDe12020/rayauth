@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import React from "react";
-import WalletPage from "@/components/dashboard/Wallet";
+import WalletPage from "@/components/walletPage/Wallet";
 import WalletLayout from "@/components/layouts/WalletLayout";
 type Props = {};
 
