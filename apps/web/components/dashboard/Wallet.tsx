@@ -1,13 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineQrcode, AiOutlineScan, AiOutlineWifi } from "react-icons/ai";
 import Button from "../common/Button";
 import { BiRefresh } from "react-icons/bi";
 import useAuth from "@/hooks/useAuth";
 import useCluster from "@/hooks/useCluster";
 import { Cluster } from "@/types/cluster";
-import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import {
+  GetProgramAccountsFilter,
+  LAMPORTS_PER_SOL,
+  PublicKey,
+} from "@solana/web3.js";
 import { toast } from "sonner";
-import { TOKEN_PROGRAM_ID, parse } from "@solana/spl-token";
+import { MintLayout, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import {
+  Metadata,
+  PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID,
+} from "@metaplex-foundation/mpl-token-metadata";
 
 type Props = {};
 
@@ -36,32 +44,67 @@ const Wallet = (props: Props) => {
   const { user, publickey } = useAuth();
   const { cluster, setCluster, connection } = useCluster();
 
+  const [solBalance, setSolBalance] = useState<number>(0);
+  const [splAccounts, setSplAccounts] = useState<any[]>([]);
+
   useEffect(() => {
     const getWalletData = async () => {
       if (!publickey) return;
 
-      const solBalance = await connection.getBalance(publickey);
-      console.log(solBalance / LAMPORTS_PER_SOL);
+      const solBalance =
+        (await connection.getBalance(publickey)) / LAMPORTS_PER_SOL;
 
-      // get all token accoutns owned by the wallet
-      const tokenAccounts = await connection.getTokenAccountsByOwner(
-        publickey,
-        { programId: TOKEN_PROGRAM_ID }
+      const filters: GetProgramAccountsFilter[] = [
+        {
+          dataSize: 165,
+        },
+        {
+          memcmp: {
+            offset: 32,
+            bytes: publickey.toBase58(),
+          },
+        },
+      ];
+      const accounts = await connection.getParsedProgramAccounts(
+        TOKEN_PROGRAM_ID,
+        { filters: filters }
       );
 
-      console.log(tokenAccounts);
+      const splAccounts = await Promise.all(
+        accounts.map(async (account, i) => {
+          const parsedAccountInfo: any = account.account.data;
+          const mintAddress: string =
+            parsedAccountInfo["parsed"]["info"]["mint"];
+          const tokenBalance: number =
+            parsedAccountInfo["parsed"]["info"]["tokenAmount"]["uiAmount"];
 
-      // get the token account metadata and balance for each
+          const [metadataPda] = PublicKey.findProgramAddressSync(
+            [
+              Buffer.from("metadata"),
+              TOKEN_METADATA_PROGRAM_ID.toBuffer(),
+              new PublicKey(mintAddress).toBuffer(),
+            ],
+            TOKEN_METADATA_PROGRAM_ID
+          );
 
-      const tokenAccountData = await Promise.all(
-        tokenAccounts.value.map(async (tokenAccount) => {
+          const metadataInfo = await connection.getAccountInfo(metadataPda);
+
+          let metadata;
+
+          if (metadataInfo?.data) {
+            metadata = Metadata.deserialize(metadataInfo.data);
+          }
+
           return {
-            mint: tokenAcc,
+            mintAddress,
+            tokenBalance,
+            metadata,
           };
         })
       );
 
-      console.log(tokenAccountData);
+      setSolBalance(solBalance);
+      setSplAccounts(splAccounts);
     };
 
     getWalletData();

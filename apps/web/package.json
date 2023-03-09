@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.11",
+    "@metaplex-foundation/mpl-token-metadata": "^2.9.0",
     "@next/font": "13.1.6",
     "@solana/spl-token": "^0.3.7",
     "@solana/web3.js": "^1.73.0",

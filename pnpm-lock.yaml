@@ -161,6 +161,7 @@ importers:
   apps/web:
     specifiers:
       '@hookform/resolvers': ^2.9.11
+      '@metaplex-foundation/mpl-token-metadata': ^2.9.0
       '@next/font': 13.1.6
       '@solana/spl-token': ^0.3.7
       '@solana/web3.js': ^1.73.0
@@ -190,6 +191,7 @@ importers:
       yup: ^1.0.2
     dependencies:
       '@hookform/resolvers': 2.9.11_react-hook-form@7.43.4
+      '@metaplex-foundation/mpl-token-metadata': 2.9.0
       '@next/font': 13.1.6
       '@solana/spl-token': 0.3.7_@solana+web3.js@1.73.2
       '@solana/web3.js': 1.73.2
@@ -4345,6 +4347,34 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@metaplex-foundation/beet-solana/0.4.0:
+    resolution: {integrity: sha512-B1L94N3ZGMo53b0uOSoznbuM5GBNJ8LwSeznxBxJ+OThvfHQ4B5oMUqb+0zdLRfkKGS7Q6tpHK9P+QK0j3w2cQ==}
+    dependencies:
+      '@metaplex-foundation/beet': 0.7.1
+      '@solana/web3.js': 1.73.2
+      bs58: 5.0.0
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@metaplex-foundation/beet/0.7.1:
+    resolution: {integrity: sha512-hNCEnS2WyCiYyko82rwuISsBY3KYpe828ubsd2ckeqZr7tl0WVLivGkoyA/qdiaaHEBGdGl71OpfWa2rqL3DiA==}
+    dependencies:
+      ansicolors: 0.3.2
+      bn.js: 5.2.1
+      debug: 4.3.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@metaplex-foundation/cusper/0.0.2:
+    resolution: {integrity: sha512-S9RulC2fFCFOQraz61bij+5YCHhSO9llJegK8c8Y6731fSi6snUSQJdCUqYS8AIgR0TKbQvdvgSyIIdbDFZbBA==}
+    dev: false
+
   /@metaplex-foundation/mpl-core/0.0.2_encoding@0.1.13:
     resolution: {integrity: sha512-UUJ4BlYiWdDegAWmjsNQiNehwYU3QfSFWs3sv4VX0J6/ZrQ28zqosGhQ+I2ZCTEy216finJ82sZWNjuwSWCYyQ==}
     deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
@@ -4364,6 +4394,23 @@ packages:
       '@metaplex-foundation/mpl-core': 0.0.2_encoding@0.1.13
       '@solana/spl-token': 0.1.8_encoding@0.1.13
       '@solana/web3.js': 1.73.2_encoding@0.1.13
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /@metaplex-foundation/mpl-token-metadata/2.9.0:
+    resolution: {integrity: sha512-uicN+g2GyEiFHtGyomPoL+q2rWRDGApe+SrXxuZigJzuThddzohjknmqtqNkOjB8yxE52+gdzGxc5UwJeDzp1Q==}
+    dependencies:
+      '@metaplex-foundation/beet': 0.7.1
+      '@metaplex-foundation/beet-solana': 0.4.0
+      '@metaplex-foundation/cusper': 0.0.2
+      '@solana/spl-token': 0.3.7_@solana+web3.js@1.73.2
+      '@solana/web3.js': 1.73.2
+      bn.js: 5.2.1
+      debug: 4.3.4
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -6294,6 +6341,10 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       color-convert: 2.0.1
+
+  /ansicolors/0.3.2:
+    resolution: {integrity: sha512-QXu7BPrP29VllRxH8GwB7x5iX5qWKAAMLqKQGWTeLWVlNHNOpVMJ91dsxQAIWXpjuW5wqvxu3Jd/nRjrJ+0pqg==}
+    dev: false
 
   /any-promise/1.3.0:
     resolution: {integrity: sha512-7UvmKalWRt1wgjL1RrGxoSJW/0QZFIegpeGvZG9kjp8vrRu55XTHbwnqq2GpXm9uLbcuhxm3IqX9OB4MZR1b2A==}
