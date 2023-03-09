@@ -6,8 +6,8 @@ import {
 } from "@solana/web3.js";
 import base58 from "bs58";
 import { Request, Response } from "express";
-import { core } from "@solana/octane-core";
-import { prisma } from "lib/db";
+import { prisma } from "../../../lib/db";
+import { validateTransaction } from "../../helpers/validateTransaction";
 
 export const connection = new Connection(
   //   "https://api.mainnet-beta.solana.com/",
@@ -80,7 +80,7 @@ const handleGasless = async (req: Request, res: Response) => {
   let signature: string;
   try {
     signature = (
-      await core.validateTransaction(connection, transaction, feePayer, 2, 5000)
+      await validateTransaction(connection, transaction, feePayer, 2, 5000)
     ).signature;
   } catch (e) {
     res.status(400).send({ status: "error", message: "bad transaction" });

@@ -231,8 +231,8 @@ describe("account-delegation", () => {
   //   console.log("dummyTx: ", dummyTx);
   // });
 
-  it("can execute a dummy transaction that creates pda", async () => {
-    airdropTo(project_account.publicKey);
+  it("can execute a dummy transaction that creates pda and do a sp[l transfer in the same transaction", async () => {
+    await airdropTo(project_account.publicKey);
 
     const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
       [
@@ -270,71 +270,6 @@ describe("account-delegation", () => {
         units: 1000000,
       });
 
-    const executeTx = await program.methods
-      .executeTransaction({
-        instructions: [
-          {
-            programId: ix.programId,
-            accounts: ix.keys,
-            data: ix.data,
-            index: 1,
-          },
-        ],
-      })
-      .accounts({
-        delegated: delegatedAccount,
-        owner: userWallet.publicKey,
-        payer: project_account.publicKey,
-        projectAccount: project_account.publicKey,
-      })
-      .remainingAccounts([
-        {
-          pubkey: dummyProgram.programId,
-          isSigner: false,
-          isWritable: false,
-        },
-        { pubkey: delegatedAccount, isSigner: false, isWritable: false },
-        { pubkey: project_account.publicKey, isSigner: true, isWritable: true },
-        { pubkey: dummyPda, isSigner: false, isWritable: true },
-        {
-          pubkey: anchor.web3.SystemProgram.programId,
-          isSigner: false,
-          isWritable: false,
-        },
-        {
-          pubkey: anchor.web3.SYSVAR_RENT_PUBKEY,
-          isSigner: false,
-          isWritable: false,
-        },
-      ])
-      .preInstructions([modifyComputeUnits])
-      .signers([project_account])
-      .rpc();
-
-    console.log("executeTx: ", executeTx);
-
-    const dummyAccountInfo = await dummyProgram.account.dummyPda.fetch(
-      dummyPda
-    );
-
-    expect(dummyAccountInfo).to.not.be.null;
-    expect(dummyAccountInfo.data).to.equal(1);
-    expect(dummyAccountInfo.owner.toBase58()).to.equal(
-      delegatedAccount.toBase58()
-    );
-  });
-
-  it("can transfer out spl tokens", async () => {
-    const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
-      [
-        Buffer.from("delegated_account"),
-        project_account.publicKey.toBuffer(),
-        userWallet.publicKey.toBuffer(),
-      ],
-      program.programId
-    );
-
-    // create a dummy spl mint
     const mint = await createMint(
       connection,
       project_account,
@@ -368,8 +303,6 @@ describe("account-delegation", () => {
       true
     );
 
-    // create an instruction that transfers tokens from delegatedAccountATA to projectAccountATA
-
     const transferIx = createTransferInstruction(
       delegatedAccountATA.address,
       projectAccountATA.address,
@@ -377,11 +310,128 @@ describe("account-delegation", () => {
       100
     );
 
+    const executeTx = await program.methods
+      .executeTransaction({
+        instructions: [
+          {
+            programId: ix.programId,
+            accounts: ix.keys,
+            data: ix.data,
+            index: 1,
+          },
+          {
+            programId: transferIx.programId,
+            accounts: transferIx.keys,
+            data: transferIx.data,
+            index: 2,
+          },
+        ],
+      })
+      .accounts({
+        delegated: delegatedAccount,
+        owner: userWallet.publicKey,
+        payer: project_account.publicKey,
+        projectAccount: project_account.publicKey,
+      })
+      .remainingAccounts([
+        { pubkey: delegatedAccount, isSigner: false, isWritable: false },
+        {
+          pubkey: dummyProgram.programId,
+          isSigner: false,
+          isWritable: false,
+        },
+        {
+          pubkey: delegatedAccountATA.address,
+          isSigner: false,
+          isWritable: true,
+        },
+        { pubkey: dummyPda, isSigner: false, isWritable: true },
+        { pubkey: project_account.publicKey, isSigner: true, isWritable: true },
+        {
+          pubkey: anchor.web3.SystemProgram.programId,
+          isSigner: false,
+          isWritable: false,
+        },
+        {
+          pubkey: anchor.web3.SYSVAR_RENT_PUBKEY,
+          isSigner: false,
+          isWritable: false,
+        },
+        { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
+
+        {
+          pubkey: projectAccountATA.address,
+          isSigner: false,
+          isWritable: true,
+        }, // lol the order of the accounts don't matter
+      ])
+      .preInstructions([modifyComputeUnits])
+      .signers([project_account])
+      .rpc();
+
+    console.log("executeTx: ", executeTx);
+
+    const dummyAccountInfo = await dummyProgram.account.dummyPda.fetch(
+      dummyPda
+    );
+
+    expect(dummyAccountInfo).to.not.be.null;
+    expect(dummyAccountInfo.data).to.equal(1);
+    expect(dummyAccountInfo.owner.toBase58()).to.equal(
+      delegatedAccount.toBase58()
+    );
+  });
+
+  it("can transfer out spl tokens", async () => {
+    const [delegatedAccount] = anchor.web3.PublicKey.findProgramAddressSync(
+      [
+        Buffer.from("delegated_account"),
+        project_account.publicKey.toBuffer(),
+        userWallet.publicKey.toBuffer(),
+      ],
+      program.programId
+    );
+    // create a dummy spl mint
+    const mint = await createMint(
+      connection,
+      project_account,
+      project_account.publicKey,
+      project_account.publicKey,
+      6
+    );
+    let delegatedAccountATA = await getOrCreateAssociatedTokenAccount(
+      connection,
+      project_account,
+      mint,
+      delegatedAccount,
+      true
+    );
+    await mintTo(
+      connection,
+      project_account,
+      mint,
+      delegatedAccountATA.address,
+      project_account.publicKey,
+      1000
+    );
+    const projectAccountATA = await getOrCreateAssociatedTokenAccount(
+      connection,
+      project_account,
+      mint,
+      project_account.publicKey,
+      true
+    );
+    // create an instruction that transfers tokens from delegatedAccountATA to projectAccountATA
+    const transferIx = createTransferInstruction(
+      delegatedAccountATA.address,
+      projectAccountATA.address,
+      delegatedAccount,
+      100
+    );
     const modifyComputeUnits =
       anchor.web3.ComputeBudgetProgram.setComputeUnitLimit({
         units: 1000000,
       });
-
     const executeTx = await program.methods
       .executeTransaction({
         instructions: [

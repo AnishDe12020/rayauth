@@ -1,0 +1,20 @@
+{
+  "index": {
+    "title": "Introduction"
+  },
+  "architecture": "Architecture",
+  "Support": {
+    "title": "Support",
+    "type": "separator"
+  },
+  "twitter": {
+    "title": "Twitter ↗",
+    "href": "https://twitter.com/rayauthhq",
+    "newWindow": true
+  },
+  "email": {
+    "title": "Email Us ↗",
+    "href": "mailto:support@rayauth.com",
+    "newWindow": true
+  }
+}

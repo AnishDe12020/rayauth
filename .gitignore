@@ -3,10 +3,8 @@ node_modules
 .turbo
 *.log
 .next
-dist
 dist-ssr
 *.local
 .env
 .cache
 .vercel
-

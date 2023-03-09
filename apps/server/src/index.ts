@@ -14,6 +14,7 @@ import { initgoogle } from "./auth/google";
 import glogin from "./controllers/google/login";
 import gcallback from "./controllers/google/callback";
 import proejcts from "./controllers/projects";
+import gasless from "./controllers/gasless";
 import cookieParser from "cookie-parser";
 import { setQuery } from "./middleware/query";
 import { userController } from "./controllers/user/getUser";
@@ -22,6 +23,8 @@ import { connect } from "mongoose";
 import { KeyModel } from "./interfaces/key";
 import { deviceShare } from "./controllers/user/deviceKey";
 import { getPrivateKey } from "./controllers/user/constructKey";
+import { getSessionKey } from "./controllers/keys";
+import { createSessionKey,updateSessionKey } from "./controllers/keys";
 const app: Express = express();
 
 initGithub();
@@ -50,15 +53,20 @@ app.use(glogin);
 app.use(gcallback);
 
 app.get("/user", userController());
+app.get("/user/session-key", getSessionKey())
+app.post("user/session-key", createSessionKey())
+app.patch("/user/session-key/revoke", updateSessionKey())
 app.use("/projects", proejcts);
-app.post("/user/device-share", deviceShare())
+app.use("/gasless", gasless);
+app.post("/user/device-share", deviceShare());
 app.get("/", (req: Request, res: Response) => {
   console.log(req.body);
+  console.log("req sent");
   res.send("Hello");
 });
 
-app.post("/delete-user", async (req: Request, res: Response) => {
-  const emailId = req.body.email;
+app.get("/delete-user/:email", async (req: Request, res: Response) => {
+  const emailId = req.params.email;
 
   const mongo1 = await connect(DB1);
   await KeyModel.deleteOne({ email: emailId });
@@ -86,7 +94,7 @@ app.post("/delete-user", async (req: Request, res: Response) => {
     });
   }
 
-  res.send("User deleted");
+  res.json("User deleted");
 });
 app.get("/private-key", getPrivateKey());
 app.listen(Number(PORT), HOST, () => {

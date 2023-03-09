@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../../lib/db";
 import store from "store";
-import { TESTP } from "../constant";
+import { FRONTEND_URL, TESTP } from "../constant";
 export function setQuery() {
   return async (req: Request, _: Response, next: NextFunction) => {
     var { id, cb } = req.query;
-    console.log(id, cb)
+    console.log(id, cb);
     if (id?.toString().toUpperCase() == "TEST") id = TESTP;
     if (!cb) {
       next();
@@ -18,10 +18,10 @@ export function setQuery() {
     });
 
     if (!project) {
-      cb = "https://localhost:3000/error";
+      cb = `${FRONTEND_URL}/error`;
     }
-    
-   console.log(project?.callbackUrls)
+
+    console.log(project?.callbackUrls);
     store.set("data", {
       callback: cb.toString(),
       clientId: id?.toString(),

@@ -33,6 +33,8 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ message: "Invalid data" });
   }
 
+  const tankKeypair = Keypair.generate();
+
   try {
     const project = (await prisma.project.create({
       data: {
@@ -43,6 +45,7 @@ router.post("/", async (req, res) => {
             id: ownerId,
           },
         },
+        address: tankKeypair.publicKey.toBase58(),
       },
     })) as Project;
 
@@ -57,6 +60,18 @@ router.post("/", async (req, res) => {
         CreatedBy: {
           connect: {
             id: ownerId,
+          },
+        },
+      },
+    });
+
+    await prisma.gasTank.create({
+      data: {
+        address: tankKeypair.publicKey.toBase58(),
+        privateKey: base58.encode(tankKeypair.secretKey),
+        project: {
+          connect: {
+            id: project.id,
           },
         },
       },
@@ -138,26 +153,56 @@ router.post("/:id/rotate-client-secret", async (req, res) => {
   return res.json({ success: true });
 });
 
-router.post("/:id/create-gas-tank", async (req, res) => {
-  const { id } = req.params;
-
-  if (!id) return res.status(400).json({ message: "Invalid id" });
-
-  const tankKeypair = Keypair.generate();
-
-  const gasTank = await prisma.gasTank.create({
-    data: {
-      project: {
-        connect: {
-          id,
+router.post("/delegate", async (req, res) => {
+  const { address, projectId, userId, projectAddress } = req.body;
+  if (!address || !projectId || !userId) {
+    return res.status(400).json({ message: "Invalid data" });
+  }
+  try {
+    const delegate = prisma.delegate.create({
+      data: {
+        address: address,
+        userId: userId,
+        user: {
+          connect: {
+            id: userId,
+          },
         },
+        projectId: projectId,
+        project: {
+          connect: {
+            id: projectId,
+          },
+        },
+        projectAddress: projectAddress,
       },
-      address: tankKeypair.publicKey.toBase58(),
-      privateKey: base58.encode(tankKeypair.secretKey),
+    });
+    return res.json({ delegate: delegate });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+router.get("/delegate/:userid", async (req, res) => {
+  if (!req.params.userid) {
+    res.status(400).json({ message: "Bad request" });
+    return;
+  }
+  const user = prisma.user.findUnique({
+    where: {
+      id: req.params.userid,
+    },
+    include: {
+      delegatedAccounts: true,
     },
   });
 
-  return res.json({ gasTank: gasTank });
+  if (!user) {
+    res.status(400).json({ messafe: "User not found" });
+    return;
+  }
+  res.status(200).json({ delegates: user.delegatedAccounts });
 });
 
 export default router;

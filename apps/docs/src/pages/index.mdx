@@ -1,4 +1,28 @@
-# gm
+import { Cards, Card } from 'nextra-theme-docs';
+import { Wallet, Contact, Fuel } from 'lucide-react';
 
-gm
-gm
+# RayAuth
+
+Users have to install a wallet, store their private key securely and buy SOL to pay gas before performing any transaction on a dApp. This is too much friction for a normal user.
+
+RayAuth provide users with a non-custodial social-login enabled web-based Solana wallet along with other features like gasless transactions and account delegation.
+
+## Learn more about the architecure
+
+<Cards>
+  <Card
+    title="Non-Custodial Wallet"
+    href="/architecture/wallet"
+    icon={<Wallet />}
+  />
+  <Card
+    title="Account Delegation"
+    href="/architecture/account-delegation"
+    icon={<Contact />}
+  />
+  <Card
+    title="Gasless Transactions"
+    href="/architecture/gasless"
+    icon={<Fuel />}
+  />
+</Cards>

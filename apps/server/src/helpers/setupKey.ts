@@ -13,8 +13,6 @@ export async function setupKey(email: string): Promise<string[]> {
   return [deviceShare, publicKey.toString()];
 }
 
-
 export async function userExistsKey(): Promise<string> {
-  
-  return ""
+  return "";
 }

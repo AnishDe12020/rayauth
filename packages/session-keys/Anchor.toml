@@ -1,0 +1,25 @@
+[features]
+seeds = false
+skip-lint = false
+
+[programs.localnet]
+rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"
+dummy_program = "GCzDXYdEaz3RQ92Ghg7MPLD9mc3h6JgSzMurMsFjTJ3W"
+
+[programs.devnet]
+rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"
+dummy_program = "GCzDXYdEaz3RQ92Ghg7MPLD9mc3h6JgSzMurMsFjTJ3W"
+
+[programs.mainnet]
+rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+# cluster = "localnet"
+cluster = "devnet"
+wallet = "/Users/anish/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"

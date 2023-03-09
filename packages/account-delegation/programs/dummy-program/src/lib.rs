@@ -7,8 +7,12 @@ pub mod dummy_program {
     use super::*;
 
     pub fn execute_dummy_instruction(ctx: Context<DummyInstruction>, data: u8) -> Result<()> {
+        let owner = &ctx.accounts.owner;
+
+        msg!("Is owner a signer? {}", owner.is_signer);
+
         ctx.accounts.pda.data = data;
-        ctx.accounts.pda.owner = *ctx.accounts.owner.key;
+        ctx.accounts.pda.owner = owner.key();
 
         Ok(())
     }

@@ -4,6 +4,7 @@ import { createToken } from "./token";
 import { setupKey } from "./setupKey";
 
 import store from "store";
+import { FRONTEND_URL } from "../constant";
 
 export const handleProviderCallback = async (
   res: Response,
@@ -20,7 +21,7 @@ export const handleProviderCallback = async (
     },
   });
 
-  const redirectUrl = new URL("http://localhost:3000/callback");
+  const redirectUrl = new URL(`${FRONTEND_URL}/callback`);
 
   if (callback) {
     redirectUrl.searchParams.append("callback", callback);
@@ -28,7 +29,7 @@ export const handleProviderCallback = async (
 
   if (user) {
     console.log("user already exists");
-    const token = createToken(user.id, user.email);
+    const token = createToken(user.id, user.email, user.address);
 
     res.cookie("jwt-rayauth", token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -52,7 +53,7 @@ export const handleProviderCallback = async (
     },
   });
 
-  const token = createToken(newUser.id, newUser.email);
+  const token = createToken(newUser.id, newUser.email, newUser.address);
 
   res.cookie("jwt-rayauth", token, {
     maxAge: 1000 * 60 * 60 * 24 * 7,

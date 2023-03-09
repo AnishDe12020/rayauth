@@ -1,11 +1,25 @@
 import React from "react";
+import clsx from "clsx";
 import Navbar from "../common/Navbar";
 
-const MainLayout = ({ children }: { children: React.ReactNode }) => {
+const MainLayout = ({
+  className,
+  children,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
   return (
-    <main className="max-w-screen-2xl mx-auto">
-      <Navbar />
-      {children}
+    <main
+      className={clsx(
+        "mx-auto text-white max-w-screen-2xl flex flex-col justify-between h-screen",
+        className
+      )}
+    >
+      <div>
+        <Navbar />
+        {children}
+      </div>
       <div
         style={{
           background: "linear-gradient(90deg, #45A0F5 0%, #26E3C2 100%)",
