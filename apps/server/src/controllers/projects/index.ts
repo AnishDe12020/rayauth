@@ -193,13 +193,16 @@ router.get("/delegate/:userid", async (req, res) => {
     where: {
       id: req.params.userid,
     },
+    include: {
+      delegatedAccounts: true,
+    },
   });
 
   if (!user) {
     res.status(400).json({ messafe: "User not found" });
     return;
   }
-  res.status(200).json({ delegates: user.DelegatedAccount });
+  res.status(200).json({ delegates: user.delegatedAccounts });
 });
 
 export default router;
