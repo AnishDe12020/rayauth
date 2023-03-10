@@ -3,6 +3,7 @@
     "title": "Introduction"
   },
   "architecture": "Architecture",
+  "react-sdk": "React-Sdk",
   "Support": {
     "title": "Support",
     "type": "separator"

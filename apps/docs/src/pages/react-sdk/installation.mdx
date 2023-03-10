@@ -1,0 +1,95 @@
+# Installation
+
+To create a React application with @rayauth/react, you have the option to use one of three popular tools: Create React App (CRA), Vite, or Next.js. To run @rayauth/react, it's important to have the latest LTS version of Node installed on your system.
+`@rayauth/react` is a library that provides an authentication provider for React applications. The RayAuthProvider component is used to wrap the main application component and provide authentication functionality.
+
+
+## Setup
+
+Installation
+
+To install @rayauth/react, run the following command:
+
+```bash
+npm install @rayauth/react
+
+pnpm install @rayauth/react
+
+yarn add @rayauth/react
+```
+
+
+## Usage
+
+To use @rayauth/react, first import the RayAuthProvider component from the library:
+
+```js
+import { RayAuthProvider } from "@rayauth/react";
+```
+
+Next, wrap your main application component with the RayAuthProvider component, passing in the required config object:
+
+```javascript
+<React.StrictMode>
+  <RayAuthProvider
+    config={{
+      clientId: "test",
+      callbackUrl: "http://localhost:5173",
+      provider: providers.google,
+      cookieName: "cookieName"
+    }}
+  >
+    <App />
+  </RayAuthProvider>
+</React.StrictMode>
+```
+
+#### The config object must contain the following properties:
+
+`clientId`: The client ID for your Ray authentication application.
+`callbackUrl`: The callback URL to redirect to after authentication.
+`provider`: The authentication provider to use (e.g. Google, Facebook, etc.).
+`cookieName`: The name of the cookie to use for authentication.
+
+#### Configuring the Provider
+
+The RayAuthProvider component takes a config object as a prop, which must include the properties mentioned above. Here's what each of them means:
+
+`clientId`: Your Ray authentication client ID, which you can obtain from the Ray authentication dashboard.
+
+`callbackUrl`: The URL that Ray should redirect the user to after authentication is complete. This URL must be listed as an authorized redirect URI in your Ray authentication dashboard.
+
+`provider`: The authentication provider to use. This can be one of the following values from the providers enum:
+providers.google
+providers.discord
+providers.github
+
+`cookieName`: The name of the cookie that will be set upon successful authentication.
+
+
+#### Using the Provider
+
+Once you've configured the provider, you can use the provider in root of your project.
+
+##### Example
+
+```ts 
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RayAuthProvider, providers } from "@rayauth/react";
+import App from "./App";
+
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <RayAuthProvider
+      config={{
+        clientId: "63fc80e8da0cb8775e46fc73",
+        callbackUrl: "http://localhost:5173",
+        provider: providers.google,
+        cookieName: "cookieName"
+      }}
+    >
+      <App />
+    </RayAuthProvider>
+  </React.StrictMode>
+);

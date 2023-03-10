@@ -10,7 +10,10 @@ export function handleWallet(state: any) {
     if (e.data.type == "txnData") {
       console.log(true);
       console.log(e.data);
-      state.setTxnData(e.data);
+      console.log(
+        "state wow",
+        state
+      )
       state.setVisible(false);
       console.log("state idhar hai", state.txnData);
     }

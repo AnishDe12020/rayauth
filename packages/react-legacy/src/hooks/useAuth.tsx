@@ -65,7 +65,7 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
     removeCookie(cookieName);
   };
 
-  function signTransaction(transaction: Transaction | VersionedTransaction) {
+  async function signTransaction(transaction: Transaction | VersionedTransaction) {
     try {
       console.log(user)
       console.log(user?.state)
@@ -79,7 +79,8 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
       console.log("url", url.toString())
        user?.state.setSrc(url.toString());
        user?.state.setVisible(true);
-       const res = loopTxnData();
+       const res = await loopTxnData();
+       user?.state.setVisible(false);
        return res
     } catch (e) {
       console.error(e);
