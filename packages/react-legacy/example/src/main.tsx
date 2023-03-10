@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         clientId: "63fc80e8da0cb8775e46fc73",
         callbackUrl: "http://localhost:5173",
         provider: providers.google,
-        cookieName: "Hi"
+        cookieName: "cookie"
       }}
     >
       <App />

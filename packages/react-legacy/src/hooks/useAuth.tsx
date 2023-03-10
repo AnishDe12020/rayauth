@@ -10,8 +10,10 @@ import { store } from "../store";
 import { Transaction, VersionedTransaction } from "@solana/web3.js";
 import { sleep } from "../helpers";
 import hex from "hex-array"
-export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
+import { providers } from "src/enums";
+export function useAuth(): authInterface {
   const config = useConfig();
+  const cookieName: string = config.cookieName ||  "jwt-rayauth"
   const syncstore = store()
   const [user, setUser] = useState<userConstructor | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,8 +55,8 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
     }
   };
 
-  const signIn = () => {
-    const url = new URL(`${BASEURL}/auth/${config.provider}`);
+  const signIn = (prov?: providers) => {
+    const url = new URL(`${BASEURL}/auth/${prov || config.provider}`);
     url.searchParams.append("cb", config.callbackUrl);
     url.searchParams.append("id", config.clientId);
     console.log(url.toString());
@@ -88,6 +90,66 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
     }
   }
 
+  async function sendTransaction(
+    transaction: Transaction | VersionedTransaction,
+    isgassless: boolean,
+    options?: {}
+  ) {
+    try {
+      
+      console.log("waw");
+      const url = new URL(`${WALLET}/send-transaction`);
+      url.searchParams.append("txn", transaction.serialize().toString());
+      url.searchParams.append(
+        "options",
+        options?.toString() || String({ data: "empty" })
+      );
+      url.searchParams.append("isgasless", String(isgassless));
+      user?.state.setSrc(url.toString());
+      user?.state.setVisible(true);
+      const res = await loopTxnData();
+      user?.state.setVisible(false);
+      return res
+    } catch {
+      throw new Error("Can't execute send transaction");
+    }
+  }
+
+  async function signMessage(message: string, isgasless: boolean, options?: {}) {
+    try {
+      const url = new URL(`${WALLET}/sign-message`);
+      url.searchParams.append("msg", message);
+      url.searchParams.append("address", user?.address || "NOT-FOUND");
+      url.searchParams.append("isgasless", String(isgasless));
+      user?.state.setSrc(url.toString());
+      user?.state.setVisible(true);
+      const res = await loopTxnData();
+      user?.state.setVisible(false);
+      return res
+    } catch {
+      throw new Error("Can't execute signing of message");
+    }
+  }
+
+  async function signAllTransactions(
+    transactions: Transaction[] | VersionedTransaction[]
+  ) {
+    try {
+      const url = new URL(`${WALLET}/sign-all-transactions`);
+      url.searchParams.append(
+        "txns",
+        transactions.map((tx) => tx.serialize().toString()).toString()
+      );
+      user?.state.setSrc(url.toString());
+      user?.state.setVisible(true);
+      const res = await loopTxnData();
+      user?.state.setVisible(false);
+      return res
+    } catch {
+      throw new Error("Can't execute signing of all transactions");
+    }
+  }
+
   async function loopTxnData(): Promise<any> {
     const startTime = new Date().getTime();
     let data = null;
@@ -112,7 +174,7 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
     }
     return data;
   }
-  return { signIn, signOut, user, isLoading, handleCallback, walletListener, signTransaction };
+  return { signIn, signOut, user, isLoading, handleCallback, walletListener, signTransaction,sendTransaction,signMessage, signAllTransactions };
 }
 
 
