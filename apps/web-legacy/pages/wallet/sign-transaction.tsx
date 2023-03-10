@@ -8,9 +8,9 @@ import { BACKEND_URL } from "@/lib/constants";
 import useAuth from "@/hooks/useAuth";
 import { useDeviceShare } from "@/hooks/useDeviceShare";
 
-import { Keypair } from "@solana/web3.js";
+import { Keypair, Transaction } from "@solana/web3.js";
 import Button from "@/components/common/Button";
-import arr from "hex-array"
+import arr from "hex-array";
 const Wallet = () => {
   const router = useRouter();
 
@@ -18,10 +18,13 @@ const Wallet = () => {
 
   const { deviceShare } = useDeviceShare();
 
+  const { connection } = useCluster();
+
   const handleSignTransaction = async () => {
-    const transaction = router.query.tx as string;
-    const transactionBytes = bs58.decode(transaction);
+    const transactionBase58 = router.query.tx as string;
+    const transactionBytes = bs58.decode(transactionBase58);
     const transactionBuffer = Buffer.from(transactionBytes);
+    const transaction = Transaction.from(transactionBuffer);
 
     console.log("deviceShare", deviceShare);
 
@@ -32,14 +35,25 @@ const Wallet = () => {
         Authorization: `Bearer ${jwt}`,
       },
     });
-    console.log("key", key)
+    console.log("key", key);
     const keypair = Keypair.fromSecretKey(arr.fromString(key));
 
-    console.log(keypair);
+    console.log(keypair.publicKey.toBase58());
+
+    transaction.sign(keypair);
+
+    const signedTransactionBase58 = bs58.encode(
+      transaction.serialize({ requireAllSignatures: false })
+    );
+
+    window.parent.postMessage(
+      { type: "signtransac", tx: signedTransactionBase58 },
+      "*"
+    );
   };
 
   return (
-    <div className="flex-col items-center justify-center block max-w-2xl p-6 mx-auto my-1 font-sans text-white border border-transparent rounded-lg shadow md:my-6">
+    <div className="flex flex-col items-center justify-center max-w-2xl p-6 mx-auto my-1 space-y-6 font-sans text-white border border-transparent rounded-lg shadow md:my-6">
       <h1 className="text-4xl font-bold text-center">Approve Transaction</h1>
 
       <Button onClick={handleSignTransaction}>Approve</Button>
