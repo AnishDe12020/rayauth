@@ -10,13 +10,13 @@ import { useEffect, useMemo } from "react";
 import { Buffer } from "buffer";
 
 import { IDL, RayauthSession } from "../types/rayauth_session";
-import { userConstructor } from "src/classes";
+import { useAuth } from "./useAuth";
 
 export const SESSION_PROGRAM_ID = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s";
 
-export const useSessionProgram = (user: userConstructor | null) => {
+export const useSessionProgram = () => {
   const connection = useMemo(() => new Connection(clusterApiUrl("devnet")), []);
-
+  const {user, signTransaction} = useAuth()
   
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const useSessionProgram = (user: userConstructor | null) => {
 
     return {
       publicKey: new PublicKey(user.address),
-      signTransaction: user.signTransaction,
+      signTransaction: signTransaction,
       signAllTransactions: user.signAllTransactions,
     };
   }, [user]);

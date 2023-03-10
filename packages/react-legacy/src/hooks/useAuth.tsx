@@ -4,9 +4,10 @@ import { authInterface } from "../interfaces/auth";
 import { userConstructor } from "../classes";
 import { getUser } from "../helpers/fetchUser";
 import { useConfig } from "../providers";
-import { BASEURL } from "../constants";
+import { BASEURL, WALLET } from "../constants";
 import { walletListener } from "../classes/eventListener";
 import { store } from "../store";
+import { Transaction, VersionedTransaction } from "@solana/web3.js";
 
 export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
   const config = useConfig();
@@ -63,7 +64,25 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
     removeCookie(cookieName);
   };
 
-  return { signIn, signOut, user, isLoading, handleCallback, walletListener };
+  function signTransaction(transaction: Transaction | VersionedTransaction) {
+    try {
+      console.log(user)
+      console.log(user?.state)
+      console.log("waw");
+      const url = new URL(`${WALLET}/sign-transaction`);
+      url.searchParams.append(
+        "txn",
+        transaction.serialize({ requireAllSignatures: false }).toString()
+      );
+       user?.state.setSrc(url.toString());
+       user?.state.setVisible(true);
+    } catch (e) {
+      console.error(e);
+      throw new Error("Can't execute send transaction");
+    }
+  }
+
+  return { signIn, signOut, user, isLoading, handleCallback, walletListener, signTransaction };
 }
 
 
