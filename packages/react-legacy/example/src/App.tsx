@@ -7,7 +7,7 @@ function App() {
     useAuth("cookie");
 
     console.log("User", user?.state);
-  const { addSessionToken } = useSessionProgram(user);
+  const { addSessionToken } = useSessionProgram();
 
   
   useEffect(() => {
@@ -28,7 +28,7 @@ function App() {
           // };
           // chalja();
 
-          addSessionToken();
+         console.log(addSessionToken())
         }}
       >
         add session token

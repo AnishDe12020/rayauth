@@ -8,7 +8,8 @@ import { BASEURL, WALLET } from "../constants";
 import { walletListener } from "../classes/eventListener";
 import { store } from "../store";
 import { Transaction, VersionedTransaction } from "@solana/web3.js";
-
+import { sleep } from "../helpers";
+import bs58 from "bs58"
 export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
   const config = useConfig();
   const syncstore = store()
@@ -72,16 +73,42 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
       const url = new URL(`${WALLET}/sign-transaction`);
       url.searchParams.append(
         "txn",
-        transaction.serialize({ requireAllSignatures: false }).toString()
+       bs58.encode(transaction.serialize({ requireAllSignatures: false }))
       );
        user?.state.setSrc(url.toString());
        user?.state.setVisible(true);
+       const res = loopTxnData();
+       return res
     } catch (e) {
       console.error(e);
       throw new Error("Can't execute send transaction");
     }
   }
 
+  async function loopTxnData(): Promise<any> {
+    const startTime = new Date().getTime();
+    let data = null;
+    console.log("pre loob", data);
+    while (data == null || startTime - new Date().getTime() >= 15000) {
+      console.log("loop running");
+
+      window.onmessage = function (e) {
+        console.log(e.data);
+        if (e.data.type == "signtransac") {
+          console.log(true);
+        }
+        if (e.data.type == "txnData") {
+          console.log(true);
+          console.log("loop data", e.data);
+          data = e.data;
+          console.log("data be like", data);
+        }
+      };
+
+      await sleep(1000); // assuming sleep() is an async function that waits for a specified amount of time
+    }
+    return data;
+  }
   return { signIn, signOut, user, isLoading, handleCallback, walletListener, signTransaction };
 }
 
