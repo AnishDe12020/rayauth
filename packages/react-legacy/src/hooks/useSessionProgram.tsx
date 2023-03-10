@@ -6,7 +6,7 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import { AnchorProvider, BN, Program } from "@project-serum/anchor";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useAuth } from "./useAuth";
 import { Buffer } from "buffer";
 
@@ -18,6 +18,10 @@ export const useSessionProgram = () => {
   const connection = useMemo(() => new Connection(clusterApiUrl("devnet")), []);
 
   const { user } = useAuth();
+
+  useEffect(() => {
+    window.Buffer = Buffer;
+  });
 
   const anchorWallet = useMemo(() => {
     if (!user?.address) return;
