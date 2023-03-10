@@ -77,19 +77,22 @@ export const useSessionProgram = () => {
         payer: anchorWallet?.publicKey,
         user: anchorWallet?.publicKey,
       })
-      .instruction();
+      .signers([sessionKeypair])
+      .rpc();
 
     console.log("addSessionKeyIx", addSessionKeyIx);
 
-    const tx = new Transaction().add(addSessionKeyIx);
+    // console.log("addSessionKeyIx", addSessionKeyIx);
 
-    const signedTx = await user?.signTransaction(tx);
+    // const tx = new Transaction().add(addSessionKeyIx);
 
-    console.log("signedTx", signedTx);
+    // const signedTx = await user?.signTransaction(tx);
 
-    // set the session token keypair in local storage
+    // console.log("signedTx", signedTx);
 
-    localStorage.setItem("sessionToken", JSON.stringify(sessionKeypair));
+    // // set the session token keypair in local storage
+
+    // localStorage.setItem("sessionToken", JSON.stringify(sessionKeypair));
 
     return;
   };

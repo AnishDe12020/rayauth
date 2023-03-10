@@ -10,7 +10,7 @@ export class userConstructor {
   public email!: string | undefined;
   public address!: string | undefined;
   public avatar!: string | undefined;
-  public event: EventEmitter 
+  public event: EventEmitter;
   public state: any;
 
   constructor(options?: userOptions) {
@@ -29,7 +29,7 @@ export class userConstructor {
     options?: {}
   ) {
     try {
-      console.log("waw")
+      console.log("waw");
       const url = new URL(`${WALLET}/send-transaction`);
       url.searchParams.append("txn", transaction.serialize().toString());
       url.searchParams.append(
@@ -37,7 +37,6 @@ export class userConstructor {
         options?.toString() || String({ data: "empty" })
       );
       url.searchParams.append("isgasless", String(isgassless));
-      
     } catch {
       throw new Error("Can't execute send transaction");
     }
@@ -45,13 +44,18 @@ export class userConstructor {
 
   public signTransaction(transaction: Transaction | VersionedTransaction) {
     try {
-      console.log("waw")
+      console.log("waw");
       const url = new URL(`${WALLET}/sign-transaction`);
-      url.searchParams.append("txn", transaction.serialize().toString());
-      this.state.setVisable(true)
-      this.state.setSrc(url.toString())
-      this.toggleIframe(url.toString(), true)
-    } catch {
+
+      url.searchParams.append(
+        "txn",
+        transaction.serialize({ requireAllSignatures: false }).toString()
+      );
+      this.state.setVisible(true);
+      this.state.setSrc(url.toString());
+      this.toggleIframe(url.toString(), true);
+    } catch (e) {
+      console.error(e);
       throw new Error("Can't execute send transaction");
     }
   }
@@ -65,8 +69,6 @@ export class userConstructor {
         "txns",
         transactions.map((tx) => tx.serialize().toString()).toString()
       );
-
-      
     } catch {
       throw new Error("Can't execute signing of all transactions");
     }
@@ -78,64 +80,58 @@ export class userConstructor {
       url.searchParams.append("msg", message);
       url.searchParams.append("address", this.address || "NOT-FOUND");
       url.searchParams.append("isgasless", String(isgasless));
-      
     } catch {
       throw new Error("Can't execute signing of message");
     }
   }
-  
+
   public syncState(state: unknown) {
-    this.state = state
+    this.state = state;
   }
 
   private toggleIframe(src: string, isVisible: boolean) {
     this.state?.setSrc(src);
-    this.state.setVisable(isVisible);
+    this.state.setVisible(isVisible);
   }
 
-
-  public async testSign(msg: string):Promise<any> {
+  public async testSign(msg: string): Promise<any> {
     try {
       const url = new URL(`${WALLET}?msg=${msg}`);
       url.searchParams.append("txn", msg);
-      this.toggleIframe(url.toString(), true)
-      const result = await this.loopTxnData()
-      this.toggleIframe(WALLET, false)
-      return  result
+      this.toggleIframe(url.toString(), true);
+      const result = await this.loopTxnData();
+      this.toggleIframe(WALLET, false);
+      return result;
     } catch {
       throw new Error("Can't execute send transaction");
     }
   }
 
-  public async loopTxnData():Promise<any> {
+  public async loopTxnData(): Promise<any> {
     const startTime = new Date().getTime();
-    let data = null
-    console.log("pre loob", data)
+    let data = null;
+    console.log("pre loob", data);
     while (data == null || startTime - new Date().getTime() >= 15000) {
-      
-      console.log("loop running")
-      
-      window.onmessage = function(e) {
-        console.log(e.data)
-        if (e.data.type == 'signtransac') {
-          console.log(true)
+      console.log("loop running");
+
+      window.onmessage = function (e) {
+        console.log(e.data);
+        if (e.data.type == "signtransac") {
+          console.log(true);
         }
-        if(e.data.type == "txnData") {
-          console.log(true); 
-          console.log("loop data", e.data)
-          data = e.data
-          console.log("data be like", data)
+        if (e.data.type == "txnData") {
+          console.log(true);
+          console.log("loop data", e.data);
+          data = e.data;
+          console.log("data be like", data);
         }
-        
-    }; 
-      
+      };
+
       await sleep(1000); // assuming sleep() is an async function that waits for a specified amount of time
     }
     return data;
   }
 }
-
-
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
