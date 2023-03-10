@@ -10,7 +10,7 @@ import { useDeviceShare } from "@/hooks/useDeviceShare";
 
 import { Keypair } from "@solana/web3.js";
 import Button from "@/components/common/Button";
-
+import arr from "hex-array"
 const Wallet = () => {
   const router = useRouter();
 
@@ -32,8 +32,8 @@ const Wallet = () => {
         Authorization: `Bearer ${jwt}`,
       },
     });
-
-    const keypair = Keypair.fromSecretKey(bs58.decode(key));
+    console.log("key", key)
+    const keypair = Keypair.fromSecretKey(arr.fromString(key));
 
     console.log(keypair);
   };

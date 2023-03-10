@@ -28,6 +28,7 @@ import { deviceShare } from "./controllers/user/deviceKey";
 import { getPrivateKey } from "./controllers/user/constructKey";
 import { getSessionKey } from "./controllers/keys";
 import { createSessionKey,updateSessionKey } from "./controllers/keys";
+import { getCombinedKey } from "./helpers/getAuthKey";
 const app: Express = express();
 
 initGithub();
@@ -67,16 +68,14 @@ app.get("/", (req: Request, res: Response) => {
   console.log("req sent");
   res.send("Hello");
 });
-app.get("/key", (req, res) => {
+app.get("/key", async(req, res) => {
 
- const key = Keypair.generate()
- const hex = arr.toString(key.secretKey)
- const share = secrets.share(hex, 3, 2)
- console.log(share)
 
- const combine = secrets.combine([share[0], share[1]])
+ const shareOne = "802cd2da65a667eb916dbf9f2b367b074171b3710aee610a5dc8945dbea8e4fe934a5becae824a517a2da2ad71859fa39fa1555f26b280d2b74bf179c680f78f50c8d02f9324184f02bb5e3a402ee3aa989"
+ const shareTwo = await getCombinedKey("apoorvcodes381@gmail.com")
+ const combine = secrets.combine([shareOne, shareTwo])
  const newkey = arr.fromString(combine)
- console.log("old",key.secretKey)
+
 
 
  console.log("new", newkey)
