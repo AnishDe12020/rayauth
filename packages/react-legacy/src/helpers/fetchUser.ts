@@ -2,7 +2,7 @@ import axios from "axios";
 import { userConstructor } from "../classes";
 import { BASEURL } from "../constants";
 
-export async function getUser(jwt: string): Promise<userConstructor> {
+export async function getUser(jwt: string, store: unknown): Promise<userConstructor> {
   const data = await axios.get(`${BASEURL}/user`, {
     headers: {
       Authorization: `Bearer ${jwt}`,
@@ -17,6 +17,7 @@ export async function getUser(jwt: string): Promise<userConstructor> {
     email: data.data.email,
     address: data.data.address,
     avatar: data.data.avatar,
+    store: store
   });
 console.log("constructor", returnData)
   return returnData;

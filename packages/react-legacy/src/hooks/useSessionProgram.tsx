@@ -7,17 +7,17 @@ import {
 } from "@solana/web3.js";
 import { AnchorProvider, BN, Program } from "@project-serum/anchor";
 import { useEffect, useMemo } from "react";
-import { useAuth } from "./useAuth";
 import { Buffer } from "buffer";
 
 import { IDL, RayauthSession } from "../types/rayauth_session";
+import { userConstructor } from "src/classes";
 
 export const SESSION_PROGRAM_ID = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s";
 
-export const useSessionProgram = () => {
+export const useSessionProgram = (user: userConstructor | null) => {
   const connection = useMemo(() => new Connection(clusterApiUrl("devnet")), []);
 
-  const { user } = useAuth();
+  
 
   useEffect(() => {
     window.Buffer = Buffer;
@@ -90,9 +90,9 @@ export const useSessionProgram = () => {
 
     // console.log("signedTx", signedTx);
 
-    // // set the session token keypair in local storage
+    // set the session token keypair in local storage
 
-    // localStorage.setItem("sessionToken", JSON.stringify(sessionKeypair));
+    localStorage.setItem("sessionToken", JSON.stringify(sessionKeypair));
 
     return;
   };

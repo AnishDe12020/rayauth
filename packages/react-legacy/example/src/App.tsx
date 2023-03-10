@@ -6,9 +6,10 @@ function App() {
   const { signIn, signOut, user, isLoading, handleCallback, walletListener } =
     useAuth("cookie");
 
-  const { addSessionToken } = useSessionProgram();
+    console.log("User", user?.state);
+  const { addSessionToken } = useSessionProgram(user);
 
-  console.log("User", user?.state);
+  
   useEffect(() => {
     handleCallback();
   }, []);

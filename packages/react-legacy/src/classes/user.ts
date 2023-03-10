@@ -21,6 +21,7 @@ export class userConstructor {
     this.address = options?.address;
     this.avatar = options?.address;
     this.event = new EventEmitter();
+    this.state = options?.store
   }
 
   public sendTransaction(
@@ -29,6 +30,7 @@ export class userConstructor {
     options?: {}
   ) {
     try {
+      
       console.log("waw");
       const url = new URL(`${WALLET}/send-transaction`);
       url.searchParams.append("txn", transaction.serialize().toString());
@@ -44,6 +46,8 @@ export class userConstructor {
 
   public signTransaction(transaction: Transaction | VersionedTransaction) {
     try {
+      console.log(this)
+      console.log(this.state)
       console.log("waw");
       const url = new URL(`${WALLET}/sign-transaction`);
 
@@ -51,9 +55,9 @@ export class userConstructor {
         "txn",
         transaction.serialize({ requireAllSignatures: false }).toString()
       );
-      this.state.setVisible(true);
+      
       this.state.setSrc(url.toString());
-      this.toggleIframe(url.toString(), true);
+       this.state.setVisible(true);
     } catch (e) {
       console.error(e);
       throw new Error("Can't execute send transaction");
@@ -83,10 +87,6 @@ export class userConstructor {
     } catch {
       throw new Error("Can't execute signing of message");
     }
-  }
-
-  public syncState(state: unknown) {
-    this.state = state;
   }
 
   private toggleIframe(src: string, isVisible: boolean) {

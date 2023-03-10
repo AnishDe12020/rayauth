@@ -24,13 +24,13 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
       }
       console.log("YAHA BHI CHAL RHA")
 
-      const user = await getUser(cookies[cookieName]);
+      const user = await getUser(cookies[cookieName], syncstore);
       console.log("USER CHAL RHA")
 
       setUser(user);
-      user.syncState(syncstore)
+
       setIsLoading(false);
-      console.log("PURA CHAL RHA")
+      console.log("PURA CHAL RHA", user.state)
 
     };
     fetchUser();

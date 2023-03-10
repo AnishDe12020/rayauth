@@ -5,4 +5,5 @@ export interface userOptions {
   email: string;
   address: string;
   avatar: string;
+  store: unknown;
 }
