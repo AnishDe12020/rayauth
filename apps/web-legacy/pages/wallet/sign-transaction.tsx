@@ -23,23 +23,17 @@ const Wallet = () => {
     const transactionBytes = bs58.decode(transaction);
     const transactionBuffer = Buffer.from(transactionBytes);
 
+    console.log("deviceShare", deviceShare);
+
     const {
       data: { key },
-    } = await axios.get(`${BACKEND_URL}/private-key`, {
+    } = await axios.get(`${BACKEND_URL}/private-key?deviceKey=${deviceShare}`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
     });
 
-    console.log("shares", deviceShare, key);
-
-    const privKeyHex = secrets.combine([key, deviceShare], 1);
-
-    const privKey = bs58.encode(Buffer.from(privKeyHex, "hex"));
-
-    console.log(privKey);
-
-    const keypair = Keypair.fromSecretKey(bs58.decode(privKey));
+    const keypair = Keypair.fromSecretKey(bs58.decode(key));
 
     console.log(keypair);
   };
