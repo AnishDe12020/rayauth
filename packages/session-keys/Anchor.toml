@@ -4,11 +4,11 @@ skip-lint = false
 
 [programs.localnet]
 rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"
-dummy_program = "GCzDXYdEaz3RQ92Ghg7MPLD9mc3h6JgSzMurMsFjTJ3W"
+dapp_hunt = "8JajHSCMD6p7XoPLe8sMCM6x41sURpT1WZT4JcA3Ffsc"
 
 [programs.devnet]
 rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"
-dummy_program = "GCzDXYdEaz3RQ92Ghg7MPLD9mc3h6JgSzMurMsFjTJ3W"
+dapp_hunt = "8JajHSCMD6p7XoPLe8sMCM6x41sURpT1WZT4JcA3Ffsc"
 
 [programs.mainnet]
 rayauth_session = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s"

@@ -504,6 +504,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "dapp-hunt"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "rayauth-session",
+]
+
+[[package]]
 name = "digest"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -521,14 +529,6 @@ dependencies = [
  "block-buffer 0.10.3",
  "crypto-common",
  "subtle",
-]
-
-[[package]]
-name = "dummy-program"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "rayauth-session",
 ]
 
 [[package]]

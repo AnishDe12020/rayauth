@@ -4,8 +4,7 @@ import { expect } from "chai";
 import lumina from "@lumina-dev/test";
 
 import { RayauthSession } from "../target/types/rayauth_session";
-import { DummyProgram } from "../target/types/dummy_program";
-import { bs58 } from "@project-serum/anchor/dist/cjs/utils/bytes";
+import { DappHunt } from "../target/types/dapp_hunt";
 
 lumina();
 
@@ -14,7 +13,7 @@ describe("session-keys", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
 
   const program = anchor.workspace.RayauthSession as Program<RayauthSession>;
-  const testProgram = anchor.workspace.DummyProgram as Program<DummyProgram>;
+  const dappHuntProgram = anchor.workspace.DappHunt as Program<DappHunt>;
   const userWallet = anchor.workspace.RayauthSession.provider.wallet;
 
   const userKeypair = anchor.web3.Keypair.generate();
@@ -39,28 +38,10 @@ describe("session-keys", () => {
         user: userKeypair.publicKey,
         sessionKey: sessionKeypair.publicKey,
       })
-      .signers([userKeypair, sessionKeypair, userWallet])
-      .transaction();
+      .signers([userKeypair, sessionKeypair])
+      .rpc();
 
-    let blockhash = (await connection.getLatestBlockhash("finalized"))
-      .blockhash;
-
-    addTx.recentBlockhash = blockhash;
-    addTx.feePayer = userWallet.publicKey;
-
-    const serialized = bs58.encode(
-      addTx.serialize({ requireAllSignatures: false })
-    );
-
-    console.log("addTx: ", serialized);
-
-    const tx = anchor.web3.Transaction.from(bs58.decode(serialized));
-
-    tx.sign(userKeypair, sessionKeypair, userWallet);
-
-    const txid = await connection.sendRawTransaction(tx.serialize());
-
-    await connection.confirmTransaction(txid);
+    console.log("addTx", addTx);
 
     const sessionKeyAccount = await program.account.sessionKey.fetch(
       sessionKeyPda
@@ -77,27 +58,76 @@ describe("session-keys", () => {
     );
   });
 
-  it("can call dummy program with session key", async () => {
+  it("can post a new post a new product", async () => {
     const [sessionKeyPda] = await anchor.web3.PublicKey.findProgramAddress(
       [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
       program.programId
     );
 
-    const [dummyPda] = await anchor.web3.PublicKey.findProgramAddress(
-      [Buffer.from("dummy"), userKeypair.publicKey.toBuffer()],
-      testProgram.programId
+    const productName = "rayauth";
+    const makerTwitter = "https://twitter.com/AnishDe12020";
+    const twitterUrl = "https://twitter.com/RayAuthHQ";
+    const websiteUrl = "https://rayauth.com";
+    const logoUrl = "https://rayauth.com/logo.svg";
+    const description = "Rayauth is a session keys solution for Solana";
+
+    const [productPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("product"), Buffer.from(productName)],
+      dappHuntProgram.programId
     );
 
-    const dummyTx = await testProgram.methods
-      .executeDummyInstruction(1)
+    const productTx = await dappHuntProgram.methods
+      .createProduct(
+        makerTwitter,
+        productName,
+        description,
+        logoUrl,
+        websiteUrl,
+        twitterUrl
+      )
       .accounts({
-        owner: sessionKeyPda,
+        hunterSigner: sessionKeyPda,
         payer: userWallet.publicKey,
-        pda: dummyPda,
+        product: productPda,
       })
       .rpc();
 
-    console.log("dummyTx: ", dummyTx);
+    console.log("createProdcutTx: ", productTx);
+  });
+
+  it("can upvote a product", async () => {
+    const [sessionKeyPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
+      program.programId
+    );
+
+    const productName = "rayauth";
+
+    const [productPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("product"), Buffer.from(productName)],
+      dappHuntProgram.programId
+    );
+
+    const [upvotePda] = await anchor.web3.PublicKey.findProgramAddress(
+      [
+        Buffer.from("upvote"),
+        Buffer.from(productName),
+        userKeypair.publicKey.toBuffer(),
+      ],
+      dappHuntProgram.programId
+    );
+
+    const upvoteTx = await dappHuntProgram.methods
+      .upvoteProduct()
+      .accounts({
+        payer: userWallet.publicKey,
+        product: productPda,
+        voterSigner: sessionKeyPda,
+        upvoteAccount: upvotePda,
+      })
+      .rpc();
+
+    console.log("upvoteTx: ", upvoteTx);
   });
 
   it("can revoke a session key", async () => {
@@ -116,11 +146,47 @@ describe("session-keys", () => {
 
     console.log("revokeTx: ", revokeTx);
 
-    const sessionKeyAccount = await program.account.sessionKey
-      .fetch(sessionKeyPda)
+    await program.account.sessionKey.fetch(sessionKeyPda).catch((err) => {
+      expect(err).to.not.be.undefined;
+      expect(err.message).to.contain("Account does not exist");
+    });
+  });
+
+  it("cannot post a product if session key is revoked", async () => {
+    const [sessionKeyPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
+      program.programId
+    );
+
+    const productName = "rayauthnew";
+    const makerTwitter = "https://twitter.com/AnishDe12020";
+    const twitterUrl = "https://twitter.com/RayAuthHQ";
+    const websiteUrl = "https://rayauth.com";
+    const logoUrl = "https://rayauth.com/logo.svg";
+    const description = "Rayauth is a session keys solution for Solana";
+
+    const [productPda] = await anchor.web3.PublicKey.findProgramAddress(
+      [Buffer.from("product"), Buffer.from(productName)],
+      dappHuntProgram.programId
+    );
+
+    await dappHuntProgram.methods
+      .createProduct(
+        makerTwitter,
+        productName,
+        description,
+        logoUrl,
+        websiteUrl,
+        twitterUrl
+      )
+      .accounts({
+        hunterSigner: sessionKeyPda,
+        payer: userWallet.publicKey,
+        product: productPda,
+      })
+      .rpc()
       .catch((err) => {
         expect(err).to.not.be.undefined;
-        expect(err.message).to.contain("Account does not exist");
       });
   });
 });

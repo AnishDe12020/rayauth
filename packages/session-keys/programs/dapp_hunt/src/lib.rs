@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use rayauth_session::program::RayauthSession;
 use rayauth_session::SessionKey;
 
-declare_id!("GCzDXYdEaz3RQ92Ghg7MPLD9mc3h6JgSzMurMsFjTJ3W");
+declare_id!("8JajHSCMD6p7XoPLe8sMCM6x41sURpT1WZT4JcA3Ffsc");
 
 const DISCRIMINATOR_LENGTH: usize = 8;
 const PUBLIC_KEY_LENGTH: usize = 32;
@@ -11,17 +11,8 @@ const STRING_CHAR_MULTIPLIER: usize = 4;
 const U64_LENGTH: usize = 8;
 
 #[program]
-pub mod dummy_program {
+pub mod dapp_hunt {
     use super::*;
-
-    pub fn execute_dummy_instruction(ctx: Context<DummyInstruction>, data: u8) -> Result<()> {
-        let owner = &ctx.accounts.owner;
-
-        ctx.accounts.pda.data = data;
-        ctx.accounts.pda.owner = owner.key();
-
-        Ok(())
-    }
 
     pub fn create_product(
         ctx: Context<CreateProduct>,
@@ -45,29 +36,18 @@ pub mod dummy_program {
 
         Ok(())
     }
-}
 
-#[derive(Accounts)]
-pub struct DummyInstruction<'info> {
-    #[account(mut)]
-    pub payer: Signer<'info>,
-    #[account(
-        seeds = [SessionKey::SEED_PREFIX.as_ref(), owner.session_key.as_ref()],
-        seeds::program = RayauthSession::id(),
-        bump,
-        constraint = owner.is_valid()? == true,
-    )]
-    pub owner: Account<'info, SessionKey>,
-    #[account(
-        init,
-        payer = payer,
-        space = 48,
-        seeds = [b"dummy".as_ref(), owner.user.as_ref()],
-        bump,
-    )]
-    pub pda: Account<'info, DummyPda>,
-    pub system_program: Program<'info, System>,
-    pub rent: Sysvar<'info, Rent>,
+    pub fn upvote_product(ctx: Context<Upvote>) -> Result<()> {
+        let voter = &ctx.accounts.voter_signer;
+        let product = &mut ctx.accounts.product;
+
+        ctx.accounts.upvote_account.product = product.key();
+        ctx.accounts.upvote_account.voter = voter.user;
+
+        product.upvote();
+
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
@@ -120,12 +100,6 @@ pub struct Upvote<'info> {
     )]
     pub upvote_account: Account<'info, UpvoteAaccount>,
     pub system_program: Program<'info, System>,
-}
-
-#[account]
-pub struct DummyPda {
-    pub owner: Pubkey,
-    pub data: u8,
 }
 
 #[account]
