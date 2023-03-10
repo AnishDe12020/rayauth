@@ -1,0 +1,165 @@
+# Using Transactions with @rayauth/react
+
+
+`@rayauth/react` provides an easy-to-use interface for signing transactions using a Solana wallet. With the useAuth hook, you can easily access the functions you need to sign transactions, including `signTransaction`, `signAllTransactions`, `signMessage`, and `sendTransaction`.
+
+
+## Signing a Transaction
+To sign a transaction, you can use the `signTransaction` function provided by useAuth. This function takes a Solana transaction object as a parameter and signs it using the user's Solana wallet.
+
+Here's an example of how you can use `signTransaction` to sign a simple Solana transaction:
+
+```ts
+import { useAuth } from "@rayauth/react";
+import { Connection, PublicKey, Transaction, SystemProgram } from "@solana/web3.js";
+
+function App() {
+  const { signTransaction } = useAuth();
+
+  async function sendTransaction() {
+    const connection = new Connection("https://api.devnet.solana.com", "singleGossip");
+    const payerAccount = new Account();
+    const transaction = new Transaction().add(
+      SystemProgram.transfer({
+        fromPubkey: payerAccount.publicKey,
+        toPubkey: new PublicKey("..."),
+        lamports: 100000,
+      })
+    );
+
+    await signTransaction(transaction);
+    const signature = await connection.sendRawTransaction(transaction.serialize());
+    console.log("Transaction sent:", signature);
+  }
+
+  return (
+    <div className="App">
+      <button onClick={sendTransaction}>Send Transaction</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Signing Multiple Transactions
+
+If you need to sign multiple transactions at once, you can use the `signAllTransactions` function. This function takes an array of Solana transactions and signs them using the user's Solana wallet.
+
+Here's an example of how you can use `signAllTransactions` to sign multiple Solana transactions:
+
+```ts
+import { useAuth } from "@rayauth/react";
+import { Connection, PublicKey, Transaction, SystemProgram } from "@solana/web3.js";
+
+function App() {
+  const { signAllTransactions } = useAuth();
+
+  async function sendTransactions() {
+    const connection = new Connection("https://api.devnet.solana.com", "singleGossip");
+    const payerAccount = new Account();
+    const transactions = [
+      new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: payerAccount.publicKey,
+          toPubkey: new PublicKey("..."),
+          lamports: 100000,
+        })
+      ),
+      new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: payerAccount.publicKey,
+          toPubkey: new PublicKey("..."),
+          lamports: 50000,
+        })
+      ),
+    ];
+
+    await signAllTransactions(transactions);
+    const signatures = await Promise.all(
+      transactions.map((transaction) => connection.sendRawTransaction(transaction.serialize()))
+    );
+    console.log("Transactions sent:", signatures);
+  }
+
+  return (
+    <div className="App">
+      <button onClick={sendTransactions}>Send Transactions</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Signing a Message
+
+
+To sign a message, you can use the `signMessage` function provided by useAuth. This function takes a message string and an optional options object as parameters and signs the message using the user's Solana wallet.
+
+Here's an example of how you can use `signMessage` to sign a message:
+
+```ts
+import { useAuth } from "@rayauth/react";
+
+function MyComponent() {
+  const { signMessage } = useAuth();
+
+  const handleSignMessage = async () => {
+    try {
+      const message = "Hello, world!";
+      const isGasless = true;
+      const options = {}; // additional options if needed
+
+      const signedMessage = await signMessage(message, isGasless, options);
+
+      console.log(signedMessage);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={handleSignMessage}>Sign Message</button>
+    </div>
+  );
+}
+```
+
+## Sending a Transaction
+
+To send a transaction, you can use the `sendTransaction` function provided by useAuth. This function takes a transaction object as a parameter and signs and sends the transaction using the user's Solana wallet.
+
+Here's an example of how you can use `sendTransaction` to send a transaction:
+
+
+```ts
+import { useAuth } from "@rayauth/react";
+
+function MyComponent() {
+  const { sendTransaction } = useAuth();
+
+  const handleSendTransaction = async () => {
+    try {
+      const transaction = {}; // your transaction object
+
+      await sendTransaction(transaction);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={handleSendTransaction}>Send Transaction</button>
+    </div>
+  );
+}
+```
+
+
+## Conclusion 
+
+Conclusion
+In this documentation, we've covered the basics of using @rayauth/react for Solana wallet authentication and transaction signing. We hope this information has been helpful in getting you started with building Solana dApps. If you have any questions or run into any issues, don't hesitate to reach out to us via our website or GitHub repository.
