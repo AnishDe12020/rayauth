@@ -1,4 +1,10 @@
-import { clusterApiUrl, Connection, Keypair, PublicKey } from "@solana/web3.js";
+import {
+  clusterApiUrl,
+  Connection,
+  Keypair,
+  PublicKey,
+  Transaction,
+} from "@solana/web3.js";
 import { AnchorProvider, BN, Program } from "@project-serum/anchor";
 import { useMemo } from "react";
 import { useAuth } from "./useAuth";
@@ -31,11 +37,16 @@ export const useSessionProgram = () => {
     });
   }, [connection, anchorWallet]);
 
+  console.log("anchorWallet", anchorWallet);
+  console.log("anchorProvider", anchorProvider);
+
   const sessionProgram: Program<RayauthSession> | undefined = useMemo(() => {
     if (!anchorProvider) return;
 
     return new Program(IDL, SESSION_PROGRAM_ID, anchorProvider);
   }, [anchorProvider]);
+
+  console.log("sessionProgram", sessionProgram);
 
   const addSessionToken = async (
     timestamp: number = Math.floor(Date.now() / 1000) + 3600
@@ -51,7 +62,7 @@ export const useSessionProgram = () => {
 
     console.log("doing tx");
 
-    const addSessionKeyTx = await sessionProgram.methods
+    const addSessionKeyIx = await sessionProgram.methods
       .addSessionKey(new BN(timestamp))
       .accounts({
         sessionKeyPda,
@@ -59,13 +70,15 @@ export const useSessionProgram = () => {
         payer: anchorWallet?.publicKey,
         user: anchorWallet?.publicKey,
       })
-      .signers([sessionKeypair]);
+      .instruction();
 
-    console.log("addSessionKeyTx", addSessionKeyTx);
+    console.log("addSessionKeyIx", addSessionKeyIx);
 
-    const sig = await addSessionKeyTx.rpc();
+    const tx = new Transaction().add(addSessionKeyIx);
 
-    console.log("sig", sig);
+    const signedTx = await user?.signTransaction(tx);
+
+    console.log("signedTx", signedTx);
 
     // set the session token keypair in local storage
 
