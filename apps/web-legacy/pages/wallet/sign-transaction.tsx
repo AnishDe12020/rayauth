@@ -48,7 +48,7 @@ const Wallet = () => {
     );
 
     window.parent.postMessage(
-      { type: "signtransac", tx: signedTransactionBase58 },
+      { type: "txnData", tx: signedTransactionBase58 },
       "*"
     );
   };
