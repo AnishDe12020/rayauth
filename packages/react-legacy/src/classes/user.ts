@@ -29,6 +29,7 @@ export class userConstructor {
     options?: {}
   ) {
     try {
+      console.log("waw")
       const url = new URL(`${WALLET}/send-transaction`);
       url.searchParams.append("txn", transaction.serialize().toString());
       url.searchParams.append(
@@ -44,10 +45,12 @@ export class userConstructor {
 
   public signTransaction(transaction: Transaction | VersionedTransaction) {
     try {
+      console.log("waw")
       const url = new URL(`${WALLET}/sign-transaction`);
       url.searchParams.append("txn", transaction.serialize().toString());
       this.state.setVisable(true)
       this.state.setSrc(url.toString())
+      this.toggleIframe(url.toString(), true)
     } catch {
       throw new Error("Can't execute send transaction");
     }

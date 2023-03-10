@@ -40,10 +40,13 @@ export const useSessionProgram = () => {
   const addSessionToken = async (
     timestamp: number = Math.floor(Date.now() / 1000) + 3600
   ) => {
-    if (!sessionProgram) return;
+    if (!sessionProgram) {
+      console.log("ched")
+      return
+    };
 
     const sessionKeypair = new Keypair();
-
+    console.log(sessionKeypair)
     const [sessionKeyPda] = await PublicKey.findProgramAddress(
       [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
       sessionProgram.programId
@@ -63,7 +66,7 @@ export const useSessionProgram = () => {
 
     console.log("addSessionKeyTx", addSessionKeyTx);
 
-    const sig = await addSessionKeyTx.rpc();
+    const sig = await addSessionKeyTx.instruction();
 
     console.log("sig", sig);
 
@@ -114,3 +117,5 @@ export const useSessionProgram = () => {
     revokeSessionToken,
   };
 };
+
+
