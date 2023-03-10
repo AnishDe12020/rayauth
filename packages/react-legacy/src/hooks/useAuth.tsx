@@ -9,7 +9,7 @@ import { walletListener } from "../classes/eventListener";
 import { store } from "../store";
 import { Transaction, VersionedTransaction } from "@solana/web3.js";
 import { sleep } from "../helpers";
-import bs58 from "bs58"
+import hex from "hex-array"
 export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
   const config = useConfig();
   const syncstore = store()
@@ -73,8 +73,10 @@ export function useAuth(cookieName: string = "jwt-rayauth"): authInterface {
       const url = new URL(`${WALLET}/sign-transaction`);
       url.searchParams.append(
         "txn",
-       bs58.encode(transaction.serialize({ requireAllSignatures: false }))
+       hex.toString(transaction.serialize({ requireAllSignatures: false }))
       );
+      console.log("hex", hex.toString(transaction.serialize({ requireAllSignatures: false })))
+      console.log("url", url.toString())
        user?.state.setSrc(url.toString());
        user?.state.setVisible(true);
        const res = loopTxnData();

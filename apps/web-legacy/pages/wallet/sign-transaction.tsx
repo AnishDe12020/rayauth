@@ -21,8 +21,9 @@ const Wallet = () => {
   const { connection } = useCluster();
 
   const handleSignTransaction = async () => {
-    const transactionBase58 = router.query.tx as string;
-    const transactionBytes = bs58.decode(transactionBase58);
+    const transactionBase58 = router.query.txn as string;
+    console.log(transactionBase58)
+    const transactionBytes = arr.fromString(transactionBase58)
     const transactionBuffer = Buffer.from(transactionBytes);
     const transaction = Transaction.from(transactionBuffer);
 
