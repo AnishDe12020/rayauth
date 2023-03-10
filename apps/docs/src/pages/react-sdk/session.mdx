@@ -1,0 +1,75 @@
+# Session Keys
+
+The `useSessionProgram` hook provided by `@rayauth/react` SDK is used to interact with the Rayauth Session Program on Solana blockchain. This hook returns an object with the following functions:
+
+## sessionProgram
+
+The `sessionProgram` function is an instance of the Rayauth Session Program on the Solana blockchain. It is created using the Program constructor from `@project-serum/anchor` package. This program is used to manage session tokens for the user.
+
+## addSessionToken(timestamp: number)
+
+The `addSessionToken` function is used to add a new session token to the Rayauth Session Program on Solana blockchain. It takes an optional timestamp parameter, which defaults to the current timestamp plus one hour. This function performs the following steps:
+
+1.Generates a new keypair using `Keypair` from `@solana/web3.js` package.
+2.Finds the public key address of the `session_key` PDA using `PublicKey.findProgramAddress` from `@solana/web3.js` package.
+3.Calls the `addSessionKey` method on the Rayauth Session Program with the provided `timestamp` and required accounts and signers.
+4.Stores the session token keypair in local storage for later use.
+
+## getSessionKeypair()
+
+The `getSessionKeypair` function retrieves the session token keypair from the local storage. This function performs the following steps:
+
+1.Retrieves the session token keypair from the local storage using `localStorage.getItem`.
+2.Parses the session token keypair from the JSON string using `JSON.parse`.
+3.Returns a new `Keypair` instance with the parsed secret key.
+
+## revokeSessionToken()
+
+The `revokeSessionToken` function is used to revoke the current session token from the Rayauth Session Program on Solana blockchain. This function performs the following steps:
+
+1.Retrieves the session token keypair from the local storage using `getSessionKeypair`.
+2.Finds the public key address of the `session_key` PDA using `PublicKey.findProgramAddress` from `@solana/web3.js` package.
+3.Calls the `revokeSessionKey` method on the Rayauth Session Program with the required accounts.
+4.Removes the session token keypair from the local storage.
+
+
+
+## Example
+
+Here's an example of how you can use the `useSessionProgram` hook in a React component to add a session token, get the session keypair, and revoke the session token:
+
+```ts   
+import { useSessionProgram } from "./hooks/useSessionProgram";
+
+function MyComponent() {
+  const { sessionProgram, addSessionToken, getSessionKeypair, revokeSessionToken } = useSessionProgram();
+
+  const handleAddSessionToken = async () => {
+    await addSessionToken();
+    console.log("Session token added");
+  };
+
+  const handleGetSessionKeypair = () => {
+    const sessionKeypair = getSessionKeypair();
+    console.log("Session keypair", sessionKeypair);
+  };
+
+  const handleRevokeSessionToken = async () => {
+    await revokeSessionToken();
+    console.log("Session token revoked");
+  };
+
+  return (
+    <div>
+      <button onClick={handleAddSessionToken}>Add session token</button>
+      <button onClick={handleGetSessionKeypair}>Get session keypair</button>
+      <button onClick={handleRevokeSessionToken}>Revoke session token</button>
+    </div>
+  );
+}
+```
+In this example, we're using the `useSessionProgram` hook to get access to the `sessionProgram`, `addSessionToken`, `getSessionKeypair`, and `revokeSessionToken` functions. We then use these functions in the component's onClick handlers to perform the desired actions. When the user clicks the "Add session token" button, we call the `addSessionToken` function to add a session token to the user's wallet. When the user clicks the "Get session keypair" button, we call the `getSessionKeypair` function to get the session keypair from local storage. Finally, when the user clicks the "Revoke session token" button, we call the `revokeSessionToken` function to revoke the session token from the user's wallet.
+
+## Conclusion
+
+These functions can be used to manage session tokens for a user on the Rayauth Session Program on Solana blockchain. The useSessionProgram hook provides an easy-to-use interface to interact with the program from a React component.
