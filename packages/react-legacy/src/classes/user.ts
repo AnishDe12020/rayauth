@@ -93,10 +93,11 @@ export class userConstructor {
 
   public async testSign(msg: string):Promise<any> {
     try {
-      const url = new URL(`${"http://localhost:3000"}?msg=${msg}`);
+      const url = new URL(`${WALLET}?msg=${msg}`);
       url.searchParams.append("txn", msg);
       this.toggleIframe(url.toString(), true)
       const result = await this.loopTxnData()
+      this.toggleIframe(WALLET, false)
       return  result
     } catch {
       throw new Error("Can't execute send transaction");

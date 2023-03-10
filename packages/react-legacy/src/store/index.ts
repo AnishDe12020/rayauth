@@ -1,9 +1,9 @@
 import { create } from 'zustand'
-
+import { WALLET } from '../constants'
 const store = create(set => ({
   count: 1,
   isHidden: true,
-  src: "http://localhost:3000/",
+  src: WALLET,
   txnData: {},
   setTxnData: (value: {}) => set((state: {txnData: {}}) => ({txnData: value})),
   setVisable: (value: boolean) => set((state: { isHidden: boolean }) => ({ isHidden: !value  })),
