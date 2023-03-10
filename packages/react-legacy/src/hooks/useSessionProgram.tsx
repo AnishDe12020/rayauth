@@ -2,13 +2,13 @@ import { clusterApiUrl, Connection, Keypair, PublicKey } from "@solana/web3.js";
 import { AnchorProvider, BN, Program } from "@project-serum/anchor";
 import { useMemo } from "react";
 import { useAuth } from "./useAuth";
+import { Buffer } from "buffer";
 
 import { IDL, RayauthSession } from "../types/rayauth_session";
 
-
 export const SESSION_PROGRAM_ID = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s";
 
-const useProgram = () => {
+export const useSessionProgram = () => {
   const connection = useMemo(() => new Connection(clusterApiUrl("devnet")), []);
 
   const { user } = useAuth();
@@ -49,6 +49,8 @@ const useProgram = () => {
       sessionProgram.programId
     );
 
+    console.log("doing tx");
+
     const addSessionKeyTx = await sessionProgram.methods
       .addSessionKey(new BN(timestamp))
       .accounts({
@@ -57,10 +59,13 @@ const useProgram = () => {
         payer: anchorWallet?.publicKey,
         user: anchorWallet?.publicKey,
       })
-      .signers([sessionKeypair])
-      .rpc();
+      .signers([sessionKeypair]);
 
     console.log("addSessionKeyTx", addSessionKeyTx);
+
+    const sig = await addSessionKeyTx.rpc();
+
+    console.log("sig", sig);
 
     // set the session token keypair in local storage
 
@@ -109,5 +114,3 @@ const useProgram = () => {
     revokeSessionToken,
   };
 };
-
-export default useProgram;
