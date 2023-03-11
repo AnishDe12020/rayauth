@@ -54,34 +54,42 @@ export default function ProfileButton() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute left-80 md:left-1/2 z-10 mt-3 w-screen max-w-xs md:max-w-sm -translate-x-[90%] transform px-0 md:px-4 sm:px-0 lg:max-w-md bg-gray-900 rounded-md ">
-                <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 p-3">
-                  <div className="flex w-full items-center m-4">
-                    <div className="mx-2">
-                      <button
-                        onClick={handleCopyPublicKey}
-                        className="p-1 border rounded-full active:bg-gray-700"
-                      >
-                        <FiCopy className="text-sm text-white" />
-                      </button>
+              {publickey ? (
+                <Popover.Panel className="absolute left-80 md:left-1/2 z-10 mt-3 w-screen max-w-xs md:max-w-sm -translate-x-[90%] transform px-0 md:px-4 sm:px-0 lg:max-w-md bg-gray-900 rounded-md ">
+                  <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 p-3">
+                    <div className="flex w-full items-center m-4">
+                      <div className="mx-2">
+                        <button
+                          onClick={handleCopyPublicKey}
+                          className="p-1 border rounded-full active:bg-gray-700"
+                        >
+                          <FiCopy className="text-sm text-white" />
+                        </button>
+                      </div>
+                      <div className="mx-2">
+                        <h4 className=" text-gray-300 md:hidden text-xs truncate block w-50">
+                          {truncatePubkey(`${publickey?.toString()}`)}{" "}
+                        </h4>
+                        <h4 className=" text-gray-300 hidden text-xs truncate md:block w-50">
+                          {publickey?.toString()}
+                        </h4>
+                      </div>
                     </div>
-                    <div className="mx-2">
-                      <h4 className=" text-gray-300 md:hidden text-xs truncate block w-50">
-                        {truncatePubkey(`${publickey?.toString()}`)}{" "}
-                      </h4>
-                      <h4 className=" text-gray-300 hidden text-xs truncate md:block w-50">
-                        {publickey?.toString()}
-                      </h4>
+                    <div className="flex items-end">
+                      <div className="w-full"></div>
+                      <Button className=" mx-2 bg-gray-800 text-slate-400  rounded-md border p-3 text-center ">
+                        Logout
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex items-end">
-                    <div className="w-full"></div>
-                    <Button className=" mx-2 bg-gray-800 text-slate-400  rounded-md border p-3 text-center ">
-                      Logout
-                    </Button>
-                  </div>
-                </div>
-              </Popover.Panel>
+                </Popover.Panel>
+              ) : (
+                <Popover.Panel className="p-4 absolute left-80 md:left-1/2 z-10 mt-3  max-w-xs md:max-w-sm -translate-x-[90%] transform px-0 md:px-4 sm:px-0 lg:max-w-sm bg-gray-900 rounded-md ">
+                  <Button className=" bg-gray-800 text-slate-400  rounded-md border p-3 text-center mx-auto">
+                    Login
+                  </Button>
+                </Popover.Panel>
+              )}
             </Transition>
           </>
         )}

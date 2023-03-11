@@ -34,6 +34,12 @@ const Navbar = () => {
               >
                 DOCS
               </Link>
+              <Link
+                href="/wallet"
+                className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base font-semibold"
+              >
+                WALLET
+              </Link>
 
               <ProfileButton />
             </div>
@@ -88,6 +94,12 @@ const Navbar = () => {
             className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base my-4 font-semibold w-full"
           >
             DOCS
+          </Link>
+          <Link
+            href="/wallet"
+            className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base font-semibold"
+          >
+            WALLET
           </Link>
           <ProfileButton />
         </div>
