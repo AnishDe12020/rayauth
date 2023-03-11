@@ -25,11 +25,15 @@ const ReactUIWalletModalProviderDynamic = dynamic(
     (await import("@solana/wallet-adapter-react-ui")).WalletModalProvider,
   { ssr: false }
 );
-
+type ComponentWithPageLayout = AppProps & {
+  Component: AppProps["Component"] & {
+    PageLayout?: React.ComponentType<any>;
+  };
+};
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps) {
+}: ComponentWithPageLayout) {
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
@@ -47,7 +51,7 @@ export default function App({
       <ChakraProvider theme={theme}>
         <WalletProvider wallets={wallets} autoConnect>
           <ReactUIWalletModalProviderDynamic>
-            <Box
+            {/* <Box
               bg="#f53598"
               filter="blur(200px)"
               h={{ base: "52", md: "72" }}
@@ -68,12 +72,16 @@ export default function App({
               right="16"
               top="48"
               opacity="0.6"
-            />
+            /> */}
 
             <VStack h="100vh">
-              <VStack as="main" zIndex="1" mt={32} px={4} maxW="4xl">
+              {Component.PageLayout ? (
+                <Component.PageLayout>
+                  <Component {...pageProps} />
+                </Component.PageLayout>
+              ) : (
                 <Component {...pageProps} />
-              </VStack>
+              )}
             </VStack>
           </ReactUIWalletModalProviderDynamic>
         </WalletProvider>

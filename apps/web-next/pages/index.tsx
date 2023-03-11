@@ -1,14 +1,20 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "next/font/google";
-import { Heading } from "@chakra-ui/react";
+import { Inter, Poppins } from "next/font/google";
+import { Box, Container, Flex, Heading, Text } from "@chakra-ui/react";
+import { MainLayout } from "@/components/layouts/MainLayout";
+import Hero from "@/components/Hero";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+const Landing = () => {
   return (
-    <>
-      <Heading>Make your dApp&apos;s UX smooth as butter 🧈</Heading>
-    </>
+    <Box mt="20" className={inter.className}>
+      <Hero />
+    </Box>
   );
-}
+};
+
+Landing.PageLayout = MainLayout;
+
+export default Landing;
