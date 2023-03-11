@@ -4,7 +4,7 @@
   "description": "",
   "author": "apoorvcodes",
   "license": "MIT",
-  "repository": "apoorvcodes/react",
+  "repository": "https://github.com/AnishDe12020/rayauth/tree/main/packages/react-legacy",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
