@@ -1,19 +1,19 @@
 export const mainColors = {
   "brand.primary": {
     default: "#fafafa",
-    _dark: "#0a0317",
+    _dark: "blue.900",
   },
   "brand.secondary": {
     default: "#eeeeee",
-    _dark: "#180D30",
+    _dark: "blue.800",
   },
   "brand.tertiary": {
     default: "#cecfd1",
-    _dark: "#301A60",
+    _dark: "blue.700",
   },
   "brand.quaternary": {
     default: "#bdbdc2",
-    _dark: "#492691",
+    _dark: "blue.600",
   },
 };
 

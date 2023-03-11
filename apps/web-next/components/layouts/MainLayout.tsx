@@ -7,9 +7,17 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     <>
       <Navbar />
       <Container as="main" mt="20" maxW={"1200px"}>
-        {children}
+        <Box w="full" mt="20">
+          {children}
+        </Box>
       </Container>
-      <Box position={"fixed"} top="50%" left="0" bg="whiteAlpha.100">
+      <Box
+        position={"fixed"}
+        top="50%"
+        left="0"
+        bg="whiteAlpha.100"
+        borderRadius={"md"}
+      >
         <Flex flexDirection={"column"} p="3">
           <Box
             my="2"

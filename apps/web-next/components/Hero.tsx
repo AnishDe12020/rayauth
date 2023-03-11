@@ -31,7 +31,7 @@ export default function Hero() {
           >
             Exlpore the Solana World
             <br />
-            <Text as={"span"} color={"teal.400"}>
+            <Text as={"span"} color={"blue.400"}>
               with RayAuth
             </Text>
           </Heading>
@@ -46,7 +46,7 @@ export default function Hero() {
             position={"relative"}
           >
             <Button
-              colorScheme={"teal"}
+              colorScheme={"blue"}
               color={"white"}
               _hover={{
                 border: "2px solid #ffffff",
