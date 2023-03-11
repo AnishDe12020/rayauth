@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import React from "react";
 import { AiOutlineProject } from "react-icons/ai";
 import { MdAccountCircle } from "react-icons/md";
+import Navbar from "../common/Navbar";
 import Socials from "../common/Socials";
-import Navbar from "../walletPage/Navbar";
 
 type Props = {};
 const SideBarLinks = [
@@ -26,7 +26,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   console.log(currentRoute);
   return (
     <div className="w-full h-full ">
-      <div>
+      <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] md:left-[650px] top-[158px] md:top-[100px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
+      <div className="w-full border-b-[1px]">
+        <Navbar />
+      </div>
+
+      <div className="w-full h-full overflow-auto">
         <div className="flex flex-no-wrap">
           {/* Sidebar */}
           <div

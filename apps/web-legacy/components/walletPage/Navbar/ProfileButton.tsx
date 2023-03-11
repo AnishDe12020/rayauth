@@ -4,25 +4,44 @@ import { Fragment } from "react";
 import Button from "@/components/common/Button";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { FiCopy } from "react-icons/fi";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import useAuth from "@/hooks/useAuth";
+import { toast } from "sonner";
 
-export default function Example() {
+export default function ProfileButton() {
+  const { asPath } = useRouter();
+  const { publickey } = useAuth();
+  const handleCopyPublicKey = () => {
+    navigator.clipboard.writeText(`${publickey?.toString()}`);
+    toast.success("Copied public key to clipboard");
+  };
   return (
-    <div className=" max-w-sm px-4">
+    <div className=" max-w-sm px-4 w-full">
       <Popover className="relative">
         {({ open }) => (
           <>
-            <Popover.Button
-              className={`
+            <div className="flex justify-center items-center">
+              {asPath === "/" ? (
+                <button className="rounded-2xl text-black bg-white px-3 py-1 hover:bg-slate-200">
+                  <Link href={"/wallet"}>Get Started</Link>
+                </button>
+              ) : (
+                <Popover.Button
+                  className={`
                 ${open ? "" : "text-opacity-90"}
                 group inline-flex items-center rounded-md bg-transparent px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none`}
-            >
-              <span>Sagar Gajare</span>
-              <CiCircleChevDown
-                className={`${open ? "" : "text-opacity-70"}
+                >
+                  <span>Account</span>
+                  <CiCircleChevDown
+                    className={`${open ? "" : "text-opacity-70"}
                   ml-2 h-5 w-5 text-white transition duration-150 ease-in-out group-hover:text-opacity-80`}
-                aria-hidden="true"
-              />
-            </Popover.Button>
+                    aria-hidden="true"
+                  />
+                </Popover.Button>
+              )}
+            </div>
+
             <Transition
               as={Fragment}
               enter="transition ease-out duration-200"
@@ -36,21 +55,16 @@ export default function Example() {
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 p-3">
                   <div className="flex w-full items-center m-4">
                     <div className="mx-2">
-                      <AiOutlineUserAdd className="text-2xl" />
-                    </div>
-                    <div className="mx-2">
-                      <h4 className="">Sagar Gajare{"'"}s Account</h4>
-                    </div>
-                  </div>
-                  <div className="flex w-full items-center m-4">
-                    <div className="mx-2">
-                      <button className="p-1 border rounded-full">
-                        <FiCopy className="text-sm" />
+                      <button
+                        onClick={handleCopyPublicKey}
+                        className="p-1 border rounded-full active:bg-gray-700"
+                      >
+                        <FiCopy className="text-sm text-white" />
                       </button>
                     </div>
                     <div className="mx-2">
                       <h4 className=" text-gray-300 text-xs truncate block w-50">
-                        34RnhgE7QspZjU1KX5fpbKJuJPNPto3TVTn9Em7Ei8SM
+                        {publickey?.toString()}
                       </h4>
                     </div>
                   </div>

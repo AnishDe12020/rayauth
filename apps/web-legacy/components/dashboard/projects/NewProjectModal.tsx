@@ -2,8 +2,11 @@ import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
+import { useForm } from "react-hook-form";
 import { BsPlus } from "react-icons/bs";
 
+const inputClassName =
+  "rounded-lg px-3 py-2 my-2 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-transparent bg-gray-700 border-0 text-white w-full";
 export default function MyModal() {
   let [isOpen, setIsOpen] = useState(false);
 
@@ -14,7 +17,14 @@ export default function MyModal() {
   function openModal() {
     setIsOpen(true);
   }
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data: any) => console.log(data);
+  console.log(errors);
   return (
     <>
       <div className="">
@@ -59,32 +69,62 @@ export default function MyModal() {
                   >
                     Create a new project
                   </Dialog.Title>
-                  <div className="mt-2">
-                    <div>
-                      <Input
-                        label={"Name"}
-                        className="bg-gray-700 border-0 text-white"
-                      />
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mt-2">
+                      <div>
+                        <label className="font-semibold text-white py-2 my-4">
+                          Name
+                        </label>
+                        <input
+                          className={inputClassName}
+                          {...register("name", { required: true })}
+                        />
+                      </div>
+                      <div>
+                        <label className="font-semibold text-white py-2 my-4">
+                          Slug
+                        </label>
+                        <input
+                          className={inputClassName}
+                          {...register("slug", { required: true })}
+                        />
+                      </div>
+                      <div>
+                        <label className="font-semibold text-white py-2 my-4">
+                          logoUrl
+                        </label>
+                        <input
+                          className={inputClassName}
+                          {...register("logoUrl", { required: true })}
+                        />
+                      </div>
+                      <div>
+                        <label className="font-semibold text-white py-2 my-4">
+                          CallbackUrls
+                        </label>
+                        <input
+                          className={inputClassName}
+                          {...register("callbackUrls", { required: true })}
+                        />
+                      </div>
+                      <div></div>
                     </div>
-                    <div>
-                      <Input
-                        label={"Description"}
-                        className="bg-gray-700 border-0 text-white"
-                      />
-                    </div>
-                    <div>
-                      <Input
-                        label={"xyz"}
-                        className="bg-gray-700 border-0 text-white"
-                      />
-                    </div>
-                  </div>
 
-                  <div className="mt-5">
-                    <Button className="text-white text-base text-center bg-gray-800">
-                      Create
-                    </Button>
-                  </div>
+                    <div className="mt-5 flex w-full justify-between">
+                      <Button
+                        type="submit"
+                        className="text-white text-base text-center bg-gray-800"
+                      >
+                        Create
+                      </Button>
+                      <Button
+                        onClick={() => closeModal()}
+                        className="text-white text-base text-center bg-gray-800"
+                      >
+                        Close
+                      </Button>
+                    </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

@@ -43,9 +43,7 @@ const ProjectTable = () => {
       <table className="w-full text-sm text-left text-gray-500 ">
         <thead className="text-xs text-slate-300 uppercase bg-gray-900 ">
           <tr>
-            <th scope="col" className="px-6 py-3">
-              Project Name
-            </th>
+            <th scope="col" className="px-6 py-3"></th>
             <th scope="col" className="px-6 py-3">
               About
             </th>
