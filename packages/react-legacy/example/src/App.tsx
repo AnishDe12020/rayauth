@@ -1,5 +1,5 @@
 import "./App.css";
-import { useAuth, useSessionProgram } from "../../src";
+import {useAuth, useSessionProgram} from  "rayauth-react/src"
 import { useEffect } from "react";
 import { MyDialog } from "../component/Modal";
 function App() {
