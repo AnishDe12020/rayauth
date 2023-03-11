@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useCookies } from "react-cookie";
-import { authInterface } from "../interfaces/auth";
 import { userConstructor } from "../classes";
 import { getUser } from "../helpers/fetchUser";
 import { useConfig } from "../providers";
@@ -16,8 +15,11 @@ import {
 import { sleep } from "../helpers";
 import hex from "hex-array";
 
-export function useAuth(cookieName: string = "jwt-rayauth") {
+import { providers } from "../enums";
+
+export function useAuth() {
   const config = useConfig();
+  const cookieName: string = config.cookieName || "jwt-rayauth";
   const syncstore = store();
   const [user, setUser] = useState<userConstructor | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,8 +63,8 @@ export function useAuth(cookieName: string = "jwt-rayauth") {
     }
   };
 
-  const signIn = () => {
-    const url = new URL(`${BASEURL}/auth/${config.provider}`);
+  const signIn = (prov?: providers) => {
+    const url = new URL(`${BASEURL}/auth/${prov || config.provider}`);
     url.searchParams.append("cb", config.callbackUrl);
     url.searchParams.append("id", config.clientId);
     console.log(url.toString());
@@ -103,7 +105,8 @@ export function useAuth(cookieName: string = "jwt-rayauth") {
       console.log("url", url.toString());
       user?.state.setSrc(url.toString());
       user?.state.setVisible(true);
-      const res = loopTxnData();
+      const res = await loopTxnData();
+      user?.state.setVisible(false);
       return res;
     } catch (e) {
       console.error(e);

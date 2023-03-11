@@ -21,7 +21,7 @@ export const RayAuthProvider = ({
   return (
     <RayAuthConfigProvider value={config}>
       <div> 
-       <iframe hidden={Boolean(state.isHidden)} height={1000} width={800} src={state.src}></iframe>
+       <iframe hidden={Boolean(state.isHidden)}  height={1000} width={800} src={state.src}></iframe>
       <div hidden={Boolean(!state.isHidden)}> 
       {children}
       </div>

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { MyDialog } from "../component/Modal";
 function App() {
   const { signIn, signOut, user, isLoading, handleCallback, walletListener } =
-    useAuth("cookie");
+    useAuth();
 
     console.log("User", user?.state);
   const { addSessionToken } = useSessionProgram();

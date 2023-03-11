@@ -1,0 +1,159 @@
+# Authentication with @rayauth/react
+
+
+`@rayauth/react` is a library that provides an authentication provider for React applications. It also includes a hook called useAuth that allows you to easily access authentication state and perform authentication-related actions.
+
+
+# Usage
+
+To use `@rayauth/react`, first import the `useAuth` hook from the library:
+
+```ts
+import { useAuth } from "@rayauth/react"
+```
+
+Next, use the `useAuth` hook in your main application component to access the authentication state and perform authentication-related actions:
+
+```ts
+function App() {
+  const { signIn, signOut, user, isLoading, handleCallback } = useAuth();
+
+  useEffect(() => {
+    handleCallback();
+  }, []);
+
+  return (
+    <div className="App">
+      <button onClick={() => signIn()}> Sign In </button>
+      <button onClick={() => signOut()}> Sign Out </button>
+      <div>User address: {user?.address}</div>
+      <div>Loading: {String(isLoading)}</div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+The `useAuth` hook returns an object with the following properties:
+
+`user`: The authenticated user, if available.
+`isLoading`: A boolean indicating whether the authentication state is still being loaded.
+`signIn`: A function that initiates the authentication process.
+`signOut`: A function that signs the user out.
+`handleCallback`: A function that handles the authentication callback after the user is redirected back to your application from the authentication provider.
+
+
+
+### The signIn Function
+
+The `signIn` function is used to initiate the authentication process. When the user clicks on the "Sign In" button, for example, you can call this function to start the authentication flow:
+
+```ts
+import { useAuth } from "@rayauth/react";
+
+function App() {
+  const { signIn } = useAuth();
+
+  return (
+    <div className="App">
+      <button onClick={() => signIn()}> Sign In </button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### The signOut Function
+
+The `signOut` function is used to sign the user out of your application. When the user clicks on the "Sign Out" button, for example, you can call this function to sign the user out:
+
+```ts
+import { useAuth } from "@rayauth/react";
+
+function App() {
+  const { signOut } = useAuth();
+
+  return (
+    <div className="App">
+      <button onClick={() => signOut()}> Sign Out </button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### The user Constructor
+
+The `user` constructor contains information about the currently authenticated user, if available. You can use this object to display user-specific content in your application:
+
+```ts
+import { useAuth } from "@rayauth/react";
+
+function App() {
+  const { user } = useAuth();
+
+  return (
+    <div className="App">
+      {user ? (
+        <div>Welcome, {user.email}!</div>
+      ) : (
+        <div>Please sign in.</div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+
+### The isLoading Boolean
+
+The `isLoading` boolean is used to indicate whether the authentication state is still being loaded. You can use this boolean to display a loading indicator until the authentication state is available:
+
+```ts
+import { useAuth } from "@rayauth/react";
+
+function App() {
+  const { isLoading } = useAuth();
+
+  return (
+    <div className="App">
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <div>Authentication state loaded.</div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+
+### The handleCallback Function
+
+The `handleCallback` function is used to handle the authentication callback after the user is redirected back to your application from the authentication provider. You should call this function inside a `useEffect` hook to ensure that it is only called once:
+
+```ts
+import { useAuth } from "@rayauth/react";
+
+function App() {
+  const { handleCallback } = useAuth();
+
+  useEffect(() => {
+    handleCallback();
+  }, []);
+
+  return (
+    <div className="App">
+      ...
+    </div>
+  );
+}
+
+export default App;
+```
+

@@ -9,5 +9,15 @@ export interface authInterface {
   user: userConstructor | null;
   isLoading: boolean;
   walletListener: WalletListener,
-  signTransaction: (transaction: Transaction | VersionedTransaction) => void
+  signTransaction: (transaction: Transaction | VersionedTransaction) => void,
+  sendTransaction: (
+    transaction: Transaction | VersionedTransaction,
+    isgassless: boolean,
+    options?: {}
+  ) => void,
+   signAllTransactions: (
+    transactions: Transaction[] | VersionedTransaction[]
+  ) => void,
+  signMessage: (message: string, isgasless: boolean) => void,
+
 }
