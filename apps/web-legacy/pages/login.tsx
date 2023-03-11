@@ -77,31 +77,6 @@ const LoginPage: NextPage = () => {
                 </button>
               </div>
             </div>
-            <div className="mt-8">
-              <span className="text-white">Or use wallet</span>
-            </div>
-            <div className="flex items-center justify-center w-5/6 my-8">
-              <button
-                style={{
-                  background:
-                    "linear-gradient(90deg, #45A0F5 -0.1%, #26E3C2 100.03%)",
-                  boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                }}
-                className="w-5/6 px-4 py-4 text-white transition duration-150 lg:w-4/6 rounded-3xl hover:opacity-80 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300"
-              >
-                <span className="flex justify-center">
-                  <Image
-                    src="/icon/wallet.svg"
-                    alt="connect wallet"
-                    width={100}
-                    height={100}
-                  />
-                </span>
-                <span className="text-sm font-black lg:text-base">
-                  Connect Wallet
-                </span>
-              </button>
-            </div>
           </div>
         </div>
         <div className="relative hidden w-2/3 h-screen overflow-hidden lg:block">
