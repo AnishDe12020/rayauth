@@ -51,7 +51,7 @@ export default function App({
       <ChakraProvider theme={theme}>
         <WalletProvider wallets={wallets} autoConnect>
           <ReactUIWalletModalProviderDynamic>
-            {/* <Box
+            <Box
               bg="#f53598"
               filter="blur(200px)"
               h={{ base: "52", md: "72" }}
@@ -72,7 +72,7 @@ export default function App({
               right="16"
               top="48"
               opacity="0.6"
-            /> */}
+            />
 
             <VStack h="100vh">
               {Component.PageLayout ? (
