@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { truncatePubkey } from "@/utils/truncate";
 
 export default function ProfileButton() {
   const { asPath } = useRouter();
@@ -17,7 +18,7 @@ export default function ProfileButton() {
     toast.success("Copied public key to clipboard");
   };
   return (
-    <div className=" max-w-sm px-4 w-full">
+    <div className="  w-full">
       <Popover className="relative">
         {({ open }) => (
           <>
@@ -32,7 +33,7 @@ export default function ProfileButton() {
                 ${open ? "" : "text-opacity-90"}
                 group inline-flex items-center rounded-md bg-transparent px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none`}
                 >
-                  <span className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base font-semibold">
+                  <span className="uppercase hover:text-slate-200 hover:border-b-1 px-5 text-white rounded-md text-base font-semibold">
                     Account
                   </span>
                   <CiCircleChevDown
@@ -53,7 +54,7 @@ export default function ProfileButton() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute left-1/2 z-10 mt-3 w-screen max-w-sm -translate-x-[90%] transform px-4 sm:px-0 lg:max-w-md bg-gray-900 rounded-md ">
+              <Popover.Panel className="absolute left-80 md:left-1/2 z-10 mt-3 w-screen max-w-xs md:max-w-sm -translate-x-[90%] transform px-0 md:px-4 sm:px-0 lg:max-w-md bg-gray-900 rounded-md ">
                 <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 p-3">
                   <div className="flex w-full items-center m-4">
                     <div className="mx-2">
@@ -65,7 +66,10 @@ export default function ProfileButton() {
                       </button>
                     </div>
                     <div className="mx-2">
-                      <h4 className=" text-gray-300 text-xs truncate block w-50">
+                      <h4 className=" text-gray-300 md:hidden text-xs truncate block w-50">
+                        {truncatePubkey(`${publickey?.toString()}`)}{" "}
+                      </h4>
+                      <h4 className=" text-gray-300 hidden text-xs truncate md:block w-50">
                         {publickey?.toString()}
                       </h4>
                     </div>

@@ -30,7 +30,7 @@ const About = (props: Props) => {
           return (
             <div key={index} className="w-full lg:w-1/3 px-4 lg:px-12  mb-12">
               <div className="bg-primary border rounded-3xl border-white text-white overflow-hidden shadow-md hover:border-blue-400 hover:cursor-pointer">
-                <div className="px-8 py-14">
+                <div className="px-8 py-8">
                   <Image
                     src={item.icon}
                     alt={item.title}
