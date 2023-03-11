@@ -5,10 +5,7 @@
   "author": "apoorvcodes",
   "license": "MIT",
   "repository": "https://github.com/AnishDe12020/rayauth/tree/main/packages/react-legacy",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "types": "dist/index.d.ts",
-  "jsnext:main": "dist/index.es.js",
+  "main": "src/index.ts",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
