@@ -135,7 +135,7 @@ const Wallet = (props: Props) => {
           </div>
         </div>
         {/* Body */}
-        <div className="p-6 border border-transparent rounded-lg shadow bg-slate-900">
+        <div className="p-6 border border-transparent rounded-lg shadow bg-gray-800">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-end justify-between py-6 mx-4">
               <div className="flex flex-row items-end">
@@ -168,7 +168,6 @@ const Wallet = (props: Props) => {
             <TopUp publicKey={publickey.toBase58()} />
             <Transfer />
           </div>
-          <AccountOption publicKey={publickey} />
         </div>
         <div className="flex justify-center my-4 lg:hidden">
           <AccountOption publicKey={publickey} />

@@ -32,7 +32,9 @@ export default function ProfileButton() {
                 ${open ? "" : "text-opacity-90"}
                 group inline-flex items-center rounded-md bg-transparent px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none`}
                 >
-                  <span>Account</span>
+                  <span className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base font-semibold">
+                    Account
+                  </span>
                   <CiCircleChevDown
                     className={`${open ? "" : "text-opacity-70"}
                   ml-2 h-5 w-5 text-white transition duration-150 ease-in-out group-hover:text-opacity-80`}
