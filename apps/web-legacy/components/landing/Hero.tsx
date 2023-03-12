@@ -35,7 +35,9 @@ function Hero({}: Props) {
             {/* THIS IS JUST FOR TESTING FOR GODSAKE OKAYYYY */}
             <button
               onClick={() => check()}
-              className="py-0 mr-4 text-base font-bold text-black bg-white px-4md:px-12 lg:py-2 lg:mr-8 rounded-xl lg:rounded-full lg:font-bold lg:text-xl font-ksans"
+
+              className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans hover:bg-transparent border-2 hover:border-2 hover:text-white"
+
             >
               Get Started
             </button>

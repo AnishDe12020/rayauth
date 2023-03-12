@@ -3,11 +3,11 @@ import Input from "@/components/common/Input";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BsPlus } from "react-icons/bs";
+import { FiEdit } from "react-icons/fi";
 
 const inputClassName =
   "rounded-lg px-3 py-2 my-2 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-transparent bg-gray-700 border-0 text-white w-full";
-export default function MyModal() {
+export default function EditProjectModal() {
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
@@ -32,8 +32,8 @@ export default function MyModal() {
           onClick={openModal}
           className="bg-white rounded-full py-1  px-3 font-medium flex  items-center hover:bg-slate-200"
         >
-          <BsPlus className="text-2xl" />
-          <span>New Project</span>
+          <FiEdit className="text-xl mx-2" />
+          <span>Edit Project</span>
         </button>
       </div>
 
@@ -67,7 +67,7 @@ export default function MyModal() {
                     as="h3"
                     className="text-lg font-medium leading-6 text-slate-400"
                   >
-                    Create a new project
+                    Edit Project
                   </Dialog.Title>
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mt-2">
@@ -80,24 +80,7 @@ export default function MyModal() {
                           {...register("name", { required: true })}
                         />
                       </div>
-                      <div>
-                        <label className="font-semibold text-white py-2 my-4">
-                          Slug
-                        </label>
-                        <input
-                          className={inputClassName}
-                          {...register("slug", { required: true })}
-                        />
-                      </div>
-                      <div>
-                        <label className="font-semibold text-white py-2 my-4">
-                          logoUrl
-                        </label>
-                        <input
-                          className={inputClassName}
-                          {...register("logoUrl", { required: true })}
-                        />
-                      </div>
+
                       <div>
                         <label className="font-semibold text-white py-2 my-4">
                           CallbackUrls
@@ -115,7 +98,7 @@ export default function MyModal() {
                         type="submit"
                         className="text-white text-base text-center bg-gray-800"
                       >
-                        Create
+                        Save
                       </Button>
                       <Button
                         onClick={() => closeModal()}

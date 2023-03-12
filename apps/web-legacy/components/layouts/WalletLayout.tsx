@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../walletPage/Navbar";
+import Navbar from "../common/Navbar";
 
 type Props = {};
 

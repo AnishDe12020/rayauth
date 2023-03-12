@@ -10,94 +10,33 @@ type Props = {};
 const ProjectTable = () => {
   const data = [
     {
-      id: 1,
+      id: "ebvc-abc-123",
       name: "UniSwap",
-      description: "A decentralized exchange",
-      url: "https://uniswap.org/",
-      image:
-        "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      category: "Exchange",
+      date: "2021-09-01",
     },
     {
-      id: 2,
+      id: "ebvc-abc-123",
       name: "RayAuth",
-      description: "A decentralized authentication system",
-      url: "https://rayauth.com/",
-      image:
-        "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      category: "Authentication",
+      date: "2021-09-01",
     },
     {
-      id: 3,
+      id: "ebvc-abc-123",
       name: "Google",
-      description: "A search engine",
-      url: "https://google.com/",
-      image:
-        "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
-      category: "Search Engine",
+      date: "2021-09-01",
     },
   ];
   const router = useRouter();
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
-      <table className="w-full text-sm text-left text-gray-500 ">
-        <thead className="text-xs text-slate-300 uppercase bg-gray-900 ">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              Project Name
-            </th>
-            <th scope="col" className="px-6 py-3">
-              About
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Category
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Logo
-            </th>
-            <th scope="col" className="px-6 py-3">
-              <span className="sr-only">
-                <MdOutlineDelete />
-              </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, key) => {
-            return (
-              <tr
-                key={key}
-                onClick={() => {
-                  router.push(`/dashboard/${item.id}`);
-                }}
-                className="bg-gray-800 border-b border-slate-400 text-slate-200  hover:bg-gray-600 hover:cursor-pointer"
-              >
-                <th
-                  scope="row"
-                  className="px-6 py-4 font-medium text-slate-200 whitespace-nowrap "
-                >
-                  {item.name}
-                </th>
-                <td className="px-6 py-4">{item.description}</td>
-                <td className="px-6 py-4">{item.category}</td>
-                <td className="px-6 py-4">
-                  <img
-                    width="50"
-                    height="50"
-                    alt={`${item.name}`}
-                    src={`${item.image}`}
-                  />
-                </td>
-                <td className="px-6 py-4 text-right">
-                  <button className="rounded-full font-extrabold text-white text-xl  hover:text-red-400">
-                    <MdOutlineDelete />
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div>
+        {data.map((item, key) => (
+          <Link key={key} href={`/dashboard/${item.id}`}>
+            <div className="p-4 bg-gray-800 m-2 rounded-md border border-transparent cursor-pointer hover:border-blue-900">
+              <h4 className="text-white">{item.name}</h4>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
@@ -111,7 +50,7 @@ const Dashboard = (props: Props) => {
 
         <NewProjectModal />
       </div>
-      <div className="p-3 mt-8 -z-10 relative">
+      <div className="mt-6">
         <ProjectTable />
       </div>
     </div>

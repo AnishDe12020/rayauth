@@ -1,5 +1,7 @@
 import Link from "next/link";
+
 import { useState } from "react";
+import ProfileButton from "../walletPage/Navbar/ProfileButton";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,13 +35,13 @@ const Navbar = () => {
                 DOCS
               </Link>
               <Link
-                href="/contact"
-                className="hover:text-slate-200 hover:border-b-1 px-8   rounded-md text-base font-semibold"
+                href="/wallet"
+                className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base font-semibold"
               >
-                <button className="rounded-2xl text-black bg-white px-3 py-1 hover:bg-slate-200">
-                  <Link href={"/wallet"}>Get Started</Link>
-                </button>
+                WALLET
               </Link>
+
+              <ProfileButton />
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -94,13 +96,12 @@ const Navbar = () => {
             DOCS
           </Link>
           <Link
-            href="/contact"
-            className="hover:text-slate-200 hover:border-b-1 px-10   rounded-md text-lg my-4 font-semibold w-full"
+            href="/wallet"
+            className="hover:text-slate-200 hover:border-b-1 px-10  text-white rounded-md text-base font-semibold"
           >
-            <button className="rounded-2xl text-black bg-white px-4 py-2 hover:bg-slate-800">
-              Get Started
-            </button>
+            WALLET
           </Link>
+          <ProfileButton />
         </div>
       </div>
     </nav>
