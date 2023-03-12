@@ -6,7 +6,6 @@ import {
 } from "@solana/web3.js";
 import base58 from "bs58";
 import { Request, Response } from "express";
-import { prisma } from "../../../lib/db";
 import { validateTransaction } from "../../helpers/validateTransaction";
 
 export const connection = new Connection(
@@ -16,45 +15,14 @@ export const connection = new Connection(
 );
 
 const handleGasless = async (req: Request, res: Response) => {
-  const clientSecret = req.headers["x-client-secret"];
+  const feePayerPrivateKey = process.env.PRIVATE_KEY;
 
-  if (!clientSecret) {
-    res.status(400).send({
-      status: "error",
-      message: "request should contain client secret",
-    });
+  if (!feePayerPrivateKey) {
+    res.status(500).send({ status: "error", message: "no private key" });
     return;
   }
 
-  const clientSecretDb = await prisma.clientSecret.findUnique({
-    where: {
-      key: clientSecret as string,
-    },
-  });
-
-  if (!clientSecretDb) {
-    res.status(400).send({
-      status: "error",
-      message: "client secret is invalid",
-    });
-    return;
-  }
-
-  const gasTank = await prisma.gasTank.findUnique({
-    where: {
-      projectId: clientSecretDb.projectId,
-    },
-  });
-
-  if (!gasTank) {
-    res.status(400).send({
-      status: "error",
-      message: "gas tank is not found",
-    });
-    return;
-  }
-
-  const feePayer = Keypair.fromSecretKey(base58.decode(gasTank.privateKey));
+  const feePayer = Keypair.fromSecretKey(base58.decode(feePayerPrivateKey));
 
   const serialized = req.body?.transaction;
 

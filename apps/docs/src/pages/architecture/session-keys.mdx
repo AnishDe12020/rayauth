@@ -1,0 +1,7 @@
+# Session Keys
+
+Session keys are keypairs which are approved to act as signers on the user's behalf for a limited time. It is stored locally and can be revoked at any time. This allows the dApp to sign transactions on the user's behalf without the user having to sign the transaction from the client device.
+
+The user signs the transaction that creates a session key PDA which stores the timestamp till which the session keypair should be valid and the public key of the user the session key is associated to.
+
+The session keypair is then stored locally and can be used to sign transactions on the user's behalf by the dApp.

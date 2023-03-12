@@ -114,6 +114,7 @@ const useAuth = () => {
 
   const signOut = () => {
     removeCookies("rayauth-jwt");
+    window.location.replace("/");
   };
 
   const handleNewDeviceShare = (share: string, router: NextRouter) => {

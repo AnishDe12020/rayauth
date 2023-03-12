@@ -1,14 +1,11 @@
 {
-  "name": "react",
-  "version": "1.0.0",
+  "name": "rayauth-react",
+  "version": "0.1.5",
   "description": "",
   "author": "apoorvcodes",
   "license": "MIT",
-  "repository": "apoorvcodes/react",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "types": "dist/index.d.ts",
-  "jsnext:main": "dist/index.es.js",
+  "repository": "https://github.com/AnishDe12020/rayauth/tree/main/packages/react-legacy",
+  "main": "src/index.ts",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
@@ -16,7 +13,6 @@
   "scripts": {
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
-    "build": "tsup",
     "start": "rollup -c -w",
     "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build"

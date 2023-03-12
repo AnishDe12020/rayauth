@@ -19,13 +19,9 @@ const Wallet = () => {
   const { deviceShare } = useDeviceShare();
 
   const handleSignTransaction = async () => {
-    const transactionBase58 = router.query.txn as string;
-    console.log(transactionBase58);
-    const transactionBytes = arr.fromString(transactionBase58);
-    const transactionBuffer = Buffer.from(transactionBytes);
-    const transaction = Transaction.from(transactionBuffer);
+    const transactions = JSON.parse(router.query.txns as string);
 
-    console.log("deviceShare", deviceShare);
+    console.log("transactions", transactions);
 
     const {
       data: { key },
@@ -34,28 +30,33 @@ const Wallet = () => {
         Authorization: `Bearer ${jwt}`,
       },
     });
-    console.log("key", key);
+
     const keypair = Keypair.fromSecretKey(arr.fromString(key));
 
-    console.log(keypair.publicKey.toBase58());
+    const signedTransactions = transactions.map((tx: any) => {
+      const transactionBytes = arr.fromString(tx);
+      const transactionBuffer = Buffer.from(transactionBytes);
+      const transaction = Transaction.from(transactionBuffer);
+      transaction.sign(keypair);
 
-    transaction.sign(keypair);
+      const signedTransactionBase58 = bs58.encode(
+        transaction.serialize({ requireAllSignatures: false })
+      );
 
-    const signedTransactionBase58 = bs58.encode(
-      transaction.serialize({ requireAllSignatures: false })
-    );
+      return signedTransactionBase58;
+    });
 
-    window.parent.postMessage(
-      { type: "txnData", tx: signedTransactionBase58 },
-      "*"
-    );
+    window.parent.postMessage({ type: "txnData", tx: signedTransactions }, "*");
   };
 
   return (
     <div className="flex flex-col items-center justify-center max-w-2xl p-6 mx-auto my-1 space-y-8 font-sans text-white border border-transparent rounded-lg shadow md:my-6">
       <h1 className="text-4xl font-bold text-center">Approve Transaction</h1>
 
-      <p>Click on the button below to approve the transaction</p>
+      <p className="text-center">
+        You are about to approve multiple transactions. Click on the button
+        below to approve them
+      </p>
 
       <Button onClick={handleSignTransaction}>Approve</Button>
     </div>

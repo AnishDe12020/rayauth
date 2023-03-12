@@ -114,6 +114,42 @@ export function useAuth() {
     }
   }
 
+  async function signAllTransansactions(
+    transactions: Transaction[] | VersionedTransaction[]
+  ) {
+    try {
+      const url = new URL(`${WALLET}/sign-all-transactions`);
+
+      const serializedTransactions = Promise.all(
+        transactions.map(async (transaction) => {
+          if (
+            transaction instanceof Transaction &&
+            transaction.recentBlockhash === null
+          ) {
+            let blockhash = (await connection.getLatestBlockhash("finalized"))
+              .blockhash;
+
+            transaction.recentBlockhash = blockhash;
+          }
+
+          return hex.toString(
+            transaction.serialize({ requireAllSignatures: false })
+          );
+        })
+      );
+
+      url.searchParams.append("txns", JSON.stringify(serializedTransactions));
+      user?.state.setSrc(url.toString());
+      user?.state.setVisible(true);
+      const res = await loopTxnData();
+      user?.state.setVisible(false);
+      return res;
+    } catch (e) {
+      console.error(e);
+      throw new Error("Can't execute send transaction");
+    }
+  }
+
   const sendTransaction = async (
     transaction: Transaction | VersionedTransaction
   ) => {
@@ -155,6 +191,7 @@ export function useAuth() {
     }
     return data;
   }
+
   return {
     signIn,
     signOut,
@@ -163,6 +200,7 @@ export function useAuth() {
     handleCallback,
     walletListener,
     signTransaction,
+    signAllTransansactions,
     sendTransaction,
   };
 }
