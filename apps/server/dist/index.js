@@ -570,39 +570,12 @@ var connection = new import_web33.Connection(
 );
 var handleGasless = async (req, res) => {
   var _a;
-  const clientSecret = req.headers["x-client-secret"];
-  if (!clientSecret) {
-    res.status(400).send({
-      status: "error",
-      message: "request should contain client secret"
-    });
+  const feePayerPrivateKey = process.env.PRIVATE_KEY;
+  if (!feePayerPrivateKey) {
+    res.status(500).send({ status: "error", message: "no private key" });
     return;
   }
-  const clientSecretDb = await prisma.clientSecret.findUnique({
-    where: {
-      key: clientSecret
-    }
-  });
-  if (!clientSecretDb) {
-    res.status(400).send({
-      status: "error",
-      message: "client secret is invalid"
-    });
-    return;
-  }
-  const gasTank = await prisma.gasTank.findUnique({
-    where: {
-      projectId: clientSecretDb.projectId
-    }
-  });
-  if (!gasTank) {
-    res.status(400).send({
-      status: "error",
-      message: "gas tank is not found"
-    });
-    return;
-  }
-  const feePayer = import_web33.Keypair.fromSecretKey(import_bs583.default.decode(gasTank.privateKey));
+  const feePayer = import_web33.Keypair.fromSecretKey(import_bs583.default.decode(feePayerPrivateKey));
   const serialized = (_a = req.body) == null ? void 0 : _a.transaction;
   if (typeof serialized !== "string") {
     res.status(400).send({ status: "error", message: "request should contain transaction" });

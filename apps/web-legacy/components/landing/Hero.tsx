@@ -1,12 +1,11 @@
 import React from "react";
 import Image from "next/image";
 type Props = {};
-import authcard from "../../public/assets/authcard.svg";
 
 function Hero({}: Props) {
   const check = () => {
-    window.top?.postMessage({type: "txnData", help: "chal jao"}, '*')
-  }
+    window.top?.postMessage({ type: "txnData", help: "chal jao" }, "*");
+  };
   return (
     <div className="relative flex flex-col justify-between w-11/12 max-w-screen-xl mx-auto my-16 lg:flex-row">
       <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] md:left-[650px] top-[158px] md:top-[100px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
@@ -34,7 +33,10 @@ function Hero({}: Props) {
           </p>
           <div className="flex flex-row justify-center my-6 md:justify-start">
             {/* THIS IS JUST FOR TESTING FOR GODSAKE OKAYYYY */}
-            <button onClick={() => check()} className="py-0 mr-4 text-base font-bold text-black bg-white px-4md:px-12 lg:py-2 lg:mr-8 rounded-xl lg:rounded-full lg:font-bold lg:text-xl font-ksans">
+            <button
+              onClick={() => check()}
+              className="py-0 mr-4 text-base font-bold text-black bg-white px-4md:px-12 lg:py-2 lg:mr-8 rounded-xl lg:rounded-full lg:font-bold lg:text-xl font-ksans"
+            >
               Get Started
             </button>
             <button className="px-3 py-0 ml-4 text-base font-bold text-white border-2 border-solid md:px-8 lg:py-2 lg:ml-8 rounded-xl lg:rounded-full lg:font-bold lg:text-xl font-ksans border-slate-50 hover:bg-white hover:text-black">
@@ -47,7 +49,7 @@ function Hero({}: Props) {
         <Image
           width={400}
           height={513}
-          src="/assets/authcard.svg"
+          src="/assets/authcard.png"
           alt={"RayAuth card"}
         />
       </div>
