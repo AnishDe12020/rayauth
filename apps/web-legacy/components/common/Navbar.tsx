@@ -4,14 +4,19 @@ import { useState } from "react";
 import ProfileButton from "../walletPage/Navbar/ProfileButton";
 
 import Image from "next/image";
+import RevealPrivateKey from "../walletPage/Navbar/RevealPrivateKey";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
-
+  const [ispKeyModalOpen, setIspKeyModalOpen] = useState(false);
   return (
     <nav className="sticky top-0 z-30 w-full max-w-screen-xl py-3 mx-auto bg-transparent md:py-4 backdrop-filter backdrop-blur-lg">
+      <RevealPrivateKey
+        isOpen={ispKeyModalOpen}
+        setIsOpen={setIspKeyModalOpen}
+      />
       <div className="px-4 mx-auto max-w-8xl sm:px-6 lg:px-12">
         <div className="flex items-center justify-between h-16">
           <div className="flex flex-row space-x-4">
@@ -50,7 +55,7 @@ const Navbar = () => {
                 WALLET
               </Link>
 
-              <ProfileButton />
+              <ProfileButton setIspKeyModalOpen={setIspKeyModalOpen} />
             </div>
           </div>
           <div className="flex -mr-2 md:hidden">
@@ -89,7 +94,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
       <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
         <div className="flex flex-col items-baseline w-full space-x-6 text-center">
           <Link
@@ -110,7 +114,7 @@ const Navbar = () => {
           >
             WALLET
           </Link>
-          <ProfileButton />
+          <ProfileButton setIspKeyModalOpen={setIspKeyModalOpen} />
         </div>
       </div>
     </nav>
