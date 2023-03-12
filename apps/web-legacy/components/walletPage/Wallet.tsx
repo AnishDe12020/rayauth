@@ -18,12 +18,12 @@ import {
 } from "@metaplex-foundation/mpl-token-metadata";
 import { truncatePubkey } from "@/utils/truncate";
 import LoginRequired from "../common/LoginRequired";
-
+import withCommonEffects from "../authGuard/RouteGuard";
 type Props = {};
 
-const AccountOption = ({ publicKey }: { publicKey: PublicKey }) => {
+const AccountOption = ({ publicKey }: { publicKey: string }) => {
   const handleCopyPublicKey = () => {
-    navigator.clipboard.writeText(publicKey.toString());
+    navigator.clipboard.writeText(publicKey);
     toast.success("Copied public key to clipboard");
   };
 
@@ -33,7 +33,7 @@ const AccountOption = ({ publicKey }: { publicKey: PublicKey }) => {
         className="block p-1 px-2 mx-2 text-xs border rounded-full w-28 lg:p-2"
         onClick={handleCopyPublicKey}
       >
-        {truncatePubkey(publicKey.toString())}
+        {truncatePubkey(publicKey)}
       </button>
     </div>
   );
@@ -119,7 +119,7 @@ const Wallet = (props: Props) => {
 
   console.log("splAccounts", splAccounts);
 
-  return publickey ? (
+  return (
     <div className="block max-w-2xl p-6 mx-auto my-1 font-sans border border-transparent rounded-lg shadow md:my-6">
       <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] lg:left-[530px] top-[158px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-70" />
 
@@ -132,7 +132,7 @@ const Wallet = (props: Props) => {
             </h3>
           </div>
           <div className="hidden lg:block">
-            <AccountOption publicKey={publickey} />
+            <AccountOption publicKey={`${publickey?.toString()}`} />
           </div>
         </div>
         {/* Body */}
@@ -166,18 +166,18 @@ const Wallet = (props: Props) => {
             </div>
           </div>
           <div className="flex flex-row">
-            <TopUp publicKey={publickey.toBase58()} />
+            <TopUp publicKey={`${publickey?.toBase58()}`} />
             <Transfer />
           </div>
         </div>
         <div className="flex justify-center my-4 lg:hidden">
-          <AccountOption publicKey={publickey} />
+          <AccountOption publicKey={`${publickey}`} />
         </div>
       </div>
     </div>
-  ) : (
-    <LoginRequired />
   );
 };
 
-export default Wallet;
+export default withCommonEffects(Wallet, {
+  isAuthRequired: true,
+});

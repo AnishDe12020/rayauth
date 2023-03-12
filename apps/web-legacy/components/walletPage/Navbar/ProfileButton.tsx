@@ -23,7 +23,7 @@ export default function ProfileButton() {
         {({ open }) => (
           <>
             <div className="flex justify-center items-center">
-              {asPath === "/" ? (
+              {!publickey ? (
                 <button className="rounded-2xl text-black bg-white px-3 py-1 hover:bg-slate-200">
                   <Link href={"/wallet"}>Get Started</Link>
                 </button>
