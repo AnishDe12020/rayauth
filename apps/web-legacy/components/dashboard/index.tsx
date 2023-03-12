@@ -5,7 +5,7 @@ import NewProjectModal from "./projects/NewProjectModal";
 import { MdOutlineDelete } from "react-icons/md";
 import Link from "next/link";
 import router, { useRouter } from "next/router";
-
+import withCommonEffects from "../authGuard/RouteGuard";
 type Props = {};
 const ProjectTable = () => {
   const data = [
@@ -57,4 +57,6 @@ const Dashboard = (props: Props) => {
   );
 };
 
-export default Dashboard;
+export default withCommonEffects(Dashboard, {
+  isAuthRequired: true,
+});
