@@ -82,7 +82,7 @@ const useAuth = () => {
 
         window.location.replace(callbackUrl.toString());
       } else {
-        window.location.replace("/");
+        window.location.replace("/wallet");
       }
     } else {
       if (router.query.share) {
@@ -102,7 +102,7 @@ const useAuth = () => {
 
           window.location.replace(callbackUrl.toString());
         } else {
-          window.location.replace("/");
+          window.location.replace("/wallet");
         }
       } else {
         setNeedsRecovery(true);
@@ -113,7 +113,7 @@ const useAuth = () => {
   };
 
   const signOut = () => {
-    removeCookies("rayauth-jwt");
+    removeCookies("jwt-rayauth");
     window.location.replace("/");
   };
 
