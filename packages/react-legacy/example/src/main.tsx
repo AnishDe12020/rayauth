@@ -1,10 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { RayAuthProvider } from "../../src/providers";
+import { RayAuthProvider, providers } from "rayauth-react/src";
 import App from "./App";
 import "./index.css";
-import { providers } from "../../src/enums";
-import "../../src/tailwind.css"
+
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>

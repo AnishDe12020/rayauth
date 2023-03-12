@@ -4,5 +4,5 @@ export default {
   minify: true,
   sourcemap: true,
   outfile: "dist/index.js",
-  external: ["react", "react-dom", "tailwindcss"],
+  external: ["react", "react-dom"],
 };

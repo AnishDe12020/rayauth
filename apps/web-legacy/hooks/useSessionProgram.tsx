@@ -4,13 +4,15 @@ import { useEffect, useMemo } from "react";
 import { Buffer } from "buffer";
 
 import { IDL, RayauthSession } from "../types/rayauth_session";
-import { useAuth } from "./useAuth";
+import useAuth from "./useAuth";
+import useTxModal from "./useTxModal";
 
 export const SESSION_PROGRAM_ID = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s";
 
 export const useSessionProgram = () => {
   const connection = useMemo(() => new Connection(clusterApiUrl("devnet")), []);
-  const { user, signTransaction } = useAuth();
+  const { user } = useAuth();
+  const { signTransaction, signAllTransactions } = useTxModal();
 
   useEffect(() => {
     window.Buffer = Buffer;
@@ -22,7 +24,7 @@ export const useSessionProgram = () => {
     return {
       publicKey: new PublicKey(user.address),
       signTransaction: signTransaction,
-      signAllTransactions: user.signAllTransactions,
+      signAllTransactions: signAllTransactions,
     };
   }, [user]);
 

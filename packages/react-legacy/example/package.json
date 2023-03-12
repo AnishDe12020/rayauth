@@ -13,6 +13,7 @@
     "base58": "^2.0.1",
     "bs58": "^5.0.0",
     "jotai": "^2.0.2",
+    "rayauth-react": "workspace:^0.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-iframe": "^1.8.5",

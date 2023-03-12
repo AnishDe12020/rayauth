@@ -12,16 +12,17 @@ import { truncatePubkey } from "@/utils/truncate";
 
 export default function ProfileButton() {
   const { asPath } = useRouter();
-  const { publickey } = useAuth();
+  const { publickey, signOut } = useAuth();
   const handleCopyPublicKey = () => {
     navigator.clipboard.writeText(`${publickey?.toString()}`);
     toast.success("Copied public key to clipboard");
   };
   return (
-    <div className="  w-full">
+    <div className="w-full ">
       <Popover className="relative">
         {({ open }) => (
           <>
+
             <div className="flex justify-center items-center">
               {!publickey ? (
                 <button className="rounded-2xl text-black bg-white px-3 py-1 hover:bg-slate-200">
@@ -33,7 +34,7 @@ export default function ProfileButton() {
                 ${open ? "" : "text-opacity-90"}
                 group inline-flex items-center rounded-md bg-transparent px-3 py-2 text-base font-medium text-white hover:text-opacity-100 focus:outline-none`}
                 >
-                  <span className="uppercase hover:text-slate-200 hover:border-b-1 px-5 text-white rounded-md text-base font-semibold">
+                  <span className="px-5 text-base font-semibold text-white uppercase rounded-md hover:text-slate-200 hover:border-b-1">
                     Account
                   </span>
                   <CiCircleChevDown
@@ -56,8 +57,8 @@ export default function ProfileButton() {
             >
               {publickey ? (
                 <Popover.Panel className="absolute left-80 md:left-1/2 z-10 mt-3 w-screen max-w-xs md:max-w-sm -translate-x-[90%] transform px-0 md:px-4 sm:px-0 lg:max-w-md bg-gray-900 rounded-md ">
-                  <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 p-3">
-                    <div className="flex w-full items-center m-4">
+                  <div className="p-3 overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div className="flex items-center w-full m-4">
                       <div className="mx-2">
                         <button
                           onClick={handleCopyPublicKey}
@@ -67,17 +68,20 @@ export default function ProfileButton() {
                         </button>
                       </div>
                       <div className="mx-2">
-                        <h4 className=" text-gray-300 md:hidden text-xs truncate block w-50">
+                        <h4 className="block text-xs text-gray-300 truncate md:hidden w-50">
                           {truncatePubkey(`${publickey?.toString()}`)}{" "}
                         </h4>
-                        <h4 className=" text-gray-300 hidden text-xs truncate md:block w-50">
+                        <h4 className="hidden text-xs text-gray-300 truncate md:block w-50">
                           {publickey?.toString()}
                         </h4>
                       </div>
                     </div>
                     <div className="flex items-end">
                       <div className="w-full"></div>
-                      <Button className=" mx-2 bg-gray-800 text-slate-400  rounded-md border p-3 text-center ">
+                      <Button
+                        className="p-3 mx-2 text-center bg-gray-800 border rounded-md text-slate-400"
+                        onClick={signOut}
+                      >
                         Logout
                       </Button>
                     </div>
@@ -85,7 +89,7 @@ export default function ProfileButton() {
                 </Popover.Panel>
               ) : (
                 <Popover.Panel className="p-4 absolute left-80 md:left-1/2 z-10 mt-3  max-w-xs md:max-w-sm -translate-x-[90%] transform px-0 md:px-4 sm:px-0 lg:max-w-sm bg-gray-900 rounded-md ">
-                  <Button className=" bg-gray-800 text-slate-400  rounded-md border p-3 text-center mx-auto">
+                  <Button className="p-3 mx-auto text-center bg-gray-800 border rounded-md text-slate-400">
                     Login
                   </Button>
                 </Popover.Panel>

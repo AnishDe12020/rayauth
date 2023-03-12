@@ -30,7 +30,7 @@ const AccountOption = ({ publicKey }: { publicKey: string }) => {
   return (
     <div className="flex flex-row items-center">
       <button
-        className="block p-1 px-2 mx-2 text-xs border rounded-full w-28 lg:p-2"
+        className="px-3 py-1 text-xs border rounded-full"
         onClick={handleCopyPublicKey}
       >
         {truncatePubkey(publicKey)}
@@ -136,7 +136,7 @@ const Wallet = (props: Props) => {
           </div>
         </div>
         {/* Body */}
-        <div className="p-6 border border-transparent rounded-lg shadow bg-gray-800">
+        <div className="p-6 bg-gray-900 border border-transparent rounded-lg shadow">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-end justify-between py-6 mx-4">
               <div className="flex flex-row items-end">

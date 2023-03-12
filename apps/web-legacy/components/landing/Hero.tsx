@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 type Props = {};
-import authcard from "../../public/assets/authcard.svg";
 
 function Hero({}: Props) {
   const check = () => {
@@ -36,7 +35,9 @@ function Hero({}: Props) {
             {/* THIS IS JUST FOR TESTING FOR GODSAKE OKAYYYY */}
             <button
               onClick={() => check()}
+
               className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans hover:bg-transparent border-2 hover:border-2 hover:text-white"
+
             >
               Get Started
             </button>
@@ -50,7 +51,7 @@ function Hero({}: Props) {
         <Image
           width={400}
           height={513}
-          src="/assets/authcard.svg"
+          src="/assets/authcard.png"
           alt={"RayAuth card"}
         />
       </div>
