@@ -4,6 +4,7 @@ import { useState } from "react";
 import ProfileButton from "../walletPage/Navbar/ProfileButton";
 
 import Image from "next/image";
+import RevealPrivateKey from "../walletPage/Navbar/RevealPrivateKey";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -89,7 +90,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-
       <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
         <div className="flex flex-col items-baseline w-full space-x-6 text-center">
           <Link

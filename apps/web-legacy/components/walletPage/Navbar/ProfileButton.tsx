@@ -9,6 +9,7 @@ import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { truncatePubkey } from "@/utils/truncate";
+import RevealPrivateKey from "./RevealPrivateKey";
 
 export default function ProfileButton() {
   const { asPath } = useRouter();
@@ -22,7 +23,6 @@ export default function ProfileButton() {
       <Popover className="relative">
         {({ open }) => (
           <>
-
             <div className="flex justify-center items-center">
               {!publickey ? (
                 <button className="rounded-2xl text-black bg-white px-3 py-1 hover:bg-slate-200">
@@ -76,8 +76,7 @@ export default function ProfileButton() {
                         </h4>
                       </div>
                     </div>
-                    <div className="flex items-end">
-                      <div className="w-full"></div>
+                    <div className="flex justify-end">
                       <Button
                         className="p-3 mx-2 text-center bg-gray-800 border rounded-md text-slate-400"
                         onClick={signOut}

@@ -19,6 +19,7 @@ import {
 import { truncatePubkey } from "@/utils/truncate";
 import LoginRequired from "../common/LoginRequired";
 import withCommonEffects from "../authGuard/RouteGuard";
+import RevealPrivateKey from "./Navbar/RevealPrivateKey";
 type Props = {};
 
 const AccountOption = ({ publicKey }: { publicKey: string }) => {
@@ -173,6 +174,7 @@ const Wallet = (props: Props) => {
         <div className="flex justify-center my-4 lg:hidden">
           <AccountOption publicKey={`${publickey}`} />
         </div>
+        <RevealPrivateKey />
       </div>
     </div>
   );
