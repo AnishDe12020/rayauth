@@ -7,13 +7,14 @@ export function useTest(): () => void {
     
         const urlParams = new URLSearchParams(window.location.search);
         const jwt = urlParams.get("jwt");
+        console.log("jwt", jwt?.toString())
         if (jwt && cookies["jwt-rayauth"]) {
           console.log("exists", cookies["jwt-rayauth"]);
           removeCookie("jwt-rayauth");
           console.log(setCookie("jwt-rayauth", jwt));
         }
         if (jwt && !cookies["jwt-rayauth"]) {
-          console.log(setCookie("jwt-rayauth", jwt.toString()));
+          console.log("cookie", setCookie("jwt-rayauth", jwt.toString()));
         }
       };
     return handleCallback
