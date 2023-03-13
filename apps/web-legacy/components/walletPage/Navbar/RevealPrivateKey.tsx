@@ -5,12 +5,9 @@ import { IoCopyOutline } from "react-icons/io5";
 import QRCode from "react-qr-code";
 import { toast } from "sonner";
 
-interface Props {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-}
+export default function RevealPrivateKey() {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
-export default function RevealPrivateKey({ isOpen, setIsOpen }: Props) {
   function closeModal() {
     setIsOpen(false);
   }
@@ -22,6 +19,14 @@ export default function RevealPrivateKey({ isOpen, setIsOpen }: Props) {
 
   return (
     <>
+      <div className="mt-10 w-full flex justify-center">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="px-4 py-2  border-gray-500  font-semibold text-xs  uppercase tracking-widest active:bg-gray-500 ease-in-out  hover:opacity-80 hover:bg-black hover:border-slate-200 hover:text-white transition duration-150 p-3 mx-2 text-center bg-gray-800 border rounded-md text-slate-400 w-1/2"
+        >
+          Reveal Private Key
+        </button>
+      </div>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child

@@ -10,13 +10,9 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
-  const [ispKeyModalOpen, setIspKeyModalOpen] = useState(false);
+
   return (
     <nav className="sticky top-0 z-30 w-full max-w-screen-xl py-3 mx-auto bg-transparent md:py-4 backdrop-filter backdrop-blur-lg">
-      <RevealPrivateKey
-        isOpen={ispKeyModalOpen}
-        setIsOpen={setIspKeyModalOpen}
-      />
       <div className="px-4 mx-auto max-w-8xl sm:px-6 lg:px-12">
         <div className="flex items-center justify-between h-16">
           <div className="flex flex-row space-x-4">
@@ -55,7 +51,7 @@ const Navbar = () => {
                 WALLET
               </Link>
 
-              <ProfileButton setIspKeyModalOpen={setIspKeyModalOpen} />
+              <ProfileButton />
             </div>
           </div>
           <div className="flex -mr-2 md:hidden">
@@ -114,7 +110,7 @@ const Navbar = () => {
           >
             WALLET
           </Link>
-          <ProfileButton setIspKeyModalOpen={setIspKeyModalOpen} />
+          <ProfileButton />
         </div>
       </div>
     </nav>

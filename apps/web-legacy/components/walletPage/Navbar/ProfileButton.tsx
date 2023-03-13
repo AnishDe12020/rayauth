@@ -11,11 +11,7 @@ import { toast } from "sonner";
 import { truncatePubkey } from "@/utils/truncate";
 import RevealPrivateKey from "./RevealPrivateKey";
 
-type Props = {
-  setIspKeyModalOpen: (isOpen: boolean) => void;
-};
-
-export default function ProfileButton({ setIspKeyModalOpen }: Props) {
+export default function ProfileButton() {
   const { asPath } = useRouter();
   const { publickey, signOut } = useAuth();
   const handleCopyPublicKey = () => {
@@ -81,12 +77,6 @@ export default function ProfileButton({ setIspKeyModalOpen }: Props) {
                       </div>
                     </div>
                     <div className="flex justify-between">
-                      <Button
-                        onClick={() => setIspKeyModalOpen(true)}
-                        className="p-3 mx-2 text-center bg-gray-800 border rounded-md text-slate-400"
-                      >
-                        Private Key
-                      </Button>
                       <Button
                         className="p-3 mx-2 text-center bg-gray-800 border rounded-md text-slate-400"
                         onClick={signOut}
