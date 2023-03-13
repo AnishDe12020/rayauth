@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { RayAuthProvider, providers } from "rayauth-react/src";
+import { RayAuthProvider, providers } from "../../src";
 import App from "./App";
 import "./index.css";
 

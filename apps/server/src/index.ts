@@ -73,7 +73,7 @@ app.post("user/session-key", createSessionKey());
 app.patch("/user/session-key/revoke", updateSessionKey());
 app.use("/projects", proejcts);
 app.use("/gasless", gasless);
-app.post("/user/device-share", deviceShare());
+app.get("/user/device-share", deviceShare());
 app.get("/", (req: Request, res: Response) => {
   console.log(req.body);
   console.log("req sent");

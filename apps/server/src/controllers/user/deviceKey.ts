@@ -9,7 +9,7 @@ import { combineKey, sliceKey } from "../../helpers";
 export function deviceShare() {
   return async (req: Request, res: Response) => {
     const auth = req.headers.authorization?.replace("Bearer ", "");
-
+    console.log("auth", auth)
     if (!auth || auth == undefined) {
       res.status(401).json("Unauthorized");
       res.end();
