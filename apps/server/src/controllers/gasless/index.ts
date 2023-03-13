@@ -24,6 +24,8 @@ const handleGasless = async (req: Request, res: Response) => {
 
   const feePayer = Keypair.fromSecretKey(base58.decode(feePayerPrivateKey));
 
+  console.log("feepayer", feePayer.publicKey.toBase58());
+
   const serialized = req.body?.transaction;
 
   if (typeof serialized !== "string") {
@@ -48,9 +50,10 @@ const handleGasless = async (req: Request, res: Response) => {
   let signature: string;
   try {
     signature = (
-      await validateTransaction(connection, transaction, feePayer, 2, 5000)
+      await validateTransaction(connection, transaction, feePayer, 4, 5000)
     ).signature;
   } catch (e) {
+    console.error(e);
     res.status(400).send({ status: "error", message: "bad transaction" });
     return;
   }

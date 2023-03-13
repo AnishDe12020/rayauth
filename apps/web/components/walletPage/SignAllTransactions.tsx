@@ -55,7 +55,7 @@ const SignAllTransactions = ({ useHook = false }: { useHook?: boolean }) => {
         transaction = Transaction.from(transactionBuffer);
       }
 
-      transaction.sign(keypair);
+      transaction.partialSign(keypair);
 
       if (useHook) {
         return transaction;

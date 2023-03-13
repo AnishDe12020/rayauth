@@ -37,7 +37,9 @@ const SignTransactionModal = () => {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-2xl p-6 overflow-hidden text-left align-middle transition-all transform bg-gray-800 shadow-xl rounded-2xl">
-                <SignTransaction useHook />
+                <div className="flex flex-col items-center space-y-4 text-white">
+                  <SignTransaction useHook />
+                </div>
 
                 <div className="flex flex-row justify-end w-full m-2 mt-4">
                   <button

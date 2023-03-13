@@ -5,6 +5,7 @@ import {
   transactionAtom,
 } from "@/store/txModal";
 import { Transaction } from "@solana/web3.js";
+import base58 from "bs58";
 import { useAtom } from "jotai";
 import useAuth from "./useAuth";
 
@@ -23,6 +24,9 @@ const useTxModal = () => {
 
   const { user } = useAuth();
 
+  console.log("hookTx", hookTx);
+  console.log("signedTransaction", signedTransaction);
+
   const signTransaction = async (tx: Transaction) => {
     if (!user) {
       throw new Error("User not logged in");
@@ -33,7 +37,9 @@ const useTxModal = () => {
 
     const data = await loopSignedTransaction();
 
-    return data;
+    const transaction = Transaction.from(base58.decode(data));
+
+    return transaction;
   };
 
   const signAllTransactions = async (transactions: Transaction[]) => {
@@ -54,11 +60,12 @@ const useTxModal = () => {
     let data = null;
 
     while (data == null || startTime - new Date().getTime() >= 15000) {
-      console.log("loop running");
-
-      if (signedTransaction != null) {
-        data = signedTransaction;
-      }
+      window.onmessage = function (e) {
+        console.log(e.data);
+        if (e.data.type == "txnData") {
+          data = e.data.tx;
+        }
+      };
 
       await sleep(1000); // assuming sleep() is an async function that waits for a specified amount of time
     }

@@ -1,5 +1,6 @@
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
+import { useDappHuntProgram } from "@/hooks/useDappHuntProgram";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -7,8 +8,11 @@ import { BsPlus } from "react-icons/bs";
 
 const inputClassName =
   "rounded-lg px-3 py-2 my-2 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-transparent bg-gray-700 border-0 text-white w-full";
+
 export default function CreateDemoProject() {
   let [isOpen, setIsOpen] = useState(false);
+
+  const { postNewProduct } = useDappHuntProgram();
 
   function closeModal() {
     setIsOpen(false);
@@ -22,8 +26,19 @@ export default function CreateDemoProject() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data: any) => console.log(data);
-  console.log(errors);
+
+  const handleHuntProduct = handleSubmit(async (data) => {
+    await postNewProduct(
+      data.name,
+      data.maker_twitter || "",
+      data.twitter_url || "",
+      data.website_url || "",
+      data.logo_url || "",
+      data.description || ""
+    );
+
+    closeModal();
+  });
 
   return (
     <>
@@ -33,7 +48,7 @@ export default function CreateDemoProject() {
           className="flex items-center px-3 py-1 font-medium text-black bg-white rounded-full hover:bg-slate-200"
         >
           <BsPlus className="text-2xl" />
-          <span>New Project</span>
+          <span>Hunt Product</span>
         </button>
       </div>
 
@@ -67,9 +82,9 @@ export default function CreateDemoProject() {
                     as="h3"
                     className="text-lg font-medium leading-6 text-slate-400"
                   >
-                    Create a new demo
+                    Hunt a new product
                   </Dialog.Title>
-                  <form onSubmit={handleSubmit(onSubmit)}>
+                  <form onSubmit={handleHuntProduct}>
                     <div className="mt-2">
                       <div>
                         <label className="py-2 my-4 font-semibold text-white">
@@ -127,18 +142,18 @@ export default function CreateDemoProject() {
                       </div>
                     </div>
 
-                    <div className="flex justify-between w-full mt-5">
-                      <Button
-                        type="submit"
-                        className="text-base text-center text-white bg-gray-800"
-                      >
-                        Create
-                      </Button>
+                    <div className="flex justify-end w-full mt-5 space-x-4">
                       <Button
                         onClick={() => closeModal()}
                         className="text-base text-center text-white bg-gray-800"
                       >
                         Close
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="text-base text-center text-white bg-gray-800"
+                      >
+                        Hunt
                       </Button>
                     </div>
                   </form>

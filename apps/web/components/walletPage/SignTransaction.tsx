@@ -1,7 +1,7 @@
 import useAuth from "@/hooks/useAuth";
 import { useDeviceShare } from "@/hooks/useDeviceShare";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import bs58 from "bs58";
 import axios from "axios";
 import { BACKEND_URL } from "@/lib/constants";
@@ -18,9 +18,13 @@ const SignTransaction = ({ useHook = false }: { useHook?: boolean }) => {
 
   const { deviceShare } = useDeviceShare();
 
-  const { hookTx, setSignedTransaction } = useTxModal();
+  const { hookTx, setSignModalOpen } = useTxModal();
+
+  const [loading, setLoading] = useState(false);
 
   const handleSignTransaction = async () => {
+    setLoading(true);
+
     let transaction;
 
     if (useHook) {
@@ -52,20 +56,27 @@ const SignTransaction = ({ useHook = false }: { useHook?: boolean }) => {
 
     console.log(keypair.publicKey.toBase58());
 
-    transaction.sign(keypair);
+    console.log("transactionBeforeSigning", transaction);
+
+    transaction.partialSign(keypair);
+
+    console.log("transactionAfterSigning", transaction);
+
+    const signedTransactionBase58 = bs58.encode(
+      transaction.serialize({ requireAllSignatures: false })
+    );
 
     if (hookTx) {
-      setSignedTransaction(transaction);
+      window.postMessage({ type: "txnData", tx: signedTransactionBase58 }, "*");
+      setSignModalOpen(false);
     } else {
-      const signedTransactionBase58 = bs58.encode(
-        transaction.serialize({ requireAllSignatures: false })
-      );
-
       window.parent.postMessage(
         { type: "txnData", tx: signedTransactionBase58 },
         "*"
       );
     }
+
+    setLoading(false);
   };
 
   return (
@@ -74,7 +85,9 @@ const SignTransaction = ({ useHook = false }: { useHook?: boolean }) => {
 
       <p>Click on the button below to approve the transaction</p>
 
-      <Button onClick={handleSignTransaction}>Approve</Button>
+      <Button onClick={handleSignTransaction} processing={loading}>
+        Approve
+      </Button>
     </>
   );
 };

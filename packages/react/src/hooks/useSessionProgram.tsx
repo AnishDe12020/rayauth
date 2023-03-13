@@ -34,16 +34,11 @@ export const useSessionProgram = () => {
     });
   }, [connection, anchorWallet]);
 
-  console.log("anchorWallet", anchorWallet);
-  console.log("anchorProvider", anchorProvider);
-
   const sessionProgram: Program<RayauthSession> | undefined = useMemo(() => {
     if (!anchorProvider) return;
 
     return new Program(IDL, SESSION_PROGRAM_ID, anchorProvider);
   }, [anchorProvider]);
-
-  console.log("sessionProgram", sessionProgram);
 
   const addSessionToken = async (
     timestamp: number = Math.floor(Date.now() / 1000) + 3600

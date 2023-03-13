@@ -1,6 +1,8 @@
 import DemoPage from "@/components/demo";
 import MainLayout from "@/components/layouts/MainLayout";
 
+import withCommonEffects from "../components/authGuard/RouteGuard";
+
 const Demo = () => {
   return (
     <>
@@ -11,4 +13,6 @@ const Demo = () => {
 
 Demo.PageLayout = MainLayout;
 
-export default Demo;
+export default withCommonEffects(Demo, {
+  isAuthRequired: true,
+});

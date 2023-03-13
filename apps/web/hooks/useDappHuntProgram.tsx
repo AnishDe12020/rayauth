@@ -5,7 +5,7 @@ import {
   Transaction,
 } from "@solana/web3.js";
 import { AnchorProvider, Program } from "@project-serum/anchor";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Buffer } from "buffer";
 
 import { IDL, DappHunt } from "../types/dapp_hunt";
@@ -20,7 +20,7 @@ import { toast } from "sonner";
 export const DAPP_HUNT_PROGRAM_ID =
   "8JajHSCMD6p7XoPLe8sMCM6x41sURpT1WZT4JcA3Ffsc";
 export const GASLESS_PUBKEY = new PublicKey(
-  "5xALDevGgZVpwEs8d2Miyu9cAhvjkg2sumKiBjm7ZaJY"
+  "ChQHQyZ2DAeEvwHCokUUC1v7jJ1ahK2b6iLbxXpXPh2y"
 );
 
 export const useDappHuntProgram = () => {
@@ -30,9 +30,11 @@ export const useDappHuntProgram = () => {
 
   const { sessionKeypair, sessionProgram } = useSessionProgram();
 
+  const [dapps, setDapps] = useState<any>([]);
+
   useEffect(() => {
     window.Buffer = Buffer;
-  });
+  }, []);
 
   const anchorWallet = useMemo(() => {
     if (!user?.address) return;
@@ -52,14 +54,21 @@ export const useDappHuntProgram = () => {
     });
   }, [connection, anchorWallet]);
 
-  console.log("anchorWallet", anchorWallet);
-  console.log("anchorProvider", anchorProvider);
-
   const dappHuntProgram: Program<DappHunt> | undefined = useMemo(() => {
     if (!anchorProvider) return;
 
     return new Program(IDL, DAPP_HUNT_PROGRAM_ID, anchorProvider);
   }, [anchorProvider]);
+
+  useEffect(() => {
+    const fetchDapps = async () => {
+      const dapps = await dappHuntProgram?.account.product.all();
+
+      setDapps(dapps);
+    };
+
+    fetchDapps();
+  }, [dappHuntProgram]);
 
   const postNewProduct = async (
     productName: string,
@@ -108,6 +117,8 @@ export const useDappHuntProgram = () => {
       })
       .instruction();
 
+    console.log("productIx", productIx);
+
     const tx = new Transaction({
       recentBlockhash: (await connection.getLatestBlockhash()).blockhash,
       feePayer: GASLESS_PUBKEY,
@@ -115,21 +126,15 @@ export const useDappHuntProgram = () => {
 
     tx.partialSign(sessionKeypair);
 
-    const signedTx = await anchorWallet?.signTransaction(tx);
-
-    if (!signedTx) return;
-
     const {
       data: { txid },
     } = await axios.post(`${BACKEND_URL}/gasless`, {
-      transaction: base58.encode(
-        (signedTx as Transaction).serialize({ requireAllSignatures: false })
-      ),
+      transaction: base58.encode(tx.serialize({ requireAllSignatures: false })),
     });
 
     toast.success("Product hunted successfully", {
       action: {
-        label: "View Transaction",
+        label: "Explorer",
         onClick: () =>
           window.open(`https://explorer.solana.com/tx/${txid}?cluster=devnet`),
       },
@@ -192,30 +197,48 @@ export const useDappHuntProgram = () => {
 
     tx.partialSign(sessionKeypair);
 
-    const signedTx = await anchorWallet?.signTransaction(tx);
-
-    if (!signedTx) return;
-
     const {
       data: { txid },
     } = await axios.post(`${BACKEND_URL}/gasless`, {
-      transaction: base58.encode(
-        (signedTx as Transaction).serialize({ requireAllSignatures: false })
-      ),
+      transaction: base58.encode(tx.serialize({ requireAllSignatures: false })),
     });
 
     toast.success("Product upvoted successfully", {
       action: {
-        label: "View Transaction",
+        label: "Explorer",
         onClick: () =>
           window.open(`https://explorer.solana.com/tx/${txid}?cluster=devnet`),
       },
     });
   };
 
+  const didUpvote = async (productName: string) => {
+    if (!anchorWallet) {
+      throw new Error("No anchor wallet");
+    }
+
+    if (!dappHuntProgram) {
+      throw new Error("No dapp hunt program");
+    }
+
+    const upvotedProducts = await dappHuntProgram.account.upvoteAaccount.all();
+
+    const upvotedByUser = upvotedProducts.filter(
+      (upvote) =>
+        upvote.account.voter.toBase58() === anchorWallet.publicKey.toBase58()
+    );
+
+    const upvotedProduct = upvotedByUser.find(
+      (upvote) => upvote.account.name === productName
+    );
+
+    return !!upvotedProduct;
+  };
+
   return {
     dappHuntProgram,
     postNewProduct,
     upvoteProduct,
+    dapps,
   };
 };

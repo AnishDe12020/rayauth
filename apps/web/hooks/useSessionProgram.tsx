@@ -19,7 +19,7 @@ import { toast } from "sonner";
 
 export const SESSION_PROGRAM_ID = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s";
 export const GASLESS_PUBKEY = new PublicKey(
-  "5xALDevGgZVpwEs8d2Miyu9cAhvjkg2sumKiBjm7ZaJY"
+  "ChQHQyZ2DAeEvwHCokUUC1v7jJ1ahK2b6iLbxXpXPh2y"
 );
 
 export const useSessionProgram = () => {
@@ -51,16 +51,11 @@ export const useSessionProgram = () => {
     });
   }, [connection, anchorWallet]);
 
-  console.log("anchorWallet", anchorWallet);
-  console.log("anchorProvider", anchorProvider);
-
   const sessionProgram: Program<RayauthSession> | undefined = useMemo(() => {
     if (!anchorProvider) return;
 
     return new Program(IDL, SESSION_PROGRAM_ID, anchorProvider);
   }, [anchorProvider]);
-
-  console.log("sessionProgram", sessionProgram);
 
   useEffect(() => {
     if (!sessionProgram) return;
@@ -72,16 +67,16 @@ export const useSessionProgram = () => {
     setSessionKeypair(sessionKeypair);
   }, [sessionProgram]);
 
-  const addSessionToken = async (
-    timestamp: number = Math.floor(Date.now() / 1000) + 3600
-  ) => {
+  const addSessionToken = async () => {
+    const timestamp: number = Math.floor(Date.now() / 1000) + 3600;
+
     if (!sessionProgram) {
       console.log("ched");
       return;
     }
 
     const sessionKeypair = new Keypair();
-    console.log(sessionKeypair);
+    console.log("sesionKey", sessionKeypair.publicKey.toBase58());
     const [sessionKeyPda] = await PublicKey.findProgramAddress(
       [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
       sessionProgram.programId
@@ -106,6 +101,8 @@ export const useSessionProgram = () => {
 
     tx.partialSign(sessionKeypair);
 
+    console.log("txBeforeSigning", tx);
+
     const signedTx = await anchorWallet?.signTransaction(tx);
 
     if (!signedTx) return;
@@ -120,13 +117,16 @@ export const useSessionProgram = () => {
 
     toast.success("Session token added successfully", {
       action: {
-        label: "View Transaction",
+        label: "Explorer",
         onClick: () =>
           window.open(`https://explorer.solana.com/tx/${txid}?cluster=devnet`),
       },
     });
 
-    localStorage.setItem("sessionToken", JSON.stringify(sessionKeypair));
+    localStorage.setItem(
+      "sessionToken",
+      JSON.stringify({ secret: base58.encode(sessionKeypair.secretKey) })
+    );
 
     return;
   };
@@ -136,9 +136,11 @@ export const useSessionProgram = () => {
 
     if (!sessionKeypair) return;
 
-    return Keypair.fromSecretKey(
-      Buffer.from(JSON.parse(sessionKeypair).secretKey)
-    );
+    console.log(sessionKeypair);
+
+    const json = JSON.parse(sessionKeypair);
+
+    return Keypair.fromSecretKey(Buffer.from(base58.decode(json.secret)));
   };
 
   const revokeSessionToken = async () => {
@@ -176,13 +178,13 @@ export const useSessionProgram = () => {
       data: { txid },
     } = await axios.post(`${BACKEND_URL}/gasless`, {
       transaction: base58.encode(
-        (signedTx as Transaction).serialize({ requireAllSignatures: false })
+        signedTx.serialize({ requireAllSignatures: false })
       ),
     });
 
     toast.success("Session token revoked successfully", {
       action: {
-        label: "View Transaction",
+        label: "Explorer",
         onClick: () =>
           window.open(`https://explorer.solana.com/tx/${txid}?cluster=devnet`),
       },
