@@ -13,7 +13,7 @@ const Test = (props: Props) => {
  useEffect(()=> {
   handleCallback();
   const getNewShare = async () => {
-    const data = await axios.get(`http://localhost:8080/user/device-share?key=${"80277ed1949ca2c758db9b292c12809f00e26c17f18b020fc07f8127a75f6833d4892d5083bb50df68054e3016ea1c7ae41c05a51ba8f7215954a43b788f3657ee545d5c7aacd6aa90bec78f9c1c448a82a"}`, {
+    const data = await axios.get(`https://api.rayauth.com/user/device-share?key=${"80277ed1949ca2c758db9b292c12809f00e26c17f18b020fc07f8127a75f6833d4892d5083bb50df68054e3016ea1c7ae41c05a51ba8f7215954a43b788f3657ee545d5c7aacd6aa90bec78f9c1c448a82a"}`, {
       headers: {
         "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwb29ydmNvZGVzMzgxQGdtYWlsLmNvbSIsImlkIjoiNjQwZjQ2NmMwNWY3YjdmNWVhNDM0MzJlIiwiYWRkcmVzcyI6IkIyZ3htbUtiU1BKdjJnRE5ZTXFKUEpyemNMVEZ5OW9ObVY3RWR5UkdxQTl0IiwidGltZSI6Ik1vbiBNYXIgMTMgMjAyMyAxNjowMjowNyBHTVQrMDAwMCAoQ29vcmRpbmF0ZWQgVW5pdmVyc2FsIFRpbWUpIiwiaWF0IjoxNjc4NzIzMzI3fQ.Mw4aMA-ZgjxMREIUk6jU86sc0CZcOJ9oIM2N3uy1umU"
       }

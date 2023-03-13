@@ -41,10 +41,7 @@ const CallbackPage: NextPage = () => {
     const {
       data: { key },
     } = await axios.post(
-      `${BACKEND_URL}/user/device-share`,
-      {
-        key: data.key,
-      },
+      `${BACKEND_URL}/user/device-share?key=${data.key}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
