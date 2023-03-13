@@ -37,7 +37,15 @@ console.log("frontend url: ", FRONTEND_URL);
 initGithub();
 initdiscord();
 initgoogle();
-app.use(cors({ credentials: true, origin: "*" }));
+app.use(
+  cors({
+    credentials: true,
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
+);
 app.use(setQuery());
 app.use(
   session({
