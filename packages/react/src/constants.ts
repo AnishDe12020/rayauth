@@ -1,2 +1,2 @@
-export const BASEURL: string = "http://localhost:8080"
-export const WALLET: string = "http://localhost:3000/wallet"
+export const BASEURL: string = "https://api.rayauth.com"
+export const WALLET: string = "https://rayauth.com/wallet"
