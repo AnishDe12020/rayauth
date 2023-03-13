@@ -4,10 +4,11 @@ import DashboardLayout from "@/components/layouts/DashboardLayout";
 import useAuth from "@/hooks/useAuth"
 import React from "react";
 
-const {jwt, user} = useAuth()
 type Props = {};
 
 const Test = (props: Props) => {
+  const {jwt, user} = useAuth()
+console.log(jwt, user?.address)
   return (
     <div className="flex justify-center">
       <div className="my-6 flex flex-col justify-center text-white">
