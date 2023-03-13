@@ -76,7 +76,7 @@ export default function ProfileButton() {
                         </h4>
                       </div>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-end">
                       <Button
                         className="p-3 mx-2 text-center bg-gray-800 border rounded-md text-slate-400"
                         onClick={signOut}
