@@ -953,7 +953,7 @@ console.log("frontend url: ", FRONTEND_URL);
 initGithub();
 initdiscord();
 initgoogle();
-app.use((0, import_cors.default)());
+app.use((0, import_cors.default)({ credentials: true, origin: FRONTEND_URL }));
 app.use(setQuery());
 app.use(
   (0, import_express_session.default)({
