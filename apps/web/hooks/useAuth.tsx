@@ -12,7 +12,7 @@ const useAuth = () => {
   const [jwt, setJwt] = useState<string>();
   const [needsRecovery, setNeedsRecovery] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [cookies, setCookie, removeCookie] = useCookies(["jwt-rayauth"])
+  const [cookies, setCookie, removeCookie] = useCookies(["jwt-rayauth"]);
 
   const [publickey, setPublickey] = useState<PublicKey>();
 
@@ -26,12 +26,13 @@ const useAuth = () => {
 
   useEffect(() => {
     setLoading(true);
-    const jwt = cookies["jwt-rayauth"]
-    console.log("cookie?", jwt)
+    const jwt = cookies["jwt-rayauth"];
+    console.log("cookie?", jwt);
     if (jwt) {
       const decoded = decodeJwt(jwt.toString());
 
       setUser(decoded as unknown as IRayAuthJWT);
+      setJwt(jwt.toString());
       console.log(setCookie("jwt-rayauth", jwt.toString()));
     }
 
@@ -50,7 +51,7 @@ const useAuth = () => {
     }
 
     setLoading(true);
-    const jwt = cookies["jwt-rayauth"]
+    const jwt = cookies["jwt-rayauth"];
 
     console.log(jwt);
 
