@@ -34,8 +34,9 @@ export function deviceShare() {
       res.end();
       return;
     }
-
-    const key = req.body.key;
+    console.log("bodu", req.query)
+    const key = req.query.key?.toString();;
+    console.log("key", key)
     if (!key) {
       res.status(404).json("No key provided for a new device share");
       res.end();
