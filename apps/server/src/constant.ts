@@ -23,6 +23,7 @@ export const DB3: string = process.env.DB_THREE || "NOTFOUND";
 
 export const TESTP: string = process.env.TEST || "NOTFOUND";
 
-export const BASE_URL: string = process.env.BASE_URL || "http://localhost:8080";
+export const BASE_URL: string =
+  process.env.BASE_URL || "https://api.rayauth.com";
 export const FRONTEND_URL: string =
-  process.env.FRONTEND_URL || "http://localhost:3000";
+  process.env.FRONTEND_URL || "https://rayauth.com";

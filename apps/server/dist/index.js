@@ -44,8 +44,8 @@ var DB1 = process.env.DATABASE_URL || "NOTFOUND";
 var DB2 = process.env.DB_TWO || "NOTFOUND";
 var DB3 = process.env.DB_THREE || "NOTFOUND";
 var TESTP = process.env.TEST || "NOTFOUND";
-var BASE_URL = process.env.BASE_URL || "http://localhost:8080";
-var FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
+var BASE_URL = process.env.BASE_URL || "https://api.rayauth.com";
+var FRONTEND_URL = process.env.FRONTEND_URL || "https://rayauth.com";
 
 // src/index.ts
 var import_cors = __toESM(require("cors"));
