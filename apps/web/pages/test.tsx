@@ -1,8 +1,10 @@
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
+import useAuth from "@/hooks/useAuth"
 import React from "react";
 
+const {jwt, user} = useAuth()
 type Props = {};
 
 const Test = (props: Props) => {
@@ -29,6 +31,8 @@ const Test = (props: Props) => {
             label={"Test Input"}
           />
         </div>
+        {jwt}
+        <div>{user?.address}</div>
       </div>
     </div>
   );

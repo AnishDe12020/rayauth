@@ -26,12 +26,12 @@ const useAuth = () => {
   useEffect(() => {
     setLoading(true);
     const jwt = getCookie("jwt-rayauth");
-
+    console.log("cookie?", jwt)
     if (jwt) {
       const decoded = decodeJwt(jwt.toString());
 
       setUser(decoded as unknown as IRayAuthJWT);
-      setJwt(jwt.toString());
+      console.log(setJwt(jwt.toString()));
     }
 
     setLoading(false);
