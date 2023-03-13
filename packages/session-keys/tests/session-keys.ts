@@ -58,7 +58,7 @@ describe("session-keys", () => {
     );
   });
 
-  it("can post a new post a new product", async () => {
+  it("can post a new product", async () => {
     const [sessionKeyPda] = await anchor.web3.PublicKey.findProgramAddress(
       [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
       program.programId
@@ -89,7 +89,9 @@ describe("session-keys", () => {
         hunterSigner: sessionKeyPda,
         payer: userWallet.publicKey,
         product: productPda,
+        signer: sessionKeypair.publicKey,
       })
+      .signers([sessionKeypair])
       .rpc();
 
     console.log("createProdcutTx: ", productTx);
@@ -124,7 +126,9 @@ describe("session-keys", () => {
         product: productPda,
         voterSigner: sessionKeyPda,
         upvoteAccount: upvotePda,
+        signer: sessionKeypair.publicKey,
       })
+      .signers([sessionKeypair])
       .rpc();
 
     console.log("upvoteTx: ", upvoteTx);

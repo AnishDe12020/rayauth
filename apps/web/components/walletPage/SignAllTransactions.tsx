@@ -11,7 +11,7 @@ import Button from "@/components/common/Button";
 import arr from "hex-array";
 import useTxModal from "@/hooks/useTxModal";
 
-const SignAllTransactions = ({ useHook = false }: { useHook: boolean }) => {
+const SignAllTransactions = ({ useHook = false }: { useHook?: boolean }) => {
   const router = useRouter();
 
   const { jwt } = useAuth();

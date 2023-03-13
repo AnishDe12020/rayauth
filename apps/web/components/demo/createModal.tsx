@@ -20,17 +20,17 @@ export default function CreateDemoProject() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
   const onSubmit = (data: any) => console.log(data);
   console.log(errors);
+
   return (
     <>
       <div className="">
         <button
           onClick={openModal}
-          className="bg-white text-black rounded-full py-1  px-3 font-medium flex  items-center hover:bg-slate-200"
+          className="flex items-center px-3 py-1 font-medium text-black bg-white rounded-full hover:bg-slate-200"
         >
           <BsPlus className="text-2xl" />
           <span>New Project</span>
@@ -52,7 +52,7 @@ export default function CreateDemoProject() {
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <div className="flex items-center justify-center min-h-full p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -62,7 +62,7 @@ export default function CreateDemoProject() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-gray-900 p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-lg p-6 overflow-hidden text-left align-middle transition-all transform bg-gray-900 shadow-xl rounded-2xl">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-slate-400"
@@ -72,7 +72,7 @@ export default function CreateDemoProject() {
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="mt-2">
                       <div>
-                        <label className="font-semibold text-white py-2 my-4">
+                        <label className="py-2 my-4 font-semibold text-white">
                           Maker Twitter
                         </label>
                         <input
@@ -81,7 +81,7 @@ export default function CreateDemoProject() {
                         />
                       </div>
                       <div>
-                        <label className="font-semibold text-white py-2 my-4">
+                        <label className="py-2 my-4 font-semibold text-white">
                           Name
                         </label>
                         <input
@@ -90,7 +90,7 @@ export default function CreateDemoProject() {
                         />
                       </div>
                       <div>
-                        <label className="font-semibold text-white py-2 my-4">
+                        <label className="py-2 my-4 font-semibold text-white">
                           Description
                         </label>
                         <input
@@ -99,44 +99,44 @@ export default function CreateDemoProject() {
                         />
                       </div>
                       <div>
-                        <label className="font-semibold text-white py-2 my-4">
+                        <label className="py-2 my-4 font-semibold text-white">
                           Logo Url
                         </label>
                         <input
                           className={inputClassName}
-                          {...register("logo_url", { required: true })}
+                          {...register("logo_url")}
                         />
                       </div>
                       <div>
-                        <label className="font-semibold text-white py-2 my-4">
+                        <label className="py-2 my-4 font-semibold text-white">
                           Website
                         </label>
                         <input
                           className={inputClassName}
-                          {...register("website_url", { required: true })}
+                          {...register("website_url")}
                         />
                       </div>
                       <div>
-                        <label className="font-semibold text-white py-2 my-4">
+                        <label className="py-2 my-4 font-semibold text-white">
                           Twitter
                         </label>
                         <input
                           className={inputClassName}
-                          {...register("twitter_url", { required: true })}
+                          {...register("twitter_url")}
                         />
                       </div>
                     </div>
 
-                    <div className="mt-5 flex w-full justify-between">
+                    <div className="flex justify-between w-full mt-5">
                       <Button
                         type="submit"
-                        className="text-white text-base text-center bg-gray-800"
+                        className="text-base text-center text-white bg-gray-800"
                       >
                         Create
                       </Button>
                       <Button
                         onClick={() => closeModal()}
-                        className="text-white text-base text-center bg-gray-800"
+                        className="text-base text-center text-white bg-gray-800"
                       >
                         Close
                       </Button>

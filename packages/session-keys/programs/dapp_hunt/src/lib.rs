@@ -60,8 +60,10 @@ pub struct CreateProduct<'info> {
         seeds::program = RayauthSession::id(),
         bump,
         constraint = hunter_signer.is_valid()? == true,
+        constraint = hunter_signer.session_key == signer.key(),
     )]
     pub hunter_signer: Account<'info, SessionKey>,
+    pub signer: Signer<'info>,
     #[account(
         init,
         payer = payer,
@@ -83,8 +85,10 @@ pub struct Upvote<'info> {
         seeds::program = RayauthSession::id(),
         bump,
         constraint = voter_signer.is_valid()? == true,
+        constraint = voter_signer.session_key == signer.key(),
     )]
     pub voter_signer: Account<'info, SessionKey>,
+    pub signer: Signer<'info>,
     #[account(
         mut,
         seeds = [b"product".as_ref(), product.name.as_ref()],

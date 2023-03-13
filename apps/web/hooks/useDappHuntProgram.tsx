@@ -1,37 +1,38 @@
 import {
   clusterApiUrl,
   Connection,
-  Keypair,
   PublicKey,
   Transaction,
 } from "@solana/web3.js";
-import { AnchorProvider, BN, Program } from "@project-serum/anchor";
-import { useEffect, useMemo, useState } from "react";
+import { AnchorProvider, Program } from "@project-serum/anchor";
+import { useEffect, useMemo } from "react";
 import { Buffer } from "buffer";
 
-import { IDL, RayauthSession } from "../types/rayauth_session";
+import { IDL, DappHunt } from "../types/dapp_hunt";
 import useAuth from "./useAuth";
 import useTxModal from "./useTxModal";
+import { useSessionProgram } from "./useSessionProgram";
 import axios from "axios";
 import { BACKEND_URL } from "@/lib/constants";
 import base58 from "bs58";
 import { toast } from "sonner";
 
-export const SESSION_PROGRAM_ID = "QMj41mN3j168KTuUWNrCgbSAYQ7o9QTaaSnT9gLvW9s";
+export const DAPP_HUNT_PROGRAM_ID =
+  "8JajHSCMD6p7XoPLe8sMCM6x41sURpT1WZT4JcA3Ffsc";
 export const GASLESS_PUBKEY = new PublicKey(
   "5xALDevGgZVpwEs8d2Miyu9cAhvjkg2sumKiBjm7ZaJY"
 );
 
-export const useSessionProgram = () => {
+export const useDappHuntProgram = () => {
   const connection = useMemo(() => new Connection(clusterApiUrl("devnet")), []);
   const { user } = useAuth();
   const { signTransaction, signAllTransactions } = useTxModal();
 
-  const [sessionKeypair, setSessionKeypair] = useState<Keypair | undefined>();
+  const { sessionKeypair, sessionProgram } = useSessionProgram();
 
   useEffect(() => {
     window.Buffer = Buffer;
-  }, []);
+  });
 
   const anchorWallet = useMemo(() => {
     if (!user?.address) return;
@@ -54,55 +55,63 @@ export const useSessionProgram = () => {
   console.log("anchorWallet", anchorWallet);
   console.log("anchorProvider", anchorProvider);
 
-  const sessionProgram: Program<RayauthSession> | undefined = useMemo(() => {
+  const dappHuntProgram: Program<DappHunt> | undefined = useMemo(() => {
     if (!anchorProvider) return;
 
-    return new Program(IDL, SESSION_PROGRAM_ID, anchorProvider);
+    return new Program(IDL, DAPP_HUNT_PROGRAM_ID, anchorProvider);
   }, [anchorProvider]);
 
-  console.log("sessionProgram", sessionProgram);
-
-  useEffect(() => {
-    if (!sessionProgram) return;
-
-    const sessionKeypair = getSessionKeypair();
-
-    if (!sessionKeypair) return;
-
-    setSessionKeypair(sessionKeypair);
-  }, [sessionProgram]);
-
-  const addSessionToken = async (
-    timestamp: number = Math.floor(Date.now() / 1000) + 3600
+  const postNewProduct = async (
+    productName: string,
+    makerTwitter: string,
+    twitterUrl: string,
+    websiteUrl: string,
+    logoUrl: string,
+    description: string
   ) => {
-    if (!sessionProgram) {
-      console.log("ched");
-      return;
+    if (!sessionKeypair) {
+      throw new Error("No session keypair");
     }
 
-    const sessionKeypair = new Keypair();
-    console.log(sessionKeypair);
-    const [sessionKeyPda] = await PublicKey.findProgramAddress(
+    if (!dappHuntProgram) {
+      throw new Error("No dapp hunt program");
+    }
+
+    if (!sessionProgram) {
+      throw new Error("No session program");
+    }
+
+    const [sessionKeyPda] = PublicKey.findProgramAddressSync(
       [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
       sessionProgram.programId
     );
 
-    console.log("doing tx");
+    const [productPda] = PublicKey.findProgramAddressSync(
+      [Buffer.from("product"), Buffer.from(productName)],
+      dappHuntProgram.programId
+    );
 
-    const addSessionKeyIx = await sessionProgram.methods
-      .addSessionKey(new BN(timestamp))
+    const productIx = await dappHuntProgram.methods
+      .createProduct(
+        makerTwitter,
+        productName,
+        description,
+        logoUrl,
+        websiteUrl,
+        twitterUrl
+      )
       .accounts({
-        sessionKeyPda,
-        sessionKey: sessionKeypair.publicKey,
+        hunterSigner: sessionKeyPda,
         payer: GASLESS_PUBKEY,
-        user: anchorWallet?.publicKey,
+        product: productPda,
+        signer: sessionKeypair.publicKey,
       })
       .instruction();
 
     const tx = new Transaction({
       recentBlockhash: (await connection.getLatestBlockhash()).blockhash,
       feePayer: GASLESS_PUBKEY,
-    }).add(addSessionKeyIx);
+    }).add(productIx);
 
     tx.partialSign(sessionKeypair);
 
@@ -118,7 +127,7 @@ export const useSessionProgram = () => {
       ),
     });
 
-    toast.success("Session token added successfully", {
+    toast.success("Product hunted successfully", {
       action: {
         label: "View Transaction",
         onClick: () =>
@@ -126,45 +135,60 @@ export const useSessionProgram = () => {
       },
     });
 
-    localStorage.setItem("sessionToken", JSON.stringify(sessionKeypair));
-
     return;
   };
 
-  const getSessionKeypair = () => {
-    const sessionKeypair = localStorage.getItem("sessionToken");
+  const upvoteProduct = async (productName: string) => {
+    if (!sessionKeypair) {
+      throw new Error("No session keypair");
+    }
 
-    if (!sessionKeypair) return;
+    if (!dappHuntProgram) {
+      throw new Error("No dapp hunt program");
+    }
 
-    return Keypair.fromSecretKey(
-      Buffer.from(JSON.parse(sessionKeypair).secretKey)
-    );
-  };
+    if (!sessionProgram) {
+      throw new Error("No session program");
+    }
 
-  const revokeSessionToken = async () => {
-    if (!sessionProgram) return;
+    if (!anchorWallet) {
+      throw new Error("No anchor wallet");
+    }
 
-    const sessionKeypair = getSessionKeypair();
-
-    if (!sessionKeypair) return;
-
-    const [sessionKeyPda] = await PublicKey.findProgramAddress(
+    const [sessionKeyPda] = PublicKey.findProgramAddressSync(
       [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
       sessionProgram.programId
     );
 
-    const revokeSessionKeyIx = await sessionProgram.methods
-      .revokeSessionKey()
+    const [productPda] = PublicKey.findProgramAddressSync(
+      [Buffer.from("product"), Buffer.from(productName)],
+      dappHuntProgram.programId
+    );
+
+    const [upvotePda] = await PublicKey.findProgramAddress(
+      [
+        Buffer.from("upvote"),
+        Buffer.from(productName),
+        anchorWallet?.publicKey.toBuffer(),
+      ],
+      dappHuntProgram.programId
+    );
+
+    const upvoteIx = await dappHuntProgram.methods
+      .upvoteProduct()
       .accounts({
-        sessionKeyPda,
-        user: anchorWallet?.publicKey,
+        payer: GASLESS_PUBKEY,
+        product: productPda,
+        voterSigner: sessionKeyPda,
+        signer: sessionKeypair.publicKey,
+        upvoteAccount: upvotePda,
       })
       .instruction();
 
     const tx = new Transaction({
       recentBlockhash: (await connection.getLatestBlockhash()).blockhash,
       feePayer: GASLESS_PUBKEY,
-    }).add(revokeSessionKeyIx);
+    }).add(upvoteIx);
 
     tx.partialSign(sessionKeypair);
 
@@ -180,7 +204,7 @@ export const useSessionProgram = () => {
       ),
     });
 
-    toast.success("Session token revoked successfully", {
+    toast.success("Product upvoted successfully", {
       action: {
         label: "View Transaction",
         onClick: () =>
@@ -190,10 +214,8 @@ export const useSessionProgram = () => {
   };
 
   return {
-    sessionProgram,
-    addSessionToken,
-    getSessionKeypair,
-    revokeSessionToken,
-    sessionKeypair,
+    dappHuntProgram,
+    postNewProduct,
+    upvoteProduct,
   };
 };

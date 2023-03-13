@@ -1,43 +1,7 @@
-export type DummyProgram = {
+export type DappHunt = {
   "version": "0.1.0",
-  "name": "dummy_program",
+  "name": "dapp_hunt",
   "instructions": [
-    {
-      "name": "executeDummyInstruction",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "owner",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "pda",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "data",
-          "type": "u8"
-        }
-      ]
-    },
     {
       "name": "createProduct",
       "accounts": [
@@ -50,6 +14,11 @@ export type DummyProgram = {
           "name": "hunterSigner",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
         },
         {
           "name": "product",
@@ -108,6 +77,11 @@ export type DummyProgram = {
           "isSigner": false
         },
         {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
           "name": "product",
           "isMut": true,
           "isSigner": false
@@ -127,22 +101,6 @@ export type DummyProgram = {
     }
   ],
   "accounts": [
-    {
-      "name": "dummyPda",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "owner",
-            "type": "publicKey"
-          },
-          {
-            "name": "data",
-            "type": "u8"
-          }
-        ]
-      }
-    },
     {
       "name": "product",
       "type": {
@@ -202,46 +160,10 @@ export type DummyProgram = {
   ]
 };
 
-export const IDL: DummyProgram = {
+export const IDL: DappHunt = {
   "version": "0.1.0",
-  "name": "dummy_program",
+  "name": "dapp_hunt",
   "instructions": [
-    {
-      "name": "executeDummyInstruction",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "owner",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "pda",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "data",
-          "type": "u8"
-        }
-      ]
-    },
     {
       "name": "createProduct",
       "accounts": [
@@ -254,6 +176,11 @@ export const IDL: DummyProgram = {
           "name": "hunterSigner",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
         },
         {
           "name": "product",
@@ -312,6 +239,11 @@ export const IDL: DummyProgram = {
           "isSigner": false
         },
         {
+          "name": "signer",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
           "name": "product",
           "isMut": true,
           "isSigner": false
@@ -331,22 +263,6 @@ export const IDL: DummyProgram = {
     }
   ],
   "accounts": [
-    {
-      "name": "dummyPda",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "owner",
-            "type": "publicKey"
-          },
-          {
-            "name": "data",
-            "type": "u8"
-          }
-        ]
-      }
-    },
     {
       "name": "product",
       "type": {

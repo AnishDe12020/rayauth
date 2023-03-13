@@ -4,7 +4,7 @@
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
     "copy:idl": "cp -r ./target/idl ../react/src/idl",
-    "copy:types": "cp -r ./target/types ../react/src/types",
+    "copy:types": "cp -r ./target/types ../react/src/types && cp -r ./target/types ../../apps/web",
     "copy": "npm run copy:idl && npm run copy:types"
   },
   "dependencies": {
