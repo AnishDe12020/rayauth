@@ -40,7 +40,7 @@ const CallbackPage: NextPage = () => {
     setRecovering(true);
     const {
       data: { key },
-    } = await axios.post(
+    } = await axios.get(
       `${BACKEND_URL}/user/device-share?key=${data.key}`,
       {
         headers: {

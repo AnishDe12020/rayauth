@@ -726,8 +726,9 @@ var getCombinedKey = async (email) => {
 // src/controllers/user/deviceKey.ts
 function deviceShare() {
   return async (req, res) => {
-    var _a;
+    var _a, _b;
     const auth = (_a = req.headers.authorization) == null ? void 0 : _a.replace("Bearer ", "");
+    console.log("auth", auth);
     if (!auth || auth == void 0) {
       res.status(401).json("Unauthorized");
       res.end();
@@ -749,7 +750,10 @@ function deviceShare() {
       res.end();
       return;
     }
-    const key = req.body.key;
+    console.log("bodu", req.query);
+    const key = (_b = req.query.key) == null ? void 0 : _b.toString();
+    ;
+    console.log("key", key);
     if (!key) {
       res.status(404).json("No key provided for a new device share");
       res.end();
@@ -991,7 +995,7 @@ app.post("user/session-key", createSessionKey());
 app.patch("/user/session-key/revoke", updateSessionKey());
 app.use("/projects", projects_default);
 app.use("/gasless", gasless_default);
-app.post("/user/device-share", deviceShare());
+app.get("/user/device-share", deviceShare());
 app.get("/", (req, res) => {
   console.log(req.body);
   console.log("req sent");
