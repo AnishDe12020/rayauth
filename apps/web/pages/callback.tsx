@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import * as yup from "yup";
 import axios from "axios";
-
+import { useCookies } from "react-cookie";
 import useAuth from "hooks/useAuth";
 import { useRouter } from "next/router";
 import MainLayout from "@/components/layouts/MainLayout";
@@ -20,7 +20,7 @@ const RecoveryKeySchema = yup.object().shape({
 const CallbackPage: NextPage = () => {
   const { handleCallback, needsRecovery, loading, jwt, handleNewDeviceShare } =
     useAuth();
-
+  const [cookies] = useCookies(["jwt-rayauth"])
   const [recovering, setRecovering] = useState<boolean>(false);
   const cookieSetup = useCookieSetup()
   const router = useRouter();
@@ -44,7 +44,7 @@ const CallbackPage: NextPage = () => {
       `${BACKEND_URL}/user/device-share?key=${data.key}`,
       {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${cookies["jwt-rayauth"]}`,
         },
       }
     );
