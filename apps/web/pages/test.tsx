@@ -1,14 +1,16 @@
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import useAuth from "@/hooks/useAuth"
-import React from "react";
+import {useTest} from "@/hooks/useTest"
+import React, { useEffect } from "react";
 
 type Props = {};
 
 const Test = (props: Props) => {
-  const {jwt, user} = useAuth()
-console.log(jwt, user?.address)
+  const handleCallback = useTest()
+ useEffect(()=> {
+  handleCallback();
+ },[])
   return (
     <div className="flex justify-center">
       <div className="my-6 flex flex-col justify-center text-white">
@@ -32,11 +34,9 @@ console.log(jwt, user?.address)
             label={"Test Input"}
           />
         </div>
-        {jwt}
-        <div>{user?.address}</div>
+       
       </div>
     </div>
   );
 };
-Test.PageLayout = DashboardLayout;
 export default Test;
