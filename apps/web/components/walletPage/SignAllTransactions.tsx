@@ -9,18 +9,30 @@ import { useDeviceShare } from "@/hooks/useDeviceShare";
 import { Keypair, Transaction } from "@solana/web3.js";
 import Button from "@/components/common/Button";
 import arr from "hex-array";
+import useTxModal from "@/hooks/useTxModal";
 
-const SignAllTransactions = () => {
+const SignAllTransactions = ({ useHook = false }: { useHook: boolean }) => {
   const router = useRouter();
 
   const { jwt } = useAuth();
 
   const { deviceShare } = useDeviceShare();
 
-  const handleSignTransaction = async () => {
-    const transactions = JSON.parse(router.query.txns as string);
+  const { hookTx, setSignedTransaction } = useTxModal();
 
-    console.log("transactions", transactions);
+  const handleSignTransaction = async () => {
+    let transactions;
+
+    if (useHook) {
+      if (!hookTx) {
+        console.error("hookTx empty");
+        return;
+      }
+
+      transactions = hookTx as Transaction[];
+    } else {
+      transactions = JSON.parse(router.query.txns as string);
+    }
 
     const {
       data: { key },
@@ -33,19 +45,37 @@ const SignAllTransactions = () => {
     const keypair = Keypair.fromSecretKey(arr.fromString(key));
 
     const signedTransactions = transactions.map((tx: any) => {
-      const transactionBytes = arr.fromString(tx);
-      const transactionBuffer = Buffer.from(transactionBytes);
-      const transaction = Transaction.from(transactionBuffer);
+      let transaction;
+
+      if (useHook) {
+        transaction = tx;
+      } else {
+        const transactionBytes = arr.fromString(tx);
+        const transactionBuffer = Buffer.from(transactionBytes);
+        transaction = Transaction.from(transactionBuffer);
+      }
+
       transaction.sign(keypair);
 
-      const signedTransactionBase58 = bs58.encode(
-        transaction.serialize({ requireAllSignatures: false })
-      );
+      if (useHook) {
+        return transaction;
+      } else {
+        const signedTransactionBase58 = bs58.encode(
+          transaction.serialize({ requireAllSignatures: false })
+        );
 
-      return signedTransactionBase58;
+        return signedTransactionBase58;
+      }
     });
 
-    window.parent.postMessage({ type: "txnData", tx: signedTransactions }, "*");
+    if (useHook) {
+      setSignedTransaction(signedTransactions);
+    } else {
+      window.parent.postMessage(
+        { type: "txnData", tx: signedTransactions },
+        "*"
+      );
+    }
   };
 
   return (

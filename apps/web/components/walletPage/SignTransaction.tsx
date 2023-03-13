@@ -9,20 +9,34 @@ import { BACKEND_URL } from "@/lib/constants";
 import { Keypair, Transaction } from "@solana/web3.js";
 import Button from "@/components/common/Button";
 import arr from "hex-array";
+import useTxModal from "@/hooks/useTxModal";
 
-const SignTransaction = () => {
+const SignTransaction = ({ useHook = false }: { useHook: boolean }) => {
   const router = useRouter();
 
   const { jwt } = useAuth();
 
   const { deviceShare } = useDeviceShare();
 
+  const { hookTx, setSignedTransaction } = useTxModal();
+
   const handleSignTransaction = async () => {
-    const transactionBase58 = router.query.txn as string;
-    console.log(transactionBase58);
-    const transactionBytes = arr.fromString(transactionBase58);
-    const transactionBuffer = Buffer.from(transactionBytes);
-    const transaction = Transaction.from(transactionBuffer);
+    let transaction;
+
+    if (useHook) {
+      if (!hookTx) {
+        console.error("hookTx empty");
+        return;
+      }
+
+      transaction = hookTx as Transaction;
+    } else {
+      const transactionBase58 = router.query.txn as string;
+      console.log(transactionBase58);
+      const transactionBytes = arr.fromString(transactionBase58);
+      const transactionBuffer = Buffer.from(transactionBytes);
+      transaction = Transaction.from(transactionBuffer);
+    }
 
     console.log("deviceShare", deviceShare);
 
@@ -40,14 +54,18 @@ const SignTransaction = () => {
 
     transaction.sign(keypair);
 
-    const signedTransactionBase58 = bs58.encode(
-      transaction.serialize({ requireAllSignatures: false })
-    );
+    if (hookTx) {
+      setSignedTransaction(transaction);
+    } else {
+      const signedTransactionBase58 = bs58.encode(
+        transaction.serialize({ requireAllSignatures: false })
+      );
 
-    window.parent.postMessage(
-      { type: "txnData", tx: signedTransactionBase58 },
-      "*"
-    );
+      window.parent.postMessage(
+        { type: "txnData", tx: signedTransactionBase58 },
+        "*"
+      );
+    }
   };
 
   return (

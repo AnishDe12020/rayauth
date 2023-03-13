@@ -16,7 +16,7 @@ const useTxModal = () => {
   const [signModalOpen, setSignModalOpen] = useAtom(signTxModalOpen);
   const [signAllModalOpen, setSignAllTxModalOpen] = useAtom(signAllTxModalOpen);
 
-  const [transaction, setTransaction] = useAtom(transactionAtom);
+  const [hookTx, setTransaction] = useAtom(transactionAtom);
   const [signedTransaction, setSignedTransaction] = useAtom(
     signedTransactionAtom
   );
@@ -71,10 +71,11 @@ const useTxModal = () => {
     setSignModalOpen,
     signAllModalOpen,
     setSignAllTxModalOpen,
-    transaction,
+    hookTx,
     setTransaction,
     signTransaction,
     signAllTransactions,
+    setSignedTransaction,
   };
 };
 
