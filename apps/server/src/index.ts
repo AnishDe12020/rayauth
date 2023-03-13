@@ -37,7 +37,7 @@ console.log("frontend url: ", FRONTEND_URL);
 initGithub();
 initdiscord();
 initgoogle();
-app.use(cors({ credentials: true, origin: FRONTEND_URL }));
+app.use(cors({ credentials: true, origin: "*" }));
 app.use(setQuery());
 app.use(
   session({
