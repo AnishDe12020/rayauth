@@ -1,5 +1,5 @@
 import "./App.css";
-import {useAuth, useSessionProgram} from "rayauth-react/src"
+import {useAuth, useSessionProgram} from "rayauth-react"
 import { useEffect } from "react";
 import { MyDialog } from "../component/Modal";
 function App() {
@@ -22,7 +22,7 @@ function App() {
 
       <button
         onClick={() => {
-          // const chalja = async () => {
+         // const chalja = async () => {
           //   const result = await user?.testSign("Hello");
           //   console.log("result", result);
           // };
