@@ -1,7 +1,7 @@
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import {useTest} from "@/hooks/useTest"
+import {useTest} from "@/hooks/useCookieSetup"
 import React, { useEffect } from "react";
 
 type Props = {};

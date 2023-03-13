@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "@/components/common/Button";
 import { BACKEND_URL } from "@/lib/constants";
-
+import { useCookieSetup } from "@/hooks/useCookieSetup";
 const RecoveryKeySchema = yup.object().shape({
   key: yup.string().required("Recovery key is required"),
 });
@@ -22,10 +22,11 @@ const CallbackPage: NextPage = () => {
     useAuth();
 
   const [recovering, setRecovering] = useState<boolean>(false);
-
+  const cookieSetup = useCookieSetup()
   const router = useRouter();
 
   useEffect(() => {
+    cookieSetup();
     handleCallback(router);
   }, [router]);
 

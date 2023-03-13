@@ -1,6 +1,6 @@
 import {useCookies} from "react-cookie"
 
-export function useTest(): () => void {
+export function useCookieSetup(): () => void {
     const [cookies, setCookie, removeCookie] = useCookies(["jwt-rayauth"])
     const handleCallback = () => {
         console.log("RUNNING CALLBACK");
@@ -12,6 +12,7 @@ export function useTest(): () => void {
           console.log("exists", cookies["jwt-rayauth"]);
           removeCookie("jwt-rayauth");
           console.log(setCookie("jwt-rayauth", jwt));
+          return
         }
         if (jwt && !cookies["jwt-rayauth"]) {
           console.log("cookie", setCookie("jwt-rayauth", jwt.toString()));
