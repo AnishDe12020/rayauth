@@ -34,6 +34,8 @@ export const handleProviderCallback = async (
     res.cookie("jwt-rayauth", token, {
       maxAge: 1000 * 60 * 60 * 24 * 7,
       secure: true,
+      domain: "rayauth.com",
+      sameSite: "none"
     });
 
     redirectUrl.searchParams.append("jwt", token);
@@ -57,7 +59,9 @@ export const handleProviderCallback = async (
 
   res.cookie("jwt-rayauth", token, {
     maxAge: 1000 * 60 * 60 * 24 * 7,
-    secure: true,
+      secure: true,
+      domain: "rayauth.com",
+      sameSite: "none"
   });
 
   redirectUrl.searchParams.append("jwt", token);

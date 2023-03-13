@@ -1,11 +1,16 @@
 import Button from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import React from "react";
+import {useTest} from "@/hooks/useCookieSetup"
+import React, { useEffect } from "react";
 
 type Props = {};
 
 const Test = (props: Props) => {
+  const handleCallback = useTest()
+ useEffect(()=> {
+  handleCallback();
+ },[])
   return (
     <div className="flex justify-center">
       <div className="my-6 flex flex-col justify-center text-white">
@@ -29,9 +34,9 @@ const Test = (props: Props) => {
             label={"Test Input"}
           />
         </div>
+       
       </div>
     </div>
   );
 };
-Test.PageLayout = DashboardLayout;
 export default Test;

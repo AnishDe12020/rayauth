@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getCookie, removeCookies } from "cookies-next";
 import { decodeJwt, JWTPayload } from "jose";
+import { useCookies } from "react-cookie";
 import { NextRouter } from "next/router";
 import { useDeviceShare } from "./useDeviceShare";
 import { BACKEND_URL } from "@/lib/constants";
@@ -12,6 +12,7 @@ const useAuth = () => {
   const [jwt, setJwt] = useState<string>();
   const [needsRecovery, setNeedsRecovery] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [cookies, setCookie, removeCookie] = useCookies(["jwt-rayauth"])
 
   const [publickey, setPublickey] = useState<PublicKey>();
 
@@ -25,13 +26,13 @@ const useAuth = () => {
 
   useEffect(() => {
     setLoading(true);
-    const jwt = getCookie("jwt-rayauth");
-
+    const jwt = cookies["jwt-rayauth"]
+    console.log("cookie?", jwt)
     if (jwt) {
       const decoded = decodeJwt(jwt.toString());
 
       setUser(decoded as unknown as IRayAuthJWT);
-      setJwt(jwt.toString());
+      console.log(setCookie("jwt-rayauth", jwt.toString()));
     }
 
     setLoading(false);
@@ -49,7 +50,7 @@ const useAuth = () => {
     }
 
     setLoading(true);
-    const jwt = getCookie("jwt-rayauth");
+    const jwt = cookies["jwt-rayauth"]
 
     console.log(jwt);
 
@@ -113,7 +114,7 @@ const useAuth = () => {
   };
 
   const signOut = () => {
-    removeCookies("jwt-rayauth");
+    removeCookie("jwt-rayauth");
     window.location.replace("/");
   };
 
