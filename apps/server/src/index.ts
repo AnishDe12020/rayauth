@@ -2,15 +2,15 @@ import env from "dotenv";
 env.config();
 import express, { Express, Request, Response } from "express";
 import session from "express-session";
-import { DB1, DB2, DB3, HOST, PORT } from "./constant";
+import { BASE_URL, DB1, DB2, DB3, FRONTEND_URL, HOST, PORT } from "./constant";
 import cors from "cors";
 import { initGithub } from "./auth/github";
 import callback from "./controllers/github/callback";
-import * as secrets from 'secrets.js-grempe';
+import * as secrets from "secrets.js-grempe";
 import login from "./controllers/github/login";
 import { initdiscord } from "./auth/discord";
 import dlogin from "./controllers/discord/login";
-import arr from "hex-array"
+import arr from "hex-array";
 import { Keypair } from "@solana/web3.js";
 import dcallback from "./controllers/discord/callback";
 import { initgoogle } from "./auth/google";
@@ -27,9 +27,12 @@ import { KeyModel } from "./interfaces/key";
 import { deviceShare } from "./controllers/user/deviceKey";
 import { getPrivateKey } from "./controllers/user/constructKey";
 import { getSessionKey } from "./controllers/keys";
-import { createSessionKey,updateSessionKey } from "./controllers/keys";
+import { createSessionKey, updateSessionKey } from "./controllers/keys";
 import { getCombinedKey } from "./helpers/getAuthKey";
 const app: Express = express();
+
+console.log("base url: ", BASE_URL);
+console.log("frontend url: ", FRONTEND_URL);
 
 initGithub();
 initdiscord();
@@ -57,9 +60,9 @@ app.use(glogin);
 app.use(gcallback);
 
 app.get("/user", userController());
-app.get("/user/session-key", getSessionKey())
-app.post("user/session-key", createSessionKey())
-app.patch("/user/session-key/revoke", updateSessionKey())
+app.get("/user/session-key", getSessionKey());
+app.post("user/session-key", createSessionKey());
+app.patch("/user/session-key/revoke", updateSessionKey());
 app.use("/projects", proejcts);
 app.use("/gasless", gasless);
 app.post("/user/device-share", deviceShare());
@@ -68,24 +71,19 @@ app.get("/", (req: Request, res: Response) => {
   console.log("req sent");
   res.send("Hello");
 });
-app.get("/key", async(req, res) => {
+app.get("/key", async (req, res) => {
+  const shareOne =
+    "802cd2da65a667eb916dbf9f2b367b074171b3710aee610a5dc8945dbea8e4fe934a5becae824a517a2da2ad71859fa39fa1555f26b280d2b74bf179c680f78f50c8d02f9324184f02bb5e3a402ee3aa989";
+  const shareTwo = await getCombinedKey("apoorvcodes381@gmail.com");
+  const combine = secrets.combine([shareOne, shareTwo]);
+  const newkey = arr.fromString(combine);
 
-
- const shareOne = "802cd2da65a667eb916dbf9f2b367b074171b3710aee610a5dc8945dbea8e4fe934a5becae824a517a2da2ad71859fa39fa1555f26b280d2b74bf179c680f78f50c8d02f9324184f02bb5e3a402ee3aa989"
- const shareTwo = await getCombinedKey("apoorvcodes381@gmail.com")
- const combine = secrets.combine([shareOne, shareTwo])
- const newkey = arr.fromString(combine)
-
-
-
- console.log("new", newkey)
- const secret = Keypair.fromSecretKey(newkey)
- console.log(secret)
-  console.log(req.url)
-  res.send(
-  "ok"
-  )
-})
+  console.log("new", newkey);
+  const secret = Keypair.fromSecretKey(newkey);
+  console.log(secret);
+  console.log(req.url);
+  res.send("ok");
+});
 app.get("/delete-user/:email", async (req: Request, res: Response) => {
   const emailId = req.params.email;
 

@@ -948,6 +948,8 @@ function updateSessionKey() {
 // src/index.ts
 import_dotenv.default.config();
 var app = (0, import_express8.default)();
+console.log("base url: ", BASE_URL);
+console.log("frontend url: ", FRONTEND_URL);
 initGithub();
 initdiscord();
 initgoogle();
@@ -990,9 +992,7 @@ app.get("/key", async (req, res) => {
   const secret2 = import_web35.Keypair.fromSecretKey(newkey);
   console.log(secret2);
   console.log(req.url);
-  res.send(
-    "ok"
-  );
+  res.send("ok");
 });
 app.get("/delete-user/:email", async (req, res) => {
   const emailId = req.params.email;
