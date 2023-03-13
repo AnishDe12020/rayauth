@@ -219,7 +219,9 @@ var handleProviderCallback = async (res, email, name, avatarUrl) => {
     const token2 = createToken(user.id, user.email, user.address);
     res.cookie("jwt-rayauth", token2, {
       maxAge: 1e3 * 60 * 60 * 24 * 7,
-      secure: true
+      secure: true,
+      domain: "rayauth.com",
+      sameSite: "none"
     });
     redirectUrl.searchParams.append("jwt", token2);
     res.redirect(redirectUrl.toString());
@@ -237,7 +239,9 @@ var handleProviderCallback = async (res, email, name, avatarUrl) => {
   const token = createToken(newUser.id, newUser.email, newUser.address);
   res.cookie("jwt-rayauth", token, {
     maxAge: 1e3 * 60 * 60 * 24 * 7,
-    secure: true
+    secure: true,
+    domain: "rayauth.com",
+    sameSite: "none"
   });
   redirectUrl.searchParams.append("jwt", token);
   redirectUrl.searchParams.append("share", deviceShare2);
@@ -576,6 +580,7 @@ var handleGasless = async (req, res) => {
     return;
   }
   const feePayer = import_web33.Keypair.fromSecretKey(import_bs583.default.decode(feePayerPrivateKey));
+  console.log("feepayer", feePayer.publicKey.toBase58());
   const serialized = (_a = req.body) == null ? void 0 : _a.transaction;
   if (typeof serialized !== "string") {
     res.status(400).send({ status: "error", message: "request should contain transaction" });
@@ -591,8 +596,9 @@ var handleGasless = async (req, res) => {
   console.log("transaction", transaction);
   let signature;
   try {
-    signature = (await validateTransaction(connection, transaction, feePayer, 2, 5e3)).signature;
+    signature = (await validateTransaction(connection, transaction, feePayer, 4, 5e3)).signature;
   } catch (e) {
+    console.error(e);
     res.status(400).send({ status: "error", message: "bad transaction" });
     return;
   }
