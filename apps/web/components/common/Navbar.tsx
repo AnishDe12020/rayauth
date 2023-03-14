@@ -55,6 +55,13 @@ const Navbar = () => {
                 WALLET
               </Link>
 
+              <Link
+                href="/demo"
+                className="text-base font-semibold text-white rounded-md hover:text-slate-200 hover:border-b-1"
+              >
+                DEMO
+              </Link>
+
               <ProfileButton />
             </div>
           </div>

@@ -23,10 +23,10 @@ export default function ProfileButton() {
       <Popover className="relative">
         {({ open }) => (
           <>
-            <div className="flex justify-center items-center">
+            <div className="flex items-center justify-center">
               {!publickey ? (
-                <button className="rounded-2xl text-black bg-white px-3 py-1 hover:bg-slate-200">
-                  <Link href={"/wallet"}>Get Started</Link>
+                <button className="px-3 py-1 text-black bg-white rounded-2xl hover:bg-slate-200">
+                  <Link href={"/login"}>Get Started</Link>
                 </button>
               ) : (
                 <Popover.Button
