@@ -32,18 +32,22 @@ const Navbar = () => {
           </div>
           <div className="hidden md:block font-ksans">
             <div className="flex items-baseline ml-10 space-x-12">
-              <Link
-                href="/"
+              <a
+                href="https://twitter.com/rayauthhq"
+                target={"_blank"}
                 className="text-base font-semibold text-white rounded-md hover:text-slate-200 hover:border-b-1"
+                rel="noreferrer"
               >
-                MEMO
-              </Link>
-              <Link
-                href="/"
+                TWITTER
+              </a>
+              <a
+                href="https://docs.rayauth.com/"
+                target={"_blank"}
                 className="text-base font-semibold text-white rounded-md hover:text-slate-200 hover:border-b-1"
+                rel="noreferrer"
               >
                 DOCS
-              </Link>
+              </a>
               <Link
                 href="/wallet"
                 className="text-base font-semibold text-white rounded-md hover:text-slate-200 hover:border-b-1"
@@ -92,21 +96,25 @@ const Navbar = () => {
       </div>
       <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
         <div className="flex flex-col items-baseline w-full space-x-6 text-center">
-          <Link
-            href="/"
+          <a
+            href="https://twitter.com/rayauthhq"
+            target={"_blank"}
             className="w-full text-base font-semibold text-white rounded-md hover:text-slate-200 hover:border-b-1"
+            rel="noreferrer"
           >
-            MEMO
-          </Link>
-          <Link
-            href="/"
+            TWITTER
+          </a>
+          <a
+            href="https://docs.rayauth.com/"
+            target={"_blank"}
             className="w-full text-base font-semibold text-white rounded-md hover:text-slate-200 hover:border-b-1"
+            rel="noreferrer"
           >
             DOCS
-          </Link>
+          </a>
           <Link
-            href="/wyallet"
-            className="text-base font-semibold text-white rounded-md hover:text-slate-200 hover:border-b-1"
+            href="/wallet"
+            className="w-full text-base font-semibold text-white rounded-md hover:text-slate-200 hover:border-b-1"
           >
             WALLET
           </Link>

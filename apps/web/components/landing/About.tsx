@@ -79,9 +79,14 @@ const About = (props: Props) => {
             near impossible to be compromised.
           </h4>
           <div className="flex justify-center lg:justify-start">
-            <button className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans hover:bg-transparent border-2 hover:border-2 hover:text-white mt-6">
+            <a
+              href="https://docs.rayauth.com/architecture/wallet"
+              target={"_blank"}
+              className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans hover:bg-transparent border-2 hover:border-2 hover:text-white mt-6"
+              rel="noreferrer"
+            >
               Learn More
-            </button>
+            </a>
           </div>
         </div>
 

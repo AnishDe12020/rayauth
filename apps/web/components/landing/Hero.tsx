@@ -33,17 +33,21 @@ function Hero({}: Props) {
           </p>
           <div className="flex flex-row justify-center my-6 md:justify-start">
             {/* THIS IS JUST FOR TESTING FOR GODSAKE OKAYYYY */}
-            <button
+            <a
               onClick={() => check()}
-
+              href="/login"
               className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans hover:bg-transparent border-2 hover:border-2 hover:text-white"
-
             >
               Get Started
-            </button>
-            <button className="px-3 py-0 ml-4 text-base font-bold text-white border-2 border-solid md:px-8 lg:py-2 lg:ml-8 rounded-xl lg:rounded-full lg:font-bold lg:text-xl font-ksans border-slate-50 hover:bg-white hover:text-black">
+            </a>
+            <a
+              href="https://docs.rayauth.com/"
+              target={"_blank"}
+              className="px-3 py-0 ml-4 text-base font-bold text-white border-2 border-solid md:px-8 lg:py-2 lg:ml-8 rounded-xl lg:rounded-full lg:font-bold lg:text-xl font-ksans border-slate-50 hover:bg-white hover:text-black"
+              rel="noreferrer"
+            >
               Documentation
-            </button>
+            </a>
           </div>
         </div>
       </div>
