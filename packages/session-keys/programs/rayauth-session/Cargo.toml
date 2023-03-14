@@ -3,6 +3,12 @@ name = "rayauth-session"
 version = "0.1.0"
 description = "RayAuth Session keys program crate, uses Anchor"
 edition = "2021"
+license = "GPL-3.0"
+repository = "https://github.com/AnishDe12020/rayauth"
+homepage = "https://rayauth.com"
+readme = "README.md"
+authors = ["Anish De <contact@anishde.dev>"]
+keywords = ["solana", "anchor", "rayauth"]
 
 [lib]
 crate-type = ["cdylib", "lib"]
