@@ -1,15 +1,14 @@
 
-![Logo](https://pbs.twimg.com/profile_banners/1622519163813244928/1676306743/1500x500)
+![Banner](https://pbs.twimg.com/profile_banners/1622519163813244928/1676306743/1500x500)
 
 
 # 🔐 Rayauth
 
 RayAuth provide users with a non-custodial social-login enabled web-based Solana wallet along with other features like gasless transactions and session keys.
 
+## Demo
 
-
-
-
+[![Demo Video](https://img.youtube.com/vi/sj0xvahmNd8/0.jpg)](https://www.youtube.com/watch?v=sj0xvahmNd8)
 
 ## Features ✨
 
