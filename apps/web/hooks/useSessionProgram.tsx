@@ -168,18 +168,10 @@ export const useSessionProgram = () => {
       feePayer: GASLESS_PUBKEY,
     }).add(revokeSessionKeyIx);
 
-    tx.partialSign(sessionKeypair);
-
-    const signedTx = await anchorWallet?.signTransaction(tx);
-
-    if (!signedTx) return;
-
     const {
       data: { txid },
     } = await axios.post(`${BACKEND_URL}/gasless`, {
-      transaction: base58.encode(
-        signedTx.serialize({ requireAllSignatures: false })
-      ),
+      transaction: base58.encode(tx.serialize({ requireAllSignatures: false })),
     });
 
     toast.success("Session token revoked successfully", {
@@ -189,6 +181,8 @@ export const useSessionProgram = () => {
           window.open(`https://explorer.solana.com/tx/${txid}?cluster=devnet`),
       },
     });
+
+    localStorage.removeItem("sessionToken");
   };
 
   return {

@@ -27,7 +27,6 @@ const useAuth = () => {
   useEffect(() => {
     setLoading(true);
     const jwt = cookies["jwt-rayauth"];
-    console.log("cookie?", jwt);
     if (jwt) {
       const decoded = decodeJwt(jwt.toString());
 

@@ -20,9 +20,9 @@ const RecoveryKeySchema = yup.object().shape({
 const CallbackPage: NextPage = () => {
   const { handleCallback, needsRecovery, loading, jwt, handleNewDeviceShare } =
     useAuth();
-  const [cookies] = useCookies(["jwt-rayauth"])
+  const [cookies] = useCookies(["jwt-rayauth"]);
   const [recovering, setRecovering] = useState<boolean>(false);
-  const cookieSetup = useCookieSetup()
+  const cookieSetup = useCookieSetup();
   const router = useRouter();
 
   useEffect(() => {
@@ -40,14 +40,11 @@ const CallbackPage: NextPage = () => {
     setRecovering(true);
     const {
       data: { key },
-    } = await axios.get(
-      `${BACKEND_URL}/user/device-share?key=${data.key}`,
-      {
-        headers: {
-          Authorization: `Bearer ${cookies["jwt-rayauth"]}`,
-        },
-      }
-    );
+    } = await axios.get(`${BACKEND_URL}/user/device-share?key=${data.key}`, {
+      headers: {
+        Authorization: `Bearer ${cookies["jwt-rayauth"]}`,
+      },
+    });
 
     handleNewDeviceShare(key, router);
 

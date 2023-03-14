@@ -16,6 +16,7 @@ import axios from "axios";
 import { BACKEND_URL } from "@/lib/constants";
 import base58 from "bs58";
 import { toast } from "sonner";
+import { useQueries, useQuery, useQueryClient } from "react-query";
 
 export const DAPP_HUNT_PROGRAM_ID =
   "8JajHSCMD6p7XoPLe8sMCM6x41sURpT1WZT4JcA3Ffsc";
@@ -30,15 +31,16 @@ export const useDappHuntProgram = () => {
 
   const { sessionKeypair, sessionProgram } = useSessionProgram();
 
-  const [dapps, setDapps] = useState<any>([]);
+  const [isPostingProduct, setIsPostingProduct] = useState(false);
 
   useEffect(() => {
     window.Buffer = Buffer;
   }, []);
 
+  const queryClient = useQueryClient();
+
   const anchorWallet = useMemo(() => {
     if (!user?.address) return;
-
     return {
       publicKey: new PublicKey(user.address),
       signTransaction: signTransaction,
@@ -60,15 +62,17 @@ export const useDappHuntProgram = () => {
     return new Program(IDL, DAPP_HUNT_PROGRAM_ID, anchorProvider);
   }, [anchorProvider]);
 
-  useEffect(() => {
-    const fetchDapps = async () => {
+  const { data: dapps } = useQuery(
+    "dapps",
+    async () => {
       const dapps = await dappHuntProgram?.account.product.all();
 
-      setDapps(dapps);
-    };
-
-    fetchDapps();
-  }, [dappHuntProgram]);
+      return dapps;
+    },
+    {
+      enabled: !!dappHuntProgram,
+    }
+  );
 
   const postNewProduct = async (
     productName: string,
@@ -89,6 +93,8 @@ export const useDappHuntProgram = () => {
     if (!sessionProgram) {
       throw new Error("No session program");
     }
+
+    setIsPostingProduct(true);
 
     const [sessionKeyPda] = PublicKey.findProgramAddressSync(
       [Buffer.from("session_key"), sessionKeypair.publicKey.toBuffer()],
@@ -139,6 +145,10 @@ export const useDappHuntProgram = () => {
           window.open(`https://explorer.solana.com/tx/${txid}?cluster=devnet`),
       },
     });
+
+    await queryClient.refetchQueries("dapps");
+
+    setIsPostingProduct(false);
 
     return;
   };
@@ -240,5 +250,6 @@ export const useDappHuntProgram = () => {
     postNewProduct,
     upvoteProduct,
     dapps,
+    isPostingProduct,
   };
 };

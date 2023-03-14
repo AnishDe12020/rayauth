@@ -12,7 +12,7 @@ const inputClassName =
 export default function CreateDemoProject() {
   let [isOpen, setIsOpen] = useState(false);
 
-  const { postNewProduct } = useDappHuntProgram();
+  const { postNewProduct, isPostingProduct } = useDappHuntProgram();
 
   function closeModal() {
     setIsOpen(false);
@@ -152,6 +152,7 @@ export default function CreateDemoProject() {
                       <Button
                         type="submit"
                         className="text-base text-center text-white bg-gray-800"
+                        processing={isPostingProduct}
                       >
                         Hunt
                       </Button>

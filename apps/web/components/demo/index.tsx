@@ -13,9 +13,10 @@ type Props = {};
 const DemoPage = (props: Props) => {
   const { publickey } = useAuth();
 
-  const { sessionKeypair, addSessionToken } = useSessionProgram();
+  const { sessionKeypair, addSessionToken, revokeSessionToken } =
+    useSessionProgram();
 
-  const { dapps, upvoteProduct } = useDappHuntProgram();
+  const { dapps } = useDappHuntProgram();
 
   console.log("dapps", dapps);
 
@@ -39,7 +40,7 @@ const DemoPage = (props: Props) => {
           <CreateDemoProject />
 
           {sessionKeypair ? (
-            <div className="flex flex-col space-y-4">
+            <div className="flex flex-col items-center space-y-4">
               {dapps &&
                 dapps.length > 0 &&
                 dapps.map((dapp: any) => {
@@ -99,6 +100,12 @@ const DemoPage = (props: Props) => {
                     </div>
                   );
                 })}
+              <button
+                onClick={revokeSessionToken}
+                className="flex items-center px-3 py-1 font-medium text-black bg-white rounded-full hover:bg-slate-200 w-fit"
+              >
+                <span>Revoke current session key</span>
+              </button>
             </div>
           ) : (
             <button

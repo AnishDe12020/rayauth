@@ -24,9 +24,6 @@ const useTxModal = () => {
 
   const { user } = useAuth();
 
-  console.log("hookTx", hookTx);
-  console.log("signedTransaction", signedTransaction);
-
   const signTransaction = async (tx: Transaction) => {
     if (!user) {
       throw new Error("User not logged in");

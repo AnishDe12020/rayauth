@@ -39,6 +39,7 @@
     "react-hook-form": "^7.43.4",
     "react-icons": "^4.7.1",
     "react-qr-code": "^2.0.11",
+    "react-query": "^3.39.3",
     "secrets.js-grempe": "^2.0.0",
     "sonner": "^0.1.6",
     "tailwind-merge": "^1.10.0",
