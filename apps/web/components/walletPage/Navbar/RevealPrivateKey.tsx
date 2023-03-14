@@ -8,8 +8,9 @@ import { Fragment, useEffect, useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import QRCode from "react-qr-code";
 import { toast } from "sonner";
-import arr from "hex-array"
+import arr from "hex-array";
 import { Keypair } from "@solana/web3.js";
+import base58 from "bs58";
 export default function RevealPrivateKey() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { jwt } = useAuth();
@@ -18,33 +19,38 @@ export default function RevealPrivateKey() {
   function closeModal() {
     setIsOpen(false);
   }
-  const [privateKey, setPrivateKey] = useState<string>("0x" + "0".repeat(64));
+  const [privateKey, setPrivateKey] = useState<string>("");
   const handleCopyPrivateKey = () => {
     navigator.clipboard.writeText(privateKey);
     toast.success("Copied Private key to clipboard");
   };
-   useEffect(() => {
-    const setData =async () =>{ 
-    const {
-      data: { key },
-    } = await axios.get(`${BACKEND_URL}/private-key`, {
-      headers: {
-        Authorization: `Bearer ${jwt}`,
-        "AuthorizationBasic": `Basic ${deviceShare}`
-      },
-    });
+  useEffect(() => {
+    const setData = async () => {
+      if (!jwt) {
+        return;
+      }
 
-    const keypair = Keypair.fromSecretKey(arr.fromString(key));
-    setPrivateKey(keypair.secretKey.toString())
-  }
-  setData()
-   }, [])
+      const {
+        data: { key },
+      } = await axios.get(`${BACKEND_URL}/private-key`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+          AuthorizationBasic: `Basic ${deviceShare}`,
+        },
+      });
+
+      const keypair = Keypair.fromSecretKey(arr.fromString(key));
+      setPrivateKey(base58.encode(keypair.secretKey));
+    };
+    setData();
+  }, [jwt]);
+
   return (
     <>
-      <div className="mt-10 w-full flex justify-center">
+      <div className="flex justify-center w-full mt-10">
         <button
           onClick={() => setIsOpen(true)}
-          className="px-4 py-2  border-gray-500  font-semibold text-xs  uppercase tracking-widest active:bg-gray-500 ease-in-out  hover:opacity-80 hover:bg-black hover:border-slate-200 hover:text-white transition duration-150 p-3 mx-2 text-center bg-gray-800 border rounded-md text-slate-400 w-1/2"
+          className="w-1/2 p-3 px-4 py-2 mx-2 text-xs font-semibold tracking-widest text-center uppercase transition duration-150 ease-in-out bg-gray-800 border border-gray-500 rounded-md active:bg-gray-500 hover:opacity-80 hover:bg-black hover:border-slate-200 hover:text-white text-slate-400"
         >
           Reveal Private Key
         </button>
@@ -85,8 +91,8 @@ export default function RevealPrivateKey() {
                   <div className="m-2 ml-0">
                     <div className="flex flex-row ">
                       <input
-                        type="password"
-                        value={privateKey}
+                        type={privateKey ? "password" : "text"}
+                        value={privateKey || "Loading..."}
                         className="text-white m-2 my-2 border bg-slate-900 border-slate-600 text-sm rounded-md focus:ring-slate-700 focus:border-slate-700 block w-full p-2.5 "
                       />
 
@@ -97,7 +103,7 @@ export default function RevealPrivateKey() {
                         <IoCopyOutline />
                       </Button>
                     </div>
-                    <p className="text-red-700 font-bold text-center">
+                    <p className="font-bold text-center text-red-700">
                       Save and Keep Private Key Securely
                     </p>
                   </div>

@@ -16,7 +16,6 @@ import {
   PROGRAM_ID as TOKEN_METADATA_PROGRAM_ID,
 } from "@metaplex-foundation/mpl-token-metadata";
 import { truncatePubkey } from "@/utils/truncate";
-import LoginRequired from "../common/LoginRequired";
 import withCommonEffects from "../authGuard/RouteGuard";
 import RevealPrivateKey from "./Navbar/RevealPrivateKey";
 type Props = {};
