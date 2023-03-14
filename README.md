@@ -86,44 +86,6 @@ function App() {
 export default App;
 ```
 
-#### Transactions
-
-This is a basic example of performing transactions using `@rayauth/react` sdk's hook.
-
-```ts
-import { useAuth } from "@rayauth/react";
-import { Connection, PublicKey, Transaction, SystemProgram } from "@solana/web3.js";
- 
-function App() {
-  const { signTransaction } = useAuth();
- 
-  async function sendTransaction() {
-    const connection = new Connection("https://api.devnet.solana.com", "singleGossip");
-    const payerAccount = new Account();
-    const transaction = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: payerAccount.publicKey,
-        toPubkey: new PublicKey("..."),
-        lamports: 100000,
-      })
-    );
- 
-    await signTransaction(transaction);
-    const signature = await connection.sendRawTransaction(transaction.serialize());
-    console.log("Transaction sent:", signature);
-  }
- 
-  return (
-    <div className="App">
-      <button onClick={sendTransaction}>Send Transaction</button>
-    </div>
-  );
-}
- 
-export default App;
-```
-
-
 #### Session keys
 
 This is a basic example of using session keys using `@rayauth/react` sdk's hook 
