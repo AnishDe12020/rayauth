@@ -4,6 +4,7 @@ import { useSessionProgram } from "@/hooks/useSessionProgram";
 import React from "react";
 import Button from "../common/Button";
 import LoginRequired from "../common/LoginRequired";
+import Navbar from "../common/Navbar";
 import SignAllTransactionModal from "../walletPage/SignAllTransactionsModal";
 import SignTransactionModal from "../walletPage/SignTransactionModal";
 import CreateDemoProject from "./createModal";
@@ -21,7 +22,8 @@ const DemoPage = (props: Props) => {
   console.log("dapps", dapps);
 
   return (
-    <div className="flex flex-col items-center max-w-4xl mx-auto mt-4 space-y-16 text-white">
+    <div className="flex flex-col items-center max-w-4xl mx-auto mt-4 space-y-12 text-white">
+      <Navbar />
       <div className="rounded-full absolute w-[260px] h-[500px] md:w-[483px] md:h-[461px] left-[120px] md:left-[450px] top-[158px] md:top-[100px] bg-gradient-to-b from-gradient-1 to-gradient-2 blur-[300px] -z-10 opacity-50" />
 
       <div className="absolute">
