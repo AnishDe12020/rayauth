@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import Transfer from "./Transfer";
 import TopUp from "./TopUp";
 import useAuth from "@/hooks/useAuth";
 import useCluster from "@/hooks/useCluster";
@@ -168,7 +167,6 @@ const Wallet = (props: Props) => {
           </div>
           <div className="flex flex-row">
             <TopUp publicKey={`${publickey?.toBase58()}`} />
-            <Transfer />
           </div>
         </div>
         <div className="flex justify-center my-4 lg:hidden">
