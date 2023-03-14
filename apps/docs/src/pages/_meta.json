@@ -2,8 +2,8 @@
   "index": {
     "title": "Introduction"
   },
-  "react-sdk": "React SDK",
   "architecture": "Architecture",
+  "react-sdk": "React SDK",
   "Support": {
     "title": "Support",
     "type": "separator"
