@@ -10,9 +10,13 @@ import { Keypair } from "@solana/web3.js";
 export function getPrivateKey() {
   return async (req: Request, res: Response) => {
     const auth = req.headers.authorization?.replace("Bearer ", "");
+    const deviceKey = req.headers.authorizationbasic?.toString().replace("Basic ", "");
+    console.log(req.headers)
+    console.log(deviceKey)
     console.log("running")
-    const deviceKey = req.query.deviceKey?.toString();
+
     console.log("devicekey", deviceKey?.toString())
+
     if (!auth || auth == undefined) {
       res.status(401).json("Unauthorized");
       res.end();
@@ -46,7 +50,7 @@ export function getPrivateKey() {
     }
    console.log(user.email)
     const shareTwo = await getCombinedKey(user.email)
- const combine = secrets.combine([deviceKey, shareTwo])
+ const combine = secrets.combine([deviceKey || "", shareTwo])
  const newkey = arr.fromString(combine)
 
 

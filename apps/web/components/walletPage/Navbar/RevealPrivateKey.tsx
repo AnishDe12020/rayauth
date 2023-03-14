@@ -1,13 +1,20 @@
 import Button from "@/components/common/Button";
+import useAuth from "@/hooks/useAuth";
+import { useDeviceShare } from "@/hooks/useDeviceShare";
+import { BACKEND_URL } from "@/lib/constants";
 import { Dialog, Transition } from "@headlessui/react";
+import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
 import { IoCopyOutline } from "react-icons/io5";
 import QRCode from "react-qr-code";
 import { toast } from "sonner";
-
+import arr from "hex-array"
+import { Keypair } from "@solana/web3.js";
 export default function RevealPrivateKey() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { jwt } = useAuth();
 
+  const { deviceShare } = useDeviceShare();
   function closeModal() {
     setIsOpen(false);
   }
@@ -16,7 +23,22 @@ export default function RevealPrivateKey() {
     navigator.clipboard.writeText(privateKey);
     toast.success("Copied Private key to clipboard");
   };
+   useEffect(() => {
+    const setData =async () =>{ 
+    const {
+      data: { key },
+    } = await axios.get(`${BACKEND_URL}/private-key`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        "AuthorizationBasic": `Basic ${deviceShare}`
+      },
+    });
 
+    const keypair = Keypair.fromSecretKey(arr.fromString(key));
+    setPrivateKey(keypair.secretKey.toString())
+  }
+  setData()
+   }, [])
   return (
     <>
       <div className="mt-10 w-full flex justify-center">

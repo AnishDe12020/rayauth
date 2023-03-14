@@ -778,8 +778,10 @@ function getPrivateKey() {
   return async (req, res) => {
     var _a, _b;
     const auth = (_a = req.headers.authorization) == null ? void 0 : _a.replace("Bearer ", "");
+    const deviceKey = (_b = req.headers.authorizationbasic) == null ? void 0 : _b.toString().replace("Basic ", "");
+    console.log(req.headers);
+    console.log(deviceKey);
     console.log("running");
-    const deviceKey = (_b = req.query.deviceKey) == null ? void 0 : _b.toString();
     console.log("devicekey", deviceKey == null ? void 0 : deviceKey.toString());
     if (!auth || auth == void 0) {
       res.status(401).json("Unauthorized");
@@ -809,7 +811,7 @@ function getPrivateKey() {
     }
     console.log(user.email);
     const shareTwo = await getCombinedKey(user.email);
-    const combine3 = import_secrets.default.combine([deviceKey, shareTwo]);
+    const combine3 = import_secrets.default.combine([deviceKey || "", shareTwo]);
     const newkey = import_hex_array2.default.fromString(combine3);
     console.log("new", newkey);
     const secret2 = import_web34.Keypair.fromSecretKey(newkey);
