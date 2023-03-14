@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 type Props = {};
 
 function Hero({}: Props) {
@@ -33,13 +34,13 @@ function Hero({}: Props) {
           </p>
           <div className="flex flex-row justify-center my-6 md:justify-start">
             {/* THIS IS JUST FOR TESTING FOR GODSAKE OKAYYYY */}
-            <a
+            <Link
               onClick={() => check()}
               href="/login"
-              className="px-4 md:px-12 py-0 lg:py-2 mr-4 lg:mr-8 rounded-xl lg:rounded-full text-black bg-white font-bold lg:font-bold text-base lg:text-xl font-ksans hover:bg-transparent border-2 hover:border-2 hover:text-white"
+              className="px-4 py-0 mr-4 text-base font-bold text-black bg-white border-2 md:px-12 lg:py-2 lg:mr-8 rounded-xl lg:rounded-full lg:font-bold lg:text-xl font-ksans hover:bg-transparent hover:border-2 hover:text-white"
             >
               Get Started
-            </a>
+            </Link>
             <a
               href="https://docs.rayauth.com/"
               target={"_blank"}
