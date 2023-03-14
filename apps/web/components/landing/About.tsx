@@ -4,21 +4,21 @@ import React from "react";
 type Props = {};
 const card = [
   {
-    title: "Secure Network",
+    title: "Gasless Txns",
     description:
-      "Leverage normal web2 login flows but in a truly decentralised manner",
+      "No more worries for new users to pay minor gas fees!",
     icon: "/assets/about/gassless.svg",
   },
   {
-    title: "Secure Network",
+    title: "Session Tokens",
     description:
-      "Leverage normal web2 login flows but in a truly decentralised manner",
+      "Majorly improving UX for new users in web3 space with auto sign txns using session tokens",
     icon: "/assets/about/lock.svg",
   },
   {
-    title: "Gasless Transactions",
+    title: "Social login",
     description:
-      "Leverage normal web2 login flows but in a truly decentralised manner",
+      "Logins through your google,discord or github account, no need to have a wallet to enjoy dApps",
     icon: "/assets/about/secure.svg",
   },
 ];
