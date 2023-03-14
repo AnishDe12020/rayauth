@@ -36,9 +36,10 @@ const SignAllTransactions = ({ useHook = false }: { useHook?: boolean }) => {
 
     const {
       data: { key },
-    } = await axios.get(`${BACKEND_URL}/private-key?deviceKey=${deviceShare}`, {
+    } = await axios.get(`${BACKEND_URL}/private-key`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
+        "AuthorizationBasic": `Basic ${deviceShare}`
       },
     });
 
