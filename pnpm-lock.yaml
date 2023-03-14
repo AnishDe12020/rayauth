@@ -194,6 +194,8 @@ importers:
       jose: ^4.12.0
       jotai: ^2.0.2
       next: 13.1.6
+      next-seo: ^5.15.0
+      nextjs-progressbar: ^0.0.16
       postcss: ^8.4.21
       react: 18.2.0
       react-cookie: ^4.1.1
@@ -234,6 +236,8 @@ importers:
       jose: 4.12.0
       jotai: 2.0.2_react@18.2.0
       next: 13.1.6_biqbaboplfbrettd7655fr4n2y
+      next-seo: 5.15.0_3vryta7zmbcsw4rrqf4axjqggm
+      nextjs-progressbar: 0.0.16_next@13.1.6+react@18.2.0
       react: 18.2.0
       react-cookie: 4.1.1_react@18.2.0
       react-cookies: 0.1.1
@@ -5671,6 +5675,10 @@ packages:
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: true
+
+  /@types/nprogress/0.2.0:
+    resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==}
+    dev: false
 
   /@types/oauth/0.9.1:
     resolution: {integrity: sha512-a1iY62/a3yhZ7qH7cNUsxoI3U/0Fe9+RnuFrpTKr+0WVOzbKlSLojShCKe20aOD1Sppv+i8Zlq0pLDuTJnwS4A==}
@@ -15374,6 +15382,19 @@ packages:
       - babel-plugin-macros
     dev: false
 
+  /nextjs-progressbar/0.0.16_next@13.1.6+react@18.2.0:
+    resolution: {integrity: sha512-GV0fD38EMD3vSDCmkq+tObmoup6QA91a6a9MxGuhJZuRk/9TNsrHGnIQQQ/sggkMkXuT4fBgF6jRjFwScDT3zA==}
+    peerDependencies:
+      next: '>= 6.0.0'
+      react: '>= 16.0.0'
+    dependencies:
+      '@types/nprogress': 0.2.0
+      next: 13.1.6_biqbaboplfbrettd7655fr4n2y
+      nprogress: 0.2.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /nextra-theme-docs/2.2.15_nawrw5znntwyopy744opt7wo7e:
     resolution: {integrity: sha512-SErAWgwrERgg2/rdfLi8BllDBhd0r2CZ3EYrqilzYzqcBED7H0rAB2xseLsrJMpRUjIuGb0hf64IfZ7h3ymp+Q==}
     peerDependencies:
@@ -15697,6 +15718,10 @@ packages:
       set-blocking: 2.0.0
     dev: false
     optional: true
+
+  /nprogress/0.2.0:
+    resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
+    dev: false
 
   /nth-check/1.0.2:
     resolution: {integrity: sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==}
