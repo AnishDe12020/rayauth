@@ -127,7 +127,7 @@ export const useSessionProgram = () => {
       "sessionToken",
       JSON.stringify({ secret: base58.encode(sessionKeypair.secretKey) })
     );
-
+     window.location.reload()
     return;
   };
 
