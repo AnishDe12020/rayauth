@@ -127,6 +127,7 @@ export const useSessionProgram = () => {
       "sessionToken",
       JSON.stringify({ secret: base58.encode(sessionKeypair.secretKey) })
     );
+    sleep(5000)
      window.location.reload()
     return;
   };
@@ -183,6 +184,8 @@ export const useSessionProgram = () => {
     });
 
     localStorage.removeItem("sessionToken");
+    sleep(5000)
+    window.location.reload()
   };
 
   return {
@@ -193,3 +196,9 @@ export const useSessionProgram = () => {
     sessionKeypair,
   };
 };
+
+
+ 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
