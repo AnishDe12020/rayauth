@@ -24,6 +24,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 // src/index.ts
 var import_dotenv = __toESM(require("dotenv"));
 var import_express8 = __toESM(require("express"));
+var import_express_session = __toESM(require("express-session"));
 
 // src/constant.ts
 var PORT = Number(process.env.PORT) || 8080;
@@ -974,6 +975,14 @@ app.use(
   })
 );
 app.use(setQuery());
+app.use(
+  (0, import_express_session.default)({
+    secret: "xyz",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true, maxAge: 6e5 }
+  })
+);
 app.use((0, import_cookie_parser.default)());
 app.use(import_express8.default.json());
 app.use(login_default);
