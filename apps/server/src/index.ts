@@ -1,7 +1,7 @@
 import env from "dotenv";
 env.config();
 import express, { Express, Request, Response } from "express";
-import session from "express-session";
+import session from "cookie-session";
 import { BASE_URL, DB1, DB2, DB3, FRONTEND_URL, HOST, PORT } from "./constant";
 import cors from "cors";
 import { initGithub } from "./auth/github";
@@ -50,9 +50,9 @@ app.use(setQuery());
 app.use(
   session({
     secret: "xyz",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true, maxAge: 600000 },
+    keys: ["xyz"],
+    maxAge: 24 * 60 * 60 * 1000 * 7,
+    secure: true
   })
 );
 app.use(cookieParser());

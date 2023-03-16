@@ -127,8 +127,14 @@ export const useSessionProgram = () => {
       "sessionToken",
       JSON.stringify({ secret: base58.encode(sessionKeypair.secretKey) })
     );
-    sleep(5000)
-     window.location.reload()
+    toast.message("Kindly reload the website!", {
+      action: {
+        label: "Reload",
+        onClick: () =>
+          window.location.reload(),
+      },
+    });
+
     return;
   };
 
@@ -183,8 +189,14 @@ export const useSessionProgram = () => {
       },
     });
 
-    localStorage.removeItem("sessionToken");
-    sleep(5000)
+    toast.message("Kindly reload the website!", {
+      action: {
+        label: "Reload",
+        onClick: () =>
+          window.location.reload(),
+      },
+    });
+    
     window.location.reload()
   };
 

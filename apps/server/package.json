@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
+    "@types/cookie-session": "^2.0.44",
     "@types/cors": "^2.8.13",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "^18.13.0",
@@ -45,6 +46,7 @@
     "array-buffer-to-hex": "^1.0.0",
     "bs58": "^5.0.0",
     "cookie-parser": "^1.4.6",
+    "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "emailjs": "^4.0.1",
