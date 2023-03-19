@@ -51,7 +51,9 @@ const LoginPage: NextPage = () => {
                 </button>
               </div>
               <div>
-                <button className="flex justify-center items-center w-full text-white bg-[#5865F2] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2 hover:opacity-80 transition duration-150">
+                <button 
+                onClick={() => signIn("discord")}
+                className="flex justify-center items-center w-full text-white bg-[#5865F2] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2 hover:opacity-80 transition duration-150">
                   <span className="px-4">
                     <Image
                       src={"/icon/discord.svg"}
@@ -64,7 +66,9 @@ const LoginPage: NextPage = () => {
                 </button>
               </div>
               <div>
-                <button className="flex justify-center items-center w-full text-white bg-[#212121] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2 hover:opacity-80 transition duration-150">
+                <button 
+                onClick={() => signIn("github")}
+                className="flex justify-center items-center w-full text-white bg-[#212121] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center mr-2 mb-2 hover:opacity-80 transition duration-150">
                   <span className="px-4">
                     <Image
                       src={"/icon/github.svg"}
