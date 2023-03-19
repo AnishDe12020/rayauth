@@ -752,7 +752,6 @@ function deviceShare() {
     }
     console.log("bodu", req.query);
     const key = (_b = req.query.key) == null ? void 0 : _b.toString();
-    ;
     console.log("key", key);
     if (!key) {
       res.status(404).json("No key provided for a new device share");
@@ -763,7 +762,7 @@ function deviceShare() {
     const construct = combineKey([key, key2]);
     const newShares = sliceKey(construct);
     res.status(200).json({
-      key: newShares[0],
+      key: newShares[1],
       msg: "New Device key reconstructed and recovered"
     }).end();
   };
