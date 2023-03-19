@@ -9,7 +9,7 @@ import { combineKey, sliceKey } from "../../helpers";
 export function deviceShare() {
   return async (req: Request, res: Response) => {
     const auth = req.headers.authorization?.replace("Bearer ", "");
-    console.log("auth", auth)
+    console.log("auth", auth);
     if (!auth || auth == undefined) {
       res.status(401).json("Unauthorized");
       res.end();
@@ -34,9 +34,9 @@ export function deviceShare() {
       res.end();
       return;
     }
-    console.log("bodu", req.query)
-    const key = req.query.key?.toString();;
-    console.log("key", key)
+    console.log("bodu", req.query);
+    const key = req.query.key?.toString();
+    console.log("key", key);
     if (!key) {
       res.status(404).json("No key provided for a new device share");
       res.end();
@@ -50,7 +50,7 @@ export function deviceShare() {
     res
       .status(200)
       .json({
-        key: newShares[0],
+        key: newShares[1],
         msg: "New Device key reconstructed and recovered",
       })
       .end();
