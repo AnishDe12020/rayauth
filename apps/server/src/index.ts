@@ -67,6 +67,7 @@ app.use(dcallback);
 app.use(glogin);
 app.use(gcallback);
 
+app.head("/ping", () => { console.log("Hello ")})
 app.get("/user", userController());
 app.get("/user/session-key", getSessionKey());
 app.post("user/session-key", createSessionKey());
